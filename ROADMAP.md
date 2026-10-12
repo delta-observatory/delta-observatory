@@ -84,8 +84,10 @@ Tasks:
 - [ ] Define required images, masks, uncertainty arrays, metadata, and calibration products.
 - [ ] Define coordinate frames, time scales, units, and uncertainty conventions.
 - [ ] Describe representative measurements, diagnostics, candidate evidence, and artifact formats.
-- [ ] Define validation data and prevent overlap with parameter-tuning data.
-- [ ] Agree on an initial resource budget and baseline experiment.
+
+Validation data, resource budgets, and baseline experiments belong to the [scientific plan](experiments/PLAN.md).
+G01 defines budgets and baselines. G02 separates tuning data from evaluation data.
+These tasks govern scientific acceptance. They do not block R1.
 
 Completion: a reviewed contract describes the path from observations to candidate evidence.
 Representative input and output records provide concrete examples for database design.
@@ -251,6 +253,7 @@ External deployment requires Richard's explicit request.
 | Automatic dataset indexing | Agreed | Existing local collections appear without manual registration. |
 | Local k3s deployment | Agreed | Manifests remain in `kubernetes/`. |
 | Frontend design authority | Agreed | Richard directs each design step before implementation. |
+| Record contract source | Agreed | G03 uses closed experiment records. It does not wait for G01 successor protocols. |
 | First dataset–method pair | Provisional | DECam images with SEP extraction, position association, and a third-observation prediction check. |
 | Initial scientific focus | Agreed | Asteroids and exoplanets, with asteroid experiments first. Additional targets require datasets, methods, references, and validation criteria. |
 | First exoplanet workflow | Bounded recovery complete | TESS SPOC brightness series with Lightkurve and Astropy BLS. Production integration and broader validation remain open. |
@@ -328,6 +331,7 @@ Neither option replaces the current evidence records or constitutes an installed
 | 2026-10-11 | Establish the current scientific procedure. | [PROCEDURE.md](experiments/PROCEDURE.md) defines required design, execution, controls, reproduction, review, and closure. Agent instructions and the protocol template reference it. | Complete experiment-specific protocols and cohort reservations. |
 | 2026-10-11 | Reconcile workspace guidance and structure. | [README.md](README.md) defines document responsibilities. [CHECKS.md](CHECKS.md) records integrity checks, preserved evidence, and unresolved scientific requirements. | Use the procedure and task register for the next authorized work. |
 | 2026-10-11 | Initialize local repositories and complete testing support. | Nine local repositories preserve component boundaries. [Support tools](experiments/SUPPORT.md) provide cohort registration, record validation, and checked TESS supervision. | Commit when Richard requests it. Select new evaluation groups under completed protocols. |
+| 2026-10-11 | Remove scientific acceptance from the R1 path. | G03 no longer depends on G01. Record shape comes from closed DECam and T01 records. Validation data and baselines moved from the R0 checklist to G01 and G02. [Plan](experiments/PLAN.md) and [task register](experiments/planning/tasks.json) updated. | Draft the G03 record contract for Richard's review. |
 | 2026-10-11 | Commit the populated repositories at Richard’s request. | Initial commits preserve the root, datasets, detection, and experiments. No remotes are configured. | Continue experiment-specific protocols and evaluation selection. |
 
 **Ledger maintenance**
