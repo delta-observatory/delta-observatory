@@ -1,0 +1,125 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-10-12T04:04:45.704296+00:00",
+  "checker_sha256": "3c5f348ef84441674d48fcc887e95ff42be7d945807ffd102b559605f56c85ac",
+  "scope": "Local documentation, catalogs, dependencies, syntax, retained hashes, and generated-file hygiene.",
+  "counts": {
+    "files": 907,
+    "markdown_files": 337,
+    "local_markdown_links": 1674,
+    "local_heading_links": 16,
+    "json_files": 339,
+    "python_files": 64,
+    "dataset_entries": 115,
+    "scientific_tasks": 18,
+    "registered_experiments": 10,
+    "closed_experiments_in_index": 10,
+    "pdf_hashes": 65,
+    "unavailable_source_files": 2,
+    "source_records": 67,
+    "domain_method_chapters": 26,
+    "method_chapters_including_machine_learning": 27,
+    "experiment_manifest_hashes": 103,
+    "legacy_input_manifest_hashes": 8,
+    "cohort_reservations": 5
+  },
+  "errors": [],
+  "version_control": {
+    "status": "available",
+    "directories_checked": 9,
+    "repositories": {
+      "/home/richardtidwell/repos/delta-observatory": {
+        "working_tree_clean": false,
+        "changes": [
+          "?? .gitignore",
+          "?? AGENTS.md",
+          "?? CHECKS.md",
+          "?? DESIGN.md",
+          "?? README.md",
+          "?? REFERENCE-CATALOGS.md",
+          "?? ROADMAP.md",
+          "?? VERSION-CONTROL.md",
+          "?? scripts/",
+          "?? workspace-check.json"
+        ],
+        "branch": "main",
+        "has_commits": false,
+        "remote_names": []
+      },
+      "/home/richardtidwell/repos/delta-observatory/datasets": {
+        "working_tree_clean": true,
+        "changes": [],
+        "branch": "main",
+        "has_commits": true,
+        "remote_names": []
+      },
+      "/home/richardtidwell/repos/delta-observatory/detection": {
+        "working_tree_clean": true,
+        "changes": [],
+        "branch": "main",
+        "has_commits": true,
+        "remote_names": []
+      },
+      "/home/richardtidwell/repos/delta-observatory/experiments": {
+        "working_tree_clean": true,
+        "changes": [],
+        "branch": "main",
+        "has_commits": true,
+        "remote_names": []
+      },
+      "/home/richardtidwell/repos/delta-observatory/database": {
+        "working_tree_clean": false,
+        "changes": [
+          "?? .gitignore"
+        ],
+        "branch": "main",
+        "has_commits": false,
+        "remote_names": []
+      },
+      "/home/richardtidwell/repos/delta-observatory/workers": {
+        "working_tree_clean": false,
+        "changes": [
+          "?? .gitignore"
+        ],
+        "branch": "main",
+        "has_commits": false,
+        "remote_names": []
+      },
+      "/home/richardtidwell/repos/delta-observatory/backend": {
+        "working_tree_clean": false,
+        "changes": [
+          "?? .gitignore"
+        ],
+        "branch": "main",
+        "has_commits": false,
+        "remote_names": []
+      },
+      "/home/richardtidwell/repos/delta-observatory/frontend": {
+        "working_tree_clean": false,
+        "changes": [
+          "?? .gitignore"
+        ],
+        "branch": "main",
+        "has_commits": false,
+        "remote_names": []
+      },
+      "/home/richardtidwell/repos/delta-observatory/kubernetes": {
+        "working_tree_clean": false,
+        "changes": [
+          "?? .gitignore"
+        ],
+        "branch": "main",
+        "has_commits": false,
+        "remote_names": []
+      }
+    },
+    "unavailable_at": [],
+    "working_tree_clean": false
+  },
+  "limits": [
+    "No remote URL availability check.",
+    "No scientific processing or candidate validation.",
+    "Run check_experiment.py separately with original inputs for full version-1 record checks.",
+    "No complete ASD-STE100 dictionary check."
+  ]
+}
