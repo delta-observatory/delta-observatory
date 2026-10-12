@@ -1,12 +1,12 @@
 {
   "status": "passed",
-  "checked_utc": "2026-10-12T04:26:42.178445+00:00",
+  "checked_utc": "2026-10-12T04:30:06.951237+00:00",
   "checker_sha256": "497a4c495f21460b67f1f609e741e2564ebf468b1cf049f68e86d1f6cfa532f8",
   "scope": "Local documentation, catalogs, dependencies, syntax, retained hashes, and generated-file hygiene.",
   "counts": {
-    "files": 909,
-    "markdown_files": 339,
-    "local_markdown_links": 1709,
+    "files": 911,
+    "markdown_files": 341,
+    "local_markdown_links": 1717,
     "local_heading_links": 19,
     "json_files": 339,
     "python_files": 64,
@@ -32,26 +32,21 @@
       "/home/richardtidwell/repos/delta-observatory": {
         "working_tree_clean": false,
         "changes": [
-          " M .gitignore",
           " M AGENTS.md",
           " M CHECKS.md",
           " M CLAUDE.md",
           " M DESIGN.md",
           " M README.md",
-          " M REFERENCE-CATALOGS.md",
           " M ROADMAP.md",
-          " M VERSION-CONTROL.md",
-          " M scripts/check_workspace.py"
+          " M VERSION-CONTROL.md"
         ],
         "branch": "main",
         "has_commits": true,
         "remote_names": []
       },
       "/home/richardtidwell/repos/delta-observatory/datasets": {
-        "working_tree_clean": false,
-        "changes": [
-          " M README.md"
-        ],
+        "working_tree_clean": true,
+        "changes": [],
         "branch": "main",
         "has_commits": true,
         "remote_names": []
@@ -64,21 +59,17 @@
         "remote_names": []
       },
       "/home/richardtidwell/repos/delta-observatory/experiments": {
-        "working_tree_clean": false,
-        "changes": [
-          " M PROCEDURE.md"
-        ],
+        "working_tree_clean": true,
+        "changes": [],
         "branch": "main",
         "has_commits": true,
         "remote_names": []
       },
       "/home/richardtidwell/repos/delta-observatory/database": {
-        "working_tree_clean": false,
-        "changes": [
-          "?? .gitignore"
-        ],
+        "working_tree_clean": true,
+        "changes": [],
         "branch": "main",
-        "has_commits": false,
+        "has_commits": true,
         "remote_names": []
       },
       "/home/richardtidwell/repos/delta-observatory/workers": {

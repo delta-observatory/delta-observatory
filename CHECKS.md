@@ -104,7 +104,8 @@ Their presence does not indicate unfinished downloads or accidental duplication.
 
 The root and eight component directories now contain separate local Git repositories on `main`.
 Richard authorized initial commits for the root, datasets, detection, and experiments repositories.
-The five application repositories remain without commits.
+The database repository has an initial commit with contract documentation only.
+The four other application repositories remain without commits.
 No remotes are configured.
 The saved audit report captures Git status at the time of its generation.
 Run the checker again to inspect current Git status.

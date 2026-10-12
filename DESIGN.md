@@ -165,7 +165,7 @@ delta-observatory/
 | `frontend/` | React and Three.js application, visual interactions, and backend API client. |
 | `backend/` | Application API, campaign state, job coordination, resource policy, and result access. |
 | `workers/` | Dataset indexing, scientific methods, validation, and derived artifacts. |
-| `database/` | Database schema, migrations, constraints, indexes, and documented record semantics. |
+| `database/` | Database schema, migrations, constraints, indexes, record semantics, and cross-component contracts. |
 | `kubernetes/` | Deployment manifests, component configuration, resource assignments, and persistent storage integration. |
 | `datasets/` | Dataset catalog, structured metadata, source references, and acquisition guidance. |
 | `detection/` | Scientific method descriptions, equations, academic citations, and reference papers. |
@@ -437,11 +437,20 @@ Workers claim eligible jobs from PostgreSQL and execute scientific methods.
 Workers read observations and persist measurements, execution state, and artifact references.
 The API exposes progress and results to clients.
 
+The API is stateless. It keeps no job, run, campaign, or session state in process memory.
+Any API replica can serve any request.
+The API and workers do not call each other at runtime.
+They exchange data only through PostgreSQL records and file storage references.
+The API remains available without running workers. Workers continue queued work without the API.
+
 A job contract identifies its version, run, method, parameters, input references, and resource limits.
 A result contract identifies its version, producing job, measurements, artifact references, quality flags, and execution outcome.
 Large arrays remain in file storage rather than job payloads.
 Unsupported contract versions fail explicitly before execution.
 Both components must pass compatibility checks against their declared job, result, and database contracts.
+The `database/` repository owns the job, result, method-parameter, and record contracts in `database/contracts/`.
+These versioned schemas are the only coupling between the API and workers.
+The API validates requests against method-parameter schemas without a running worker.
 Concrete routes and schemas remain implementation specifications.
 
 Job states are queued, running, succeeded, failed, and canceled.

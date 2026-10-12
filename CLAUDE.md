@@ -9,6 +9,9 @@ Read [REFERENCE-CATALOGS.md](REFERENCE-CATALOGS.md) before reference acquisition
 Read [detection/TOOLING.md](detection/TOOLING.md) before adding a scientific implementation.
 Store downloaded observations in `raw/<dataset-id>/` at the workspace root.
 Use the exact dataset directory name from `datasets/` for each `raw/` directory.
+Read [database/contracts/](database/contracts/README.md) before work on the API, workers, or database.
+Define job, result, method-parameter, and record shapes only in `database/contracts/`.
+Keep the API stateless. Do not add runtime calls between the API and workers.
 
 Use the ASD-STE100 writing instructions supplied by Richard.
 Read the `asd-ste100` skill before writing user-facing text.

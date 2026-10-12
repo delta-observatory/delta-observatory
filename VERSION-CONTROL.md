@@ -3,8 +3,9 @@
 The workspace contains nine independent Git repositories.
 Each repository uses the `main` branch.
 Initialization creates local Git metadata without creating a commit or remote repository.
-Initial commits record the root, datasets, detection, and experiments repositories.
-The five application repositories contain exclusion rules only and remain without commits.
+Initial commits record the root, datasets, detection, experiments, and database repositories.
+The database repository contains contract documentation only.
+The four other application repositories contain exclusion rules only and remain without commits.
 Agents commit every completed change under the [commit rules](AGENTS.md#commits).
 Richard controls pushes and external publication.
 
@@ -14,7 +15,7 @@ Richard controls pushes and external publication.
 | `datasets/` | Catalog, metadata, acquisition instructions, manifests, and small acquisition evidence. |
 | `detection/` | Methods, citations, retained papers, supporting code, and documented synthetic demonstrations. |
 | `experiments/` | Procedures, protocols, code, dependency pins, manifests, small results, figures, reviews, and decisions. |
-| `database/` | Future schema definitions and migrations. |
+| `database/` | Future schema definitions, migrations, and cross-component contracts. |
 | `workers/` | Future ingestion and scientific processing code. |
 | `backend/` | Future application API and coordination code. |
 | `frontend/` | Future application interface code. |
@@ -22,7 +23,7 @@ Richard controls pushes and external publication.
 
 The root excludes every component directory.
 The components are independent repositories, without submodules or shared release requirements.
-Application repositories currently contain exclusion rules only.
+Application repositories currently contain exclusion rules and documentation only.
 Repository initialization does not indicate application implementation.
 
 ## Exclusions

@@ -42,7 +42,7 @@ Resolve a documentation conflict before executing affected work.
 | [datasets/](datasets/README.md) | Catalog, product descriptions, metadata, acquisition instructions, and recorded acquisition evidence. |
 | [detection/](detection/README.md) | Method explanations, academic references, retained papers, software guidance, and synthetic demonstrations. |
 | [experiments/](experiments/README.md) | Scientific procedure, task planning, bounded experiments, evidence, and reviews. |
-| `database/` | Placeholder for schema, migrations, and record constraints. |
+| `database/` | Placeholder for schema, migrations, and record constraints. Owns the cross-component contracts in [database/contracts/](database/contracts/README.md). |
 | `workers/` | Placeholder for ingestion and scientific processing. |
 | `backend/` | Placeholder for the application API and coordination. |
 | `frontend/` | Placeholder for the interactive application. |
@@ -54,8 +54,9 @@ The agreed architecture uses separate component repositories within this umbrell
 The root coordination repository and all eight component repositories are initialized locally on `main`.
 Each repository has independent Git metadata.
 The root excludes all component directories.
-Initial commits cover the root, datasets, detection, and experiments repositories.
-The five application repositories contain exclusion rules only and remain without commits.
+Initial commits cover the root, datasets, detection, experiments, and database repositories.
+The database repository contains contract documentation only. No schema or migration exists.
+The four other application repositories contain exclusion rules only and remain without commits.
 No remote addresses are configured.
 [VERSION-CONTROL.md](VERSION-CONTROL.md) defines repository boundaries, exclusions, and verification commands.
 

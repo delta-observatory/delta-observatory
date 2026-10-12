@@ -106,6 +106,8 @@ Tasks:
 - [ ] Define units, uncertainties, quality flags, and missing-value semantics.
 - [ ] Define job states, claims, retries, and duplicate prevention.
 - [ ] Establish migrations and database compatibility expectations.
+- [ ] Publish the first job, result, method-parameter, and record schemas in [database/contracts/](database/contracts/README.md).
+- [ ] Add the G03 example records as valid and invalid schema examples.
 - [ ] Exercise the schema with representative scientific records.
 
 Completion: representative observations and method outputs fit the schema without losing scientific meaning.
@@ -253,6 +255,7 @@ External deployment requires Richard's explicit request.
 | Automatic dataset indexing | Agreed | Existing local collections appear without manual registration. |
 | Local k3s deployment | Agreed | Manifests remain in `kubernetes/`. |
 | Frontend design authority | Agreed | Richard directs each design step before implementation. |
+| Cross-component contracts | Agreed | Versioned schemas in `database/contracts/`. The stateless API and the workers connect only through PostgreSQL, file storage references, and these schemas. |
 | Record contract source | Agreed | G03 uses closed experiment records. It does not wait for G01 successor protocols. |
 | First dataset–method pair | Provisional | DECam images with SEP extraction, position association, and a third-observation prediction check. |
 | Initial scientific focus | Agreed | Asteroids and exoplanets, with asteroid experiments first. Additional targets require datasets, methods, references, and validation criteria. |
@@ -335,6 +338,7 @@ Neither option replaces the current evidence records or constitutes an installed
 | 2026-10-11 | Remove scientific acceptance from the R1 path. | G03 no longer depends on G01. Record shape comes from closed DECam and T01 records. Validation data and baselines moved from the R0 checklist to G01 and G02. [Plan](experiments/PLAN.md) and [task register](experiments/planning/tasks.json) updated. | Draft the G03 record contract for Richard's review. |
 | 2026-10-11 | Commit the populated repositories at Richard’s request. | Initial commits preserve the root, datasets, detection, and experiments. No remotes are configured. | Continue experiment-specific protocols and evaluation selection. |
 | 2026-10-11 | Move observations to `raw/<dataset-id>/`. | Eight DECam files moved to `raw/noirlab-image-archive/`. Two TESS files moved to `raw/tess-spoc-light-curves/`. All ten match their experiment manifest hashes. The DECam record check passes from the new location. The workspace check rejects unknown `raw/` names. | Store new downloads under the matching dataset ID. |
+| 2026-10-11 | Define the contract location and runtime boundary. | [database/contracts/](database/contracts/README.md) defines ownership, versions, and consumer rules. [DESIGN.md](DESIGN.md) requires a stateless API without runtime calls to workers. No schema files exist yet. | Publish the first schemas from G03 records during R1. |
 
 **Ledger maintenance**
 
