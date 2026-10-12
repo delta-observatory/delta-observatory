@@ -34,7 +34,10 @@ Read [CHECKS.md](CHECKS.md) before claiming audit coverage.
 Commit every completed change.
 Commit each change in the repository that owns the changed files.
 Commit documentation changes, new datasets, new detection material, and code changes.
-Commit an experiment when it closes under [experiments/PROCEDURE.md](experiments/PROCEDURE.md).
+Commit every valid experiment when it closes under [experiments/PROCEDURE.md](experiments/PROCEDURE.md).
+A valid experiment completes without technical errors and passes its record validation.
+Commit `positive`, `negative`, and `inconclusive` outcomes. A result that shows a method fails is valid evidence.
+Do not commit a `not_evaluated` closure caused by a technical error. Fix the error and run the experiment again.
 Do not commit an active experiment's partial outputs.
 Run the applicable checks before each commit.
 Inspect the staged files before each commit.
