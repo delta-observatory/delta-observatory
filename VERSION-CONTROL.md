@@ -5,7 +5,8 @@ Each repository uses the `main` branch.
 Initialization creates local Git metadata without creating a commit or remote repository.
 Initial commits record the root, datasets, detection, and experiments repositories.
 The five application repositories contain exclusion rules only and remain without commits.
-Richard controls commits and external publication.
+Agents commit every completed change under the [commit rules](AGENTS.md#commits).
+Richard controls pushes and external publication.
 
 | Repository | Intended tracked contents |
 |---|---|
