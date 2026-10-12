@@ -156,7 +156,8 @@ delta-observatory/
 ├── datasets/
 ├── detection/
 ├── experiments/
-└── scripts/
+├── scripts/
+└── raw/
 ```
 
 | Directory | Responsibility |
@@ -170,6 +171,7 @@ delta-observatory/
 | `detection/` | Scientific method descriptions, equations, academic citations, and reference papers. |
 | `experiments/` | Scientific procedure, task planning, protocols, evidence, decisions, and reviews. |
 | `scripts/` | Workspace structure and documentation checks. |
+| `raw/` | Local downloaded observations, one directory for each dataset ID. Excluded from version control. |
 
 The catalog and research library guide the selection of supported datasets and methods.
 Catalog inclusion alone does not make a method executable or a collection locally available.
@@ -185,6 +187,8 @@ Independent repositories do not require an additional service for each directory
 
 The system uses the assembled dataset catalog as its inventory of candidate inputs.
 It scans configured local locations and indexes available observations without a manual registration step.
+The default location is `raw/<dataset-id>/` in the workspace root.
+Each directory name matches a dataset ID in `datasets/`.
 Catalog records and downloaded observation files remain distinct.
 A documented collection without local observations remains unavailable for execution.
 

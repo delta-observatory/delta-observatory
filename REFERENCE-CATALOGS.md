@@ -39,7 +39,7 @@ Record these fields for each reference acquisition:
 - Selection limits, pagination, truncation, errors, and known coverage limits.
 
 Preserve the original response alongside any normalized records.
-Keep large catalog files outside the documentation repository.
+Store large catalog files in `raw/<dataset-id>/` at the workspace root.
 Store their manifests and checksums with the experiment evidence.
 Do not replace an experiment's reference copy when the provider updates its catalog.
 Acquire a new copy for a new comparison and retain both acquisition records.

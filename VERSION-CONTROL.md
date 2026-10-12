@@ -33,7 +33,9 @@ Research repositories also exclude observation FITS files and local download or 
 Experiments retain their existing array exclusions.
 The detection library retains its documented synthetic array and reference PDFs.
 
-Keep downloaded observations and large execution outputs outside these repositories.
+Store downloaded observations in `raw/<dataset-id>/` at the workspace root.
+The root repository excludes `raw/`.
+Keep large execution outputs outside these repositories.
 Inspect proposed files before committing them.
 Exclusion rules do not identify every possible credential or large scientific file.
 

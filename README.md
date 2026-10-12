@@ -48,6 +48,7 @@ Resolve a documentation conflict before executing affected work.
 | `frontend/` | Placeholder for the interactive application. |
 | `kubernetes/` | Placeholder for local deployment manifests and environment configuration. |
 | `scripts/` | Workspace documentation and structure checks. |
+| `raw/` | Local downloaded observations in `raw/<dataset-id>/`. Git does not track this directory. |
 
 The agreed architecture uses separate component repositories within this umbrella workspace.
 The root coordination repository and all eight component repositories are initialized locally on `main`.
@@ -58,7 +59,9 @@ The five application repositories contain exclusion rules only and remain withou
 No remote addresses are configured.
 [VERSION-CONTROL.md](VERSION-CONTROL.md) defines repository boundaries, exclusions, and verification commands.
 
-Keep large observations and execution attempts outside documentation directories.
+Store downloaded observations in `raw/<dataset-id>/` at the workspace root.
+Each directory name must exactly match a dataset directory in [datasets/](datasets/README.md).
+Keep execution attempts outside documentation directories.
 Retained papers, small scientific results, and documented synthetic examples are intentional assets.
 Licensed upstream snapshots and repeated experiment code preserve historical reproducibility.
 Do not remove those snapshots as ordinary duplication.

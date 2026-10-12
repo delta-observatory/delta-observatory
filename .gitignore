@@ -7,6 +7,8 @@
 /backend/
 /frontend/
 /kubernetes/
+# Downloaded observations stay local. See raw/ in README.md.
+/raw/
 # Local credentials and machine-specific agent settings.
 .env
 .env.*

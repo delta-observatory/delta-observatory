@@ -18,7 +18,8 @@ ROOT = Path(__file__).resolve().parents[1]
 def visible_files():
     files = []
     for directory, folders, names in os.walk(ROOT):
-        folders[:] = [name for name in folders if not name.startswith('.')]
+        folders[:] = [name for name in folders if not name.startswith('.')
+                      and not (Path(directory) == ROOT and name == 'raw')]
         files.extend(Path(directory)/name for name in names if not name.startswith('.'))
     return sorted(files)
 
@@ -124,6 +125,15 @@ def check():
         if evidence:
             local_file(metadata_path.parent, evidence, entry['id'])
     counts['dataset_entries'] = len(entries)
+    if (ROOT/'raw').is_dir():
+        for path in sorted((ROOT/'raw').iterdir()):
+            if path.name.startswith('.'):
+                continue
+            if not path.is_dir():
+                errors.append('raw/'+path.name+': observations belong in raw/<dataset-id>/')
+                continue
+            require(path.name in dataset_ids, 'raw/'+path.name+': directory name is not a dataset ID in datasets/')
+            counts['raw_dataset_directories'] += 1
     declared = re.search(r'catalogue contains (\d+)', (ROOT/'datasets/README.md').read_text())
     require(declared is not None and int(declared.group(1)) == len(entries), 'Dataset README count differs')
 

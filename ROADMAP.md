@@ -258,6 +258,7 @@ External deployment requires Richard's explicit request.
 | Initial scientific focus | Agreed | Asteroids and exoplanets, with asteroid experiments first. Additional targets require datasets, methods, references, and validation criteria. |
 | First exoplanet workflow | Bounded recovery complete | TESS SPOC brightness series with Lightkurve and Astropy BLS. Production integration and broader validation remain open. |
 | Known-object references | Agreed | Dated local copies from official downloads or APIs, with experiment-specific provenance. See [policy](REFERENCE-CATALOGS.md). |
+| Local observation storage | Agreed | `raw/<dataset-id>/` at the workspace root. Names match `datasets/`. Git does not track it. |
 | Database hosting and storage | Open | Select the local deployment arrangement and persistent storage. |
 | Scientific acceptance targets | Open | Dataset inspection and baseline measurements. |
 | Decision provider and authority | Open | Evidence requirements and comparative evaluation. |
@@ -333,6 +334,7 @@ Neither option replaces the current evidence records or constitutes an installed
 | 2026-10-11 | Initialize local repositories and complete testing support. | Nine local repositories preserve component boundaries. [Support tools](experiments/SUPPORT.md) provide cohort registration, record validation, and checked TESS supervision. | Commit when Richard requests it. Select new evaluation groups under completed protocols. |
 | 2026-10-11 | Remove scientific acceptance from the R1 path. | G03 no longer depends on G01. Record shape comes from closed DECam and T01 records. Validation data and baselines moved from the R0 checklist to G01 and G02. [Plan](experiments/PLAN.md) and [task register](experiments/planning/tasks.json) updated. | Draft the G03 record contract for Richard's review. |
 | 2026-10-11 | Commit the populated repositories at Richard’s request. | Initial commits preserve the root, datasets, detection, and experiments. No remotes are configured. | Continue experiment-specific protocols and evaluation selection. |
+| 2026-10-11 | Move observations to `raw/<dataset-id>/`. | Eight DECam files moved to `raw/noirlab-image-archive/`. Two TESS files moved to `raw/tess-spoc-light-curves/`. All ten match their experiment manifest hashes. The DECam record check passes from the new location. The workspace check rejects unknown `raw/` names. | Store new downloads under the matching dataset ID. |
 
 **Ledger maintenance**
 

@@ -31,6 +31,7 @@ The checker covers:
 - Applicable experiment freeze, script, closure, and legacy input-manifest hashes.
 - Generated caches, temporary files, and observation arrays inside experiment records.
 - Available Git status at the workspace and component boundaries.
+- `raw/` directory names against dataset IDs. The checker does not read files inside `raw/`.
 
 This is a workspace integrity checker.
 The separate [common validator](experiments/RECORD-CONTRACT.md) checks new experiment records with their original inputs.
@@ -51,7 +52,7 @@ This check also inspects PDF structure, page counts, saved citation metadata, an
 Run the original DECam record check with the external observation directory:
 
 ```bash
-python3 experiments/scripts/check_records.py --data-dir /path/to/external/decam-images --output /tmp/decam-record-check.json
+python3 experiments/scripts/check_records.py --data-dir raw/noirlab-image-archive --output /tmp/decam-record-check.json
 ```
 
 Its scientific-record scope covers the original eight DECam experiments.
@@ -105,7 +106,7 @@ The root and eight component directories now contain separate local Git reposito
 Richard authorized initial commits for the root, datasets, detection, and experiments repositories.
 The five application repositories remain without commits.
 No remotes are configured.
-The saved audit report captures Git status before the coordination commit.
+The saved audit report captures Git status at the time of its generation.
 Run the checker again to inspect current Git status.
 [VERSION-CONTROL.md](VERSION-CONTROL.md) records the boundaries and exclusion policy.
 

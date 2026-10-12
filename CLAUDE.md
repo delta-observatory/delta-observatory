@@ -7,6 +7,8 @@ Follow [experiments/PROCEDURE.md](experiments/PROCEDURE.md) for scientific plann
 Read [experiments/PLAN.md](experiments/PLAN.md) before assigning scientific task scope.
 Read [REFERENCE-CATALOGS.md](REFERENCE-CATALOGS.md) before reference acquisition or identity comparison.
 Read [detection/TOOLING.md](detection/TOOLING.md) before adding a scientific implementation.
+Store downloaded observations in `raw/<dataset-id>/` at the workspace root.
+Use the exact dataset directory name from `datasets/` for each `raw/` directory.
 
 Use the ASD-STE100 writing instructions supplied by Richard.
 Read the `asd-ste100` skill before writing user-facing text.

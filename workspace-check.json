@@ -1,16 +1,17 @@
 {
   "status": "passed",
-  "checked_utc": "2026-10-12T04:04:45.704296+00:00",
-  "checker_sha256": "3c5f348ef84441674d48fcc887e95ff42be7d945807ffd102b559605f56c85ac",
+  "checked_utc": "2026-10-12T04:26:42.178445+00:00",
+  "checker_sha256": "497a4c495f21460b67f1f609e741e2564ebf468b1cf049f68e86d1f6cfa532f8",
   "scope": "Local documentation, catalogs, dependencies, syntax, retained hashes, and generated-file hygiene.",
   "counts": {
-    "files": 907,
-    "markdown_files": 337,
-    "local_markdown_links": 1674,
-    "local_heading_links": 16,
+    "files": 909,
+    "markdown_files": 339,
+    "local_markdown_links": 1709,
+    "local_heading_links": 19,
     "json_files": 339,
     "python_files": 64,
     "dataset_entries": 115,
+    "raw_dataset_directories": 2,
     "scientific_tasks": 18,
     "registered_experiments": 10,
     "closed_experiments_in_index": 10,
@@ -31,24 +32,26 @@
       "/home/richardtidwell/repos/delta-observatory": {
         "working_tree_clean": false,
         "changes": [
-          "?? .gitignore",
-          "?? AGENTS.md",
-          "?? CHECKS.md",
-          "?? DESIGN.md",
-          "?? README.md",
-          "?? REFERENCE-CATALOGS.md",
-          "?? ROADMAP.md",
-          "?? VERSION-CONTROL.md",
-          "?? scripts/",
-          "?? workspace-check.json"
+          " M .gitignore",
+          " M AGENTS.md",
+          " M CHECKS.md",
+          " M CLAUDE.md",
+          " M DESIGN.md",
+          " M README.md",
+          " M REFERENCE-CATALOGS.md",
+          " M ROADMAP.md",
+          " M VERSION-CONTROL.md",
+          " M scripts/check_workspace.py"
         ],
         "branch": "main",
-        "has_commits": false,
+        "has_commits": true,
         "remote_names": []
       },
       "/home/richardtidwell/repos/delta-observatory/datasets": {
-        "working_tree_clean": true,
-        "changes": [],
+        "working_tree_clean": false,
+        "changes": [
+          " M README.md"
+        ],
         "branch": "main",
         "has_commits": true,
         "remote_names": []
@@ -61,8 +64,10 @@
         "remote_names": []
       },
       "/home/richardtidwell/repos/delta-observatory/experiments": {
-        "working_tree_clean": true,
-        "changes": [],
+        "working_tree_clean": false,
+        "changes": [
+          " M PROCEDURE.md"
+        ],
         "branch": "main",
         "has_commits": true,
         "remote_names": []
