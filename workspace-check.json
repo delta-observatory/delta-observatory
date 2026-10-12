@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "checked_utc": "2026-10-12T04:30:06.951237+00:00",
+  "checked_utc": "2026-10-12T04:33:05.748492+00:00",
   "checker_sha256": "497a4c495f21460b67f1f609e741e2564ebf468b1cf049f68e86d1f6cfa532f8",
   "scope": "Local documentation, catalogs, dependencies, syntax, retained hashes, and generated-file hygiene.",
   "counts": {
@@ -32,12 +32,8 @@
       "/home/richardtidwell/repos/delta-observatory": {
         "working_tree_clean": false,
         "changes": [
-          " M AGENTS.md",
           " M CHECKS.md",
-          " M CLAUDE.md",
-          " M DESIGN.md",
           " M README.md",
-          " M ROADMAP.md",
           " M VERSION-CONTROL.md"
         ],
         "branch": "main",
@@ -73,39 +69,31 @@
         "remote_names": []
       },
       "/home/richardtidwell/repos/delta-observatory/workers": {
-        "working_tree_clean": false,
-        "changes": [
-          "?? .gitignore"
-        ],
+        "working_tree_clean": true,
+        "changes": [],
         "branch": "main",
-        "has_commits": false,
+        "has_commits": true,
         "remote_names": []
       },
       "/home/richardtidwell/repos/delta-observatory/backend": {
-        "working_tree_clean": false,
-        "changes": [
-          "?? .gitignore"
-        ],
+        "working_tree_clean": true,
+        "changes": [],
         "branch": "main",
-        "has_commits": false,
+        "has_commits": true,
         "remote_names": []
       },
       "/home/richardtidwell/repos/delta-observatory/frontend": {
-        "working_tree_clean": false,
-        "changes": [
-          "?? .gitignore"
-        ],
+        "working_tree_clean": true,
+        "changes": [],
         "branch": "main",
-        "has_commits": false,
+        "has_commits": true,
         "remote_names": []
       },
       "/home/richardtidwell/repos/delta-observatory/kubernetes": {
-        "working_tree_clean": false,
-        "changes": [
-          "?? .gitignore"
-        ],
+        "working_tree_clean": true,
+        "changes": [],
         "branch": "main",
-        "has_commits": false,
+        "has_commits": true,
         "remote_names": []
       }
     },

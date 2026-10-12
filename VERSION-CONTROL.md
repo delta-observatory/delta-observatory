@@ -3,9 +3,9 @@
 The workspace contains nine independent Git repositories.
 Each repository uses the `main` branch.
 Initialization creates local Git metadata without creating a commit or remote repository.
-Initial commits record the root, datasets, detection, experiments, and database repositories.
+All nine repositories have initial commits.
 The database repository contains contract documentation only.
-The four other application repositories contain exclusion rules only and remain without commits.
+The four other application repositories contain exclusion rules only.
 Agents commit every completed change under the [commit rules](AGENTS.md#commits).
 Richard controls pushes and external publication.
 

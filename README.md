@@ -54,9 +54,9 @@ The agreed architecture uses separate component repositories within this umbrell
 The root coordination repository and all eight component repositories are initialized locally on `main`.
 Each repository has independent Git metadata.
 The root excludes all component directories.
-Initial commits cover the root, datasets, detection, experiments, and database repositories.
+All nine repositories have initial commits.
 The database repository contains contract documentation only. No schema or migration exists.
-The four other application repositories contain exclusion rules only and remain without commits.
+The four other application repositories contain exclusion rules only.
 No remote addresses are configured.
 [VERSION-CONTROL.md](VERSION-CONTROL.md) defines repository boundaries, exclusions, and verification commands.
 
