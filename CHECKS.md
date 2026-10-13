@@ -1,7 +1,6 @@
 # Workspace checks and consistency
 
-The workspace contains research and bounded scientific experiments.
-Application implementation remains pending.
+The workspace contains research, bounded scientific experiments, and the TESS vertical slice of the application.
 The current [workspace guide](README.md) defines document responsibilities and directory contents.
 The current [experiment procedure](experiments/PROCEDURE.md) defines scientific requirements for new experiments.
 
@@ -30,6 +29,7 @@ The checker covers:
 - Retained source-file sizes, PDF headers, and SHA-256 hashes.
 - Applicable experiment freeze, script, closure, and legacy input-manifest hashes.
 - Generated caches, temporary files, and observation arrays inside experiment records.
+- Generated caches in research repositories. The scan skips Git-ignored `__pycache__`, `node_modules`, `dist`, `build`, and `coverage` folders in the application repositories.
 - Available Git status at the workspace and component boundaries.
 - `raw/` directory names against dataset IDs. The checker does not read files inside `raw/`.
 
@@ -38,6 +38,19 @@ The separate [common validator](experiments/RECORD-CONTRACT.md) checks new exper
 The workspace checker also checks cohort reservations and support-test implementation hashes.
 It does not execute scientific searches, validate candidates, or check remote service availability.
 It does not establish that every scientific statement is correct.
+
+## Application component checks
+
+Run each check from its component repository.
+
+| Component | Command | Coverage |
+|---|---|---|
+| `database/` | `uv run -q --no-project --with jsonschema==4.25.1 python scripts/check_contracts.py` | Every contract schema, every valid and invalid example, and the method parameter defaults. |
+| `workers/` | `.venv/bin/python -m pytest -q` | Exact T01 reproduction by `tess-bls`, and the index, search, and memory-limit flow on a temporary PostgreSQL server. |
+| `backend/` | `uv run pytest` | Every endpoint on a temporary PostgreSQL server with the vendored migrations. |
+
+The component READMEs give the environment setup.
+These checks do not validate scientific performance.
 
 ## Additional existing checks
 
@@ -80,7 +93,7 @@ The [supervised TESS repeat](experiments/support/tess-repeat-validation.json) gi
 
 | Item | Current limitation and next requirement |
 |---|---|
-| Application contract | R0 is active. G03 must describe supported scientific records before application implementation. |
+| Application contract | Contract version 1 covers the TESS slice. DECam records need a later contract version. G03 review of the contract remains open. |
 | Evaluation selection | The [shared register](experiments/COHORTS.md) holds only historical development exclusions. G02 requires new evaluation selections and reservations. |
 | Scientific validation | The [common validator](experiments/RECORD-CONTRACT.md) implements the record contract. Experiment-specific calculations and scientific review remain required. |
 | Historical TESS runner | Frozen code retains its internal timeout defect. The supported [external supervisor](experiments/SUPPORT.md) enforces the complete-run deadline. |

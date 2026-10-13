@@ -3,8 +3,7 @@
 The workspace contains nine independent Git repositories.
 Each repository uses the `main` branch.
 No remote addresses are configured.
-The database repository contains contract documentation only.
-The four other application repositories contain exclusion rules only.
+The frontend repository contains exclusion rules only.
 Agents commit every completed change under the [commit rules](AGENTS.md#commits).
 Richard controls pushes and external publication.
 
@@ -14,11 +13,11 @@ Richard controls pushes and external publication.
 | `datasets/` | Catalog, metadata, acquisition instructions, manifests, and small acquisition evidence. |
 | `detection/` | Methods, citations, retained papers, supporting code, and documented synthetic demonstrations. |
 | `experiments/` | Procedures, protocols, code, dependency pins, manifests, small results, figures, reviews, and decisions. |
-| `database/` | Future schema definitions, migrations, and cross-component contracts. |
-| `workers/` | Future ingestion and scientific processing code. |
-| `backend/` | Future application API and coordination code. |
+| `database/` | Schema definitions, migrations, and cross-component contracts. |
+| `workers/` | Ingestion and scientific processing code, and vendored contracts. |
+| `backend/` | Application API code, and vendored contracts. |
 | `frontend/` | Future application interface code. |
-| `kubernetes/` | Future deployment manifests and configuration templates. |
+| `kubernetes/` | Deployment manifests, build and migration templates, and scripts. |
 
 The root excludes every component directory.
 The components are independent repositories, without submodules or shared release requirements.

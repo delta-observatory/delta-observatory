@@ -15,10 +15,18 @@ from urllib.parse import unquote
 ROOT = Path(__file__).resolve().parents[1]
 
 
+# Application repositories run tests and builds locally. Their Git exclusion
+# rules ignore these generated folders, so the scan skips them there.
+APPLICATION_REPOSITORIES = {'backend', 'database', 'frontend', 'kubernetes', 'workers'}
+APPLICATION_GENERATED = {'__pycache__', 'node_modules', 'dist', 'build', 'coverage'}
+
+
 def visible_files():
     files = []
     for directory, folders, names in os.walk(ROOT):
-        folders[:] = [name for name in folders if not name.startswith('.')
+        top = Path(directory).relative_to(ROOT).parts[:1]
+        generated = APPLICATION_GENERATED if top and top[0] in APPLICATION_REPOSITORIES else set()
+        folders[:] = [name for name in folders if not name.startswith('.') and name not in generated
                       and not (Path(directory) == ROOT and name == 'raw')]
         files.extend(Path(directory)/name for name in names if not name.startswith('.'))
     return sorted(files)

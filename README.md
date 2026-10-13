@@ -5,8 +5,8 @@ The initial scientific focus covers asteroids and exoplanets.
 
 The workspace currently contains research, dataset documentation, and scientific experiment evidence.
 R0, the scientific contract stage, remains active.
-Application implementation has not started.
-The application and deployment repositories contain exclusion rules only.
+The TESS vertical slice runs on the local k3s cluster: database, worker, and API.
+The frontend has no code. Its design starts in review steps with Richard.
 Catalog inclusion does not establish local observation availability or an implemented detection method.
 
 ## Start here
@@ -42,18 +42,17 @@ Resolve a documentation conflict before executing affected work.
 | [datasets/](datasets/README.md) | Catalog, product descriptions, metadata, acquisition instructions, and recorded acquisition evidence. |
 | [detection/](detection/README.md) | Method explanations, academic references, retained papers, software guidance, and synthetic demonstrations. |
 | [experiments/](experiments/README.md) | Scientific procedure, task planning, bounded experiments, evidence, and reviews. |
-| `database/` | Placeholder for schema, migrations, and record constraints. Owns the cross-component contracts in [database/contracts/](database/contracts/README.md). |
-| `workers/` | Placeholder for ingestion and scientific processing. |
-| `backend/` | Placeholder for the application API and coordination. |
-| `frontend/` | Placeholder for the interactive application. |
-| `kubernetes/` | Placeholder for local deployment manifests and environment configuration. |
+| [database/](database/README.md) | Schema, migrations, and the cross-component contracts in [database/contracts/](database/contracts/README.md). |
+| [workers/](workers/README.md) | Worker with the `tess-spoc-index` and `tess-bls` methods. |
+| [backend/](backend/README.md) | Stateless application API. |
+| `frontend/` | Interactive application. No code exists. |
+| [kubernetes/](kubernetes/README.md) | k3s manifests, image builds, and migrations. |
 | `scripts/` | Workspace documentation and structure checks. |
 | `raw/` | Local downloaded observations in `raw/<dataset-id>/`. Git does not track this directory. |
 
 The workspace contains nine independent Git repositories on `main`: the root and the eight component directories.
 The root excludes all component directories.
-The database repository contains contract documentation only. No schema or migration exists.
-The four other application repositories contain exclusion rules only.
+The frontend repository contains exclusion rules only.
 No remote addresses are configured.
 [VERSION-CONTROL.md](VERSION-CONTROL.md) defines repository boundaries, exclusions, and verification commands.
 

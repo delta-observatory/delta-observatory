@@ -11,7 +11,10 @@ Git history records changes. Experiment records hold scientific results.
 
 **Current position**
 
-- R0, the scientific contract, is active. No application code exists.
+- R0, the scientific contract, is active.
+- The TESS vertical slice runs on the local k3s cluster. It has contract version 1, the database schema, the worker, and the stateless API.
+- The slice indexes 46 development light curves. With the T01 defaults, its `tess-bls` method gives the exact T01 values.
+- The frontend has no code. Its Three.js design starts in review steps with Richard.
 - Ten bounded experiments are closed. The [experiment index](experiments/README.md) lists their results and limits.
 - The DECam series recovers known moving objects on development data. Threshold three is provisional. The default mask policy is unchanged.
 - The Gaussian source model remains the baseline. The tested Photutils empirical-profile configuration failed its criteria.
@@ -42,10 +45,10 @@ A completed stage can reopen when changed requirements invalidate its evidence.
 | ID | Stage | Status | Depends on | Main location |
 |---|---|---|---|---|
 | R0 | First investigation and scientific contract | Active | Dataset and method review with Richard | `datasets/`, `detection/`, `experiments/` |
-| R1 | Database | Pending | R0 | `database/` |
-| R2 | Storage and ingestion | Pending | R1 | `workers/`, `database/`, `kubernetes/` |
-| R3 | Scientific workers | Pending | R2 | `workers/` |
-| R4 | Application API | Pending | R3 | `backend/` |
+| R1 | Database | Active | R0 | `database/` |
+| R2 | Storage and ingestion | Active | R1 | `workers/`, `database/`, `kubernetes/` |
+| R3 | Scientific workers | Active | R2 | `workers/` |
+| R4 | Application API | Active | R3 | `backend/` |
 | R5 | Interactive frontend | Pending | R4 for implementation | `frontend/` |
 | R6 | Decision assistance | Pending | R3 and R4, plus evaluation evidence | `workers/`, `backend/` |
 | R7 | Expanded scientific coverage | Pending | A validated complete investigation | Relevant component repositories |
@@ -53,6 +56,22 @@ A completed stage can reopen when changed requirements invalidate its evidence.
 The sequence defines delivery priorities, not a requirement to postpone all interface discussion.
 Job and result contracts begin before the API implementation.
 Frontend design discussions can begin when real observations and diagnostics are available.
+
+**TESS vertical slice**
+
+The slice connects one dataset and one method through every layer before the project adds DECam.
+
+| Layer | Scope in the slice |
+|---|---|
+| Contracts | `job/1`, `result/1`, `columns/1`, and the `tess-spoc-index` and `tess-bls` parameter schemas in [database/contracts/](database/contracts/README.md). |
+| Database | CNPG cluster `delta-db`. Migration `0001_initial` defines datasets, observations, runs, jobs, measurements, and artifacts. |
+| Ingestion | `tess-spoc-index` indexes `raw/tess-spoc-light-curves/` and reads labels from the [development set manifest](datasets/tess-spoc-light-curves/application-development/manifest.json). |
+| Worker | `tess-bls` runs the T01 preparation and search, and compares the saved result with a known planet. |
+| API | Stateless FastAPI service at `http://10.0.0.47:30870/api/docs`. |
+| Frontend | Not started. Three.js design in review steps with Richard. |
+
+Checked items in R0 to R4 apply to the slice. DECam needs them again under a later contract version.
+The 46 light curves are development data. Results on them are not performance evidence.
 
 **R0 — First investigation and scientific contract**
 
@@ -65,8 +84,8 @@ Completed feasibility experiments provide evidence without completing that contr
 Tasks:
 
 - [ ] Select the target population and scientific objective.
-- [ ] Select a bounded observation collection and confirm its local availability.
-- [ ] Select the detection method and candidate scientific libraries.
+- [x] Select a bounded observation collection and confirm its local availability.
+- [x] Select the detection method and candidate scientific libraries.
 - [ ] Define required images, masks, uncertainty arrays, metadata, and calibration products.
 - [ ] Define coordinate frames, time scales, units, and uncertainty conventions.
 - [ ] Describe representative measurements, diagnostics, candidate evidence, and artifact formats.
@@ -90,9 +109,9 @@ Tasks:
 - [ ] Establish identifiers, relationships, constraints, and record ownership.
 - [ ] Define source versions, duplicate exposure handling, and immutable run configurations.
 - [ ] Define units, uncertainties, quality flags, and missing-value semantics.
-- [ ] Define job states, claims, retries, and duplicate prevention.
-- [ ] Establish migrations and database compatibility expectations.
-- [ ] Publish the first job, result, method-parameter, and record schemas in [database/contracts/](database/contracts/README.md).
+- [x] Define job states, claims, retries, and duplicate prevention.
+- [x] Establish migrations and database compatibility expectations.
+- [x] Publish the first job, result, method-parameter, and record schemas in [database/contracts/](database/contracts/README.md).
 - [ ] Add the G03 example records as valid and invalid schema examples.
 - [ ] Exercise the schema with representative scientific records.
 
@@ -107,12 +126,12 @@ The user does not manually register each dataset.
 
 Tasks:
 
-- [ ] Configure dataset locations and storage access for workers.
-- [ ] Map the selected dataset's metadata into the agreed observation records.
-- [ ] Index files without unnecessary copies or source modification.
+- [x] Configure dataset locations and storage access for workers.
+- [x] Map the selected dataset's metadata into the agreed observation records.
+- [x] Index files without unnecessary copies or source modification.
 - [ ] Record checksums, source identifiers, processing versions, and supporting-product relationships.
 - [ ] Validate dimensions, timing, coordinates, units, and method prerequisites.
-- [ ] Report missing, changed, incomplete, or incompatible inputs.
+- [x] Report missing, changed, incomplete, or incompatible inputs.
 - [ ] Implement repeatable refreshes and recovery after interruption.
 - [ ] Produce the image previews needed for early exploration and frontend design discussions.
 
@@ -128,14 +147,14 @@ Record the scientific calculations and intermediate products that the interface 
 Tasks:
 
 - [ ] Implement required preparation and calibration checks.
-- [ ] Implement the selected detection and measurement method.
+- [x] Implement the selected detection and measurement method.
 - [ ] Expose parameters, equations, assumptions, and applicability limits.
-- [ ] Persist measurements, uncertainty, diagnostics, and artifact references.
-- [ ] Implement known-object comparison independently of blind detection.
+- [x] Persist measurements, uncertainty, diagnostics, and artifact references.
+- [x] Implement known-object comparison independently of blind detection.
 - [ ] Execute validation with known objects, inserted signals, and suitable negative examples.
 - [ ] Measure recovery, false detections, runtime, memory, and storage use.
 - [ ] Verify interruption, retry, and duplicate prevention behavior.
-- [ ] Record worker and scientific-library versions for every run.
+- [x] Record worker and scientific-library versions for every run.
 
 Completion: a recorded job produces reproducible candidate evidence from real observations.
 Validation results identify the method's usable conditions and limitations.
@@ -148,8 +167,8 @@ Use the scientific outputs established by workers to define useful result and di
 
 Tasks:
 
-- [ ] Expose dataset inventory, observations, quality findings, and artifact access.
-- [ ] Expose supported methods, parameter definitions, and compatibility requirements.
+- [x] Expose dataset inventory, observations, quality findings, and artifact access.
+- [x] Expose supported methods, parameter definitions, and compatibility requirements.
 - [ ] Support campaign configuration and analysis submission.
 - [ ] Expose progress, cancellation, retry, failures, and resource use.
 - [ ] Expose measurements, candidates, provenance, and comparisons between runs.
@@ -243,12 +262,14 @@ External deployment requires Richard's explicit request.
 | Frontend design authority | Agreed | Richard directs each design step before implementation. |
 | Cross-component contracts | Agreed | Versioned schemas in `database/contracts/`. The stateless API and the workers connect only through PostgreSQL, file storage references, and these schemas. |
 | Record contract source | Agreed | G03 uses closed experiment records. It does not wait for G01 successor protocols. |
-| First dataset–method pair | Provisional | DECam images with SEP extraction, position association, and a third-observation prediction check. |
+| First dataset–method pair | Agreed | TESS SPOC 120-second light curves with `tess-bls` for the vertical slice. DECam with SEP extraction follows under a later contract version. |
 | Initial scientific focus | Agreed | Asteroids and exoplanets, with asteroid experiments first. Additional targets require datasets, methods, references, and validation criteria. |
 | First exoplanet workflow | Bounded recovery complete | TESS SPOC brightness series with Lightkurve and Astropy BLS. Production integration and broader validation remain open. |
 | Known-object references | Agreed | Dated local copies from official downloads or APIs, with experiment-specific provenance. See [policy](REFERENCE-CATALOGS.md). |
 | Local observation storage | Agreed | `raw/<dataset-id>/` at the workspace root. Names match `datasets/`. Git does not track it. |
-| Database hosting and storage | Open | Select the local deployment arrangement and persistent storage. |
+| Database hosting and storage | Agreed | Dedicated CNPG cluster `delta-db` in namespace `delta-observatory` on `local-path` storage. Artifacts on the `delta-artifacts` PVC. |
+| Frontend technology and process | Agreed | Three.js interface. Design proceeds in small review steps with Richard after the backend. |
+| Slice development data | Agreed | 46 TESS light curves registered as development data in the [cohort register](experiments/COHORTS.md). |
 | Scientific acceptance targets | Open | Dataset inspection and baseline measurements. |
 | Decision provider and authority | Open | Evidence requirements and comparative evaluation. |
 
@@ -256,14 +277,14 @@ External deployment requires Richard's explicit request.
 
 Follow the scientific [plan](experiments/PLAN.md) and the [procedure](experiments/PROCEDURE.md) for each successor experiment.
 
-1. Draft the G03 scientific input and output contract from the DECam and TESS records for Richard's review.
-2. Define G01 criteria and budgets for each successor protocol.
-3. Reserve G02 evaluation cohorts before any independent-performance evaluation.
-4. Define separate transit-injection and negative-control protocols (T02, T03) before claims about depth accuracy, completeness, or false alarms.
-5. Keep the Gaussian source model provisional. A profile successor (A08) needs separate convergence work and new evaluation stars.
-6. Include DS9 and TOPCAT/STILTS checks when image-calibration work requires them.
-7. Reopen mask or threshold evaluation only under the [documented restart conditions](experiments/README.md#closure-decisions).
-8. Begin database design (R1) after agreement on the scientific contract.
+1. Start the frontend design review with Richard: visual references, layout, and interaction paradigms.
+2. Review contract version 1 against G03 before a tagged database release.
+3. Define G01 criteria and budgets for each successor protocol.
+4. Reserve G02 evaluation cohorts before any independent-performance evaluation.
+5. Define separate transit-injection and negative-control protocols (T02, T03) before claims about depth accuracy, completeness, or false alarms.
+6. Keep the Gaussian source model provisional. A profile successor (A08) needs separate convergence work and new evaluation stars.
+7. Include DS9 and TOPCAT/STILTS checks when image-calibration work requires them.
+8. Reopen mask or threshold evaluation only under the [documented restart conditions](experiments/README.md#closure-decisions).
 
 Use the [external supervisor](experiments/SUPPORT.md) for all TESS reproductions.
 
