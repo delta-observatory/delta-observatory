@@ -2,8 +2,7 @@
 
 The workspace contains nine independent Git repositories.
 Each repository uses the `main` branch.
-Initialization creates local Git metadata without creating a commit or remote repository.
-All nine repositories have initial commits.
+No remote addresses are configured.
 The database repository contains contract documentation only.
 The four other application repositories contain exclusion rules only.
 Agents commit every completed change under the [commit rules](AGENTS.md#commits).
@@ -23,8 +22,7 @@ Richard controls pushes and external publication.
 
 The root excludes every component directory.
 The components are independent repositories, without submodules or shared release requirements.
-Application repositories currently contain exclusion rules and documentation only.
-Repository initialization does not indicate application implementation.
+A component repository does not indicate application implementation.
 
 ## Exclusions
 
@@ -63,11 +61,10 @@ git status --short
 ```
 
 A clean root status does not establish clean component repositories.
-Before the first commit, Git cannot provide a committed recovery point for the current files.
 
 ## Future reconstruction
 
 Restore the coordination repository into `delta-observatory/`.
 Restore each component into its corresponding directory.
 Keep this sibling layout because documentation uses relative links between repositories.
-Remote addresses and compatible commit references require a later publication or release decision.
+Remote addresses and compatible commit references require a publication or release decision.

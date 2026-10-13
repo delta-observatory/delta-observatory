@@ -1,36 +1,22 @@
 # Delta Observatory implementation roadmap
 
-This document is the working implementation ledger.
-[DESIGN.md](DESIGN.md) defines the desired system. This roadmap records delivery order, current work, decisions, and completion evidence.
-Update this document as work progresses. Keep historical progress out of the design specification.
+This roadmap defines delivery stages, their status, open decisions, and next actions.
+[DESIGN.md](DESIGN.md) defines the desired system.
+Git history records changes. Experiment records hold scientific results.
 
-[README.md](README.md) describes current workspace structure and document responsibilities.
+[README.md](README.md) describes workspace structure and document responsibilities.
 [experiments/PROCEDURE.md](experiments/PROCEDURE.md) controls scientific execution and evidence quality.
-[experiments/PLAN.md](experiments/PLAN.md) defines scientific tasks, ownership, and dependencies.
-[CHECKS.md](CHECKS.md) records workspace audit coverage and remaining limitations.
-
-Last updated: 2026-10-11.
+[experiments/PLAN.md](experiments/PLAN.md) defines scientific tasks and dependencies.
+[CHECKS.md](CHECKS.md) defines workspace checks and their limits.
 
 **Current position**
 
-The target design and workspace organization are defined for review.
-The dataset catalog and detection library provide the research foundation.
-Application implementation has not started.
-R0 is active. A bounded DECam experiment recovered one cataloged moving source across three observations.
-An additional detector test produced seven possible pairs and no surviving candidate.
-A masked injection pilot measured conditional recovery across five brightness levels and three motion rates.
-Threshold comparison selected three times the local noise on N2. N3 evaluation stopped because calibration lacked enough matched stars.
-A calibration audit reproduced the failure. One of ten otherwise eligible N3 pairs contains masked aperture pixels.
-Legacy Surveys code resolves the V3.7 mask encoding. A diagnostic comparison retains code 7 and increases calibration coverage.
-Both additional N2 candidates match known asteroids. The complete quality mask preserves candidate 11’s earlier detection.
-Paired injections show slightly lower recovery under the retain-code-7 policy in common clean regions.
-Recovery within code-7 regions and independent validation remain open.
-The original eight DECam records are closed within scope. [Closure decisions](experiments/README.md#closure-decisions) define deferred questions and restart conditions.
-The Photutils comparison is also closed. Its empirical configuration failed convergence and residual-improvement criteria, so the source model remains unchanged.
-Broader calibration validation and scientific acceptance criteria remain open.
-The bounded TESS experiment recovered both selected known planets with fixed Lightkurve and Astropy BLS settings.
-Its complete numerical repeat passed. Detrending changed depths, so depth accuracy and discovery performance remain unvalidated.
-Image and brightness-series evidence now provide concrete inputs for the scientific contract.
+- R0, the scientific contract, is active. No application code exists.
+- Ten bounded experiments are closed. The [experiment index](experiments/README.md) lists their results and limits.
+- The DECam series recovers known moving objects on development data. Threshold three is provisional. The default mask policy is unchanged.
+- The Gaussian source model remains the baseline. The tested Photutils empirical-profile configuration failed its criteria.
+- The TESS experiment recovers the periods and phases of two known planets. Depth accuracy, completeness, and false-alarm rates are not validated.
+- No independent evaluation data exists. N1, N2, N3, the Photutils stars, and both TESS hosts are development data.
 
 The build follows Richard's preferred sequence:
 
@@ -266,86 +252,30 @@ External deployment requires Richard's explicit request.
 | Scientific acceptance targets | Open | Dataset inspection and baseline measurements. |
 | Decision provider and authority | Open | Evidence requirements and comparative evaluation. |
 
-**Latest completed experiment**
-
-[TESS known-planet recovery](experiments/tess-known-planet-recovery/README.md) recovered WASP-18 b and WASP-126 b in sector 2.
-Period errors are 0.00718% and 0.00519%. Phase errors are 0.960 and 8.503 minutes.
-Both targets passed all fixed recovery conditions, and a complete repeat produced identical numerical results.
-Flattening changed transit depths, especially for WASP-126. The configuration remains provisional for scientific measurements.
-
 **Immediate next actions**
 
-Follow the scientific [plan](experiments/PLAN.md) and current [procedure](experiments/PROCEDURE.md) for each experiment successor.
-G01 requires experiment-specific criteria and budgets, even though the common procedure now exists.
-G02 must establish cohort reservations before dependent independent-performance evaluations.
+Follow the scientific [plan](experiments/PLAN.md) and the [procedure](experiments/PROCEDURE.md) for each successor experiment.
 
-1. Draft the scientific input and output contract from the recorded image and brightness-series examples for Richard's review.
-2. Define separate transit-injection and negative-control protocols before claims about depth accuracy, completeness, or false alarms.
-3. Keep the Gaussian source model provisional. A profile successor needs separate convergence work and new evaluation stars.
-4. Include DS9 and TOPCAT/STILTS checks when further image-calibration work requires them.
-5. Reopen mask or threshold evaluation only under the [documented restart conditions](experiments/README.md#closure-decisions).
-6. Begin database design after agreement on the scientific contract.
+1. Draft the G03 scientific input and output contract from the DECam and TESS records for Richard's review.
+2. Define G01 criteria and budgets for each successor protocol.
+3. Reserve G02 evaluation cohorts before any independent-performance evaluation.
+4. Define separate transit-injection and negative-control protocols (T02, T03) before claims about depth accuracy, completeness, or false alarms.
+5. Keep the Gaussian source model provisional. A profile successor (A08) needs separate convergence work and new evaluation stars.
+6. Include DS9 and TOPCAT/STILTS checks when image-calibration work requires them.
+7. Reopen mask or threshold evaluation only under the [documented restart conditions](experiments/README.md#closure-decisions).
+8. Begin database design (R1) after agreement on the scientific contract.
 
-The [common record validator](experiments/RECORD-CONTRACT.md) now checks new preflight and closure records.
-The [cohort register](experiments/COHORTS.md) preserves historical development exclusions and supports serialized reservations.
-The [external supervisor](experiments/SUPPORT.md) enforces the complete-run deadline around the unchanged historical TESS runner.
-Use that supervisor for all TESS reproductions.
-The supervised repeat preserved the original numerical results.
-The workspace [checks](CHECKS.md) record these limits separately from structural consistency.
+Use the [external supervisor](experiments/SUPPORT.md) for all TESS reproductions.
 
-**TESS and Lightkurve: bounded recovery complete**
+ExoMiner is a candidate-assessment option, subject to compatible inputs and validation.
+THOR and ADAM Precovery are evaluation options for asteroid association and historical observations.
+None of these is installed or integrated.
 
-Status: the first [guided recovery experiment](experiments/tess-known-planet-recovery/README.md) is closed without retuning.
-Two SPOC sector-2 light curves and a dated NASA reference subset support reproducible period and phase comparisons.
-The dataset catalog now distinguishes processed target series from full-frame images.
-
-The fixed preparation altered transit depths. A subsequent study needs injected transits before detrending and suitable negative examples.
-It must separate tuning and evaluation observations and preserve upstream correction limits.
-Pixel-centroid checks, physical transit fitting, and precision timing remain outside this completed experiment.
-The asteroid and Photutils validation limits also remain open.
-
-ExoMiner is a later candidate-assessment option, subject to compatible inputs and validation.
-THOR and ADAM Precovery remain evaluation options for asteroid association and historical observations.
-Neither option replaces the current evidence records or constitutes an installed integration.
-
-**Progress ledger**
-
-| Date | Work | Outcome and evidence | Next action |
-|---|---|---|---|
-| 2026-10-11 | Establish the target design and workspace organization. | [DESIGN.md](DESIGN.md) defines the system, separate components, automatic indexing, frontend requirements, and local k3s deployment. | Resolve the first investigation. |
-| 2026-10-11 | Assemble scientific reference material. | [Dataset catalog](datasets/README.md) and [detection library](detection/README.md) provide inputs for method selection. | Review a dataset–method pair without treating catalog entries as downloaded observations. |
-| 2026-10-11 | Agree on delivery sequence. | This roadmap records back-to-front construction with workers before the API and Kubernetes throughout. | Begin R0 with Richard. |
-| 2026-10-11 | Test public DECam access and guided recovery. | Four calibrated exposures and one quality mask were downloaded with archive checksum checks. N1 yielded 12 possible pairs. One predicted a detection in another exposure within 1.41 pixels. It matched the reference tracklet. [Evidence](experiments/decam-moving-object-baseline/results/n1/third-exposure-check.json). | Test another detector before consulting its catalog. |
-| 2026-10-11 | Complete the N2 detector test. | The unchanged baseline produced seven pairs and zero survivors. The subsequent catalog query returned zero records for N2. Runtime was 3.69 seconds. Peak memory was 489 MiB. [Report](experiments/decam-moving-object-baseline/README.md). | Validate calibration handling and recovery limits before application implementation. |
-| 2026-10-11 | Preserve the baseline in experiments. | [Experiment record](experiments/decam-moving-object-baseline/README.md) includes original evidence, figures, input checksums, fixed settings, and portable scripts. Both detector results reproduced. | Record future scientific experiments separately from component software checks. |
-| 2026-10-11 | Measure injection recovery on N2. | [Pilot record](experiments/decam-injection-recovery/README.md) preserves 300 trials, quality rules, and source-model assumptions. Recovery was 0/60, 22/60, 55/60, 60/60, and 60/60 across brightness levels. A second run reproduced the results. | Evaluate detection changes on new trajectories without replacing this pilot. |
-| 2026-10-11 | Compare extraction thresholds on new N2 trajectories. | [Comparison record](experiments/decam-threshold-comparison/README.md) preserves all four settings. Threshold three recovered 106/180 trajectories, versus 73/180 at five. N3 evaluation failed calibration before any recovery measurement. | Inspect calibration coverage and define a new evaluation protocol. |
-| 2026-10-11 | Define search scope and known-object references. | Asteroids and exoplanets are in scope. [Reference policy](REFERENCE-CATALOGS.md) requires dated copies, saved queries, and independent identity comparison. | Select reference inputs before the next experiment. |
-| 2026-10-11 | Broaden the platform purpose. | Asteroids and exoplanets are the initial scientific focus, not permanent limits. Each experiment retains an explicit objective. | Continue the N3 calibration investigation. |
-| 2026-10-11 | Audit N3 calibration selection. | [Audit record](experiments/decam-calibration-audit/README.md) reproduces N2 calibration and the N3 failure. N3 retains nine acceptable matches after aperture checks. | Investigate counterpart selection before revising calibration. |
-| 2026-10-11 | Inspect missing N3 calibration counterparts. | [Counterpart audit](experiments/decam-counterpart-audit/README.md) finds masks at 15 of 17 missing exposure-4 positions. Five other matches fail the peak-brightness condition. | Establish the V3.7 mask encoding before changing policy. |
-| 2026-10-11 | Select the next distinct scientific workflow. | TESS with Lightkurve will test brightness-series processing after the asteroid investigation. Established packages remain replaceable components. | Resolve the current mask question, then define the TESS experiment protocol. |
-| 2026-10-11 | Reuse established mask handling and formalize software review. | [Mask comparison](experiments/decam-mask-policy-comparison/README.md) reuses a pinned Legacy Surveys mapper. N3 exposure-4 calibration matches increase from 9 to 68. [Reuse register](detection/TOOLING.md) records software and data-product gaps. | Assess new candidates and recovery before adopting the alternative mask policy. |
-| 2026-10-11 | Review N2 candidates and measure paired mask recovery. | [Experiment record](experiments/decam-mask-recovery/README.md) gives candidate 11 an earlier match within 0.35 pixels. Clean-region recovery totals are 215/360 strict and 202/360 retaining code 7. | Obtain missing quality information and identify the supported candidate before broader mask evaluation. |
-| 2026-10-11 | Complete N2 candidate quality and identity checks. | [Candidate identification](experiments/decam-candidate-identification/README.md) matches candidates 11 and 13 to 383733 and 192670. All six search positions agree within 0.374 arcseconds. The earlier quality mask preserves candidate 11. | Define representative mask evaluation and the bounded TESS protocol. |
-| 2026-10-11 | Expand established-software coverage. | [Reuse register](detection/TOOLING.md) adds DS9, TOPCAT/STILTS, Astrometry.net, Find_Orb, batman, CASA, and blimpy/turboSETI. It defines immediate evaluations and requires evidence before duplicate scientific implementation. | Evaluate Photutils against the current source model, with image and catalog checks. |
-| 2026-10-11 | Close the current DECam experiment series. | [Closure decisions](experiments/README.md#closure-decisions) preserve eight bounded outcomes and define restart conditions. Record checks verify saved inputs, execution hashes, and recovery totals. Generated caches were removed. | Define the bounded Photutils comparison. |
-| 2026-10-11 | Evaluate Photutils on disjoint stellar samples. | [Profile comparison](experiments/decam-photutils-profile/README.md) records residual reductions of 7.2%, 52.5%, and 8.6%. All three profiles miss fixed convergence, so the empirical configuration is not adopted. | Define the bounded TESS protocol. Any profile successor needs separate convergence work and new evaluation stars. |
-| 2026-10-11 | Execute the first TESS brightness-series experiment. | [Guided recovery](experiments/tess-known-planet-recovery/README.md) recovers both known planets and reproduces all numerical outputs. CFITSIO resolves the checksum-checking issue. Detrending changes depth, so measurement accuracy remains unvalidated. | Draft the scientific contract using both observation types. Define separate transit-injection and negative-control protocols. |
-| 2026-10-11 | Establish the current scientific procedure. | [PROCEDURE.md](experiments/PROCEDURE.md) defines required design, execution, controls, reproduction, review, and closure. Agent instructions and the protocol template reference it. | Complete experiment-specific protocols and cohort reservations. |
-| 2026-10-11 | Reconcile workspace guidance and structure. | [README.md](README.md) defines document responsibilities. [CHECKS.md](CHECKS.md) records integrity checks, preserved evidence, and unresolved scientific requirements. | Use the procedure and task register for the next authorized work. |
-| 2026-10-11 | Initialize local repositories and complete testing support. | Nine local repositories preserve component boundaries. [Support tools](experiments/SUPPORT.md) provide cohort registration, record validation, and checked TESS supervision. | Commit when Richard requests it. Select new evaluation groups under completed protocols. |
-| 2026-10-11 | Remove scientific acceptance from the R1 path. | G03 no longer depends on G01. Record shape comes from closed DECam and T01 records. Validation data and baselines moved from the R0 checklist to G01 and G02. [Plan](experiments/PLAN.md) and [task register](experiments/planning/tasks.json) updated. | Draft the G03 record contract for Richard's review. |
-| 2026-10-11 | Commit the populated repositories at Richard’s request. | Initial commits preserve the root, datasets, detection, and experiments. No remotes are configured. | Continue experiment-specific protocols and evaluation selection. |
-| 2026-10-11 | Move observations to `raw/<dataset-id>/`. | Eight DECam files moved to `raw/noirlab-image-archive/`. Two TESS files moved to `raw/tess-spoc-light-curves/`. All ten match their experiment manifest hashes. The DECam record check passes from the new location. The workspace check rejects unknown `raw/` names. | Store new downloads under the matching dataset ID. |
-| 2026-10-11 | Define the contract location and runtime boundary. | [database/contracts/](database/contracts/README.md) defines ownership, versions, and consumer rules. [DESIGN.md](DESIGN.md) requires a stateless API without runtime calls to workers. No schema files exist yet. | Publish the first schemas from G03 records during R1. |
-
-**Ledger maintenance**
+**Maintenance**
 
 - Update stage status when work starts, pauses for a dependency, completes, or reopens.
 - Attach completion evidence before marking a stage complete.
-- Record the reason and consequence of a changed decision.
-- Keep immediate next actions current.
+- Record a changed decision in the decisions table with its consequence.
+- Keep the current position and next actions current. Remove completed actions.
+- Do not add a dated progress log. Git history records changes.
 - Update `DESIGN.md` when the desired system changes.
-- Keep implementation progress and historical decisions in this roadmap.
-

@@ -21,7 +21,7 @@ Catalog inclusion does not establish local observation availability or an implem
 | Document | Authority and purpose |
 |---|---|
 | [DESIGN.md](DESIGN.md) | Intended application behavior, architecture, and requirements. It does not authorize implementation or deployment. |
-| [ROADMAP.md](ROADMAP.md) | Current delivery status, project decisions, progress history, and next actions. |
+| [ROADMAP.md](ROADMAP.md) | Delivery status, open decisions, and next actions. |
 | [experiments/PROCEDURE.md](experiments/PROCEDURE.md) | Current required scientific procedure, evidence requirements, and stop conditions. |
 | [experiments/PLAN.md](experiments/PLAN.md) | Scientific task scope, dependencies, conditional work, and protected ownership. |
 | [Protocol template](experiments/planning/experiment-template.md) | Fields for each new experiment's specific design and criteria. |
@@ -50,11 +50,8 @@ Resolve a documentation conflict before executing affected work.
 | `scripts/` | Workspace documentation and structure checks. |
 | `raw/` | Local downloaded observations in `raw/<dataset-id>/`. Git does not track this directory. |
 
-The agreed architecture uses separate component repositories within this umbrella workspace.
-The root coordination repository and all eight component repositories are initialized locally on `main`.
-Each repository has independent Git metadata.
+The workspace contains nine independent Git repositories on `main`: the root and the eight component directories.
 The root excludes all component directories.
-All nine repositories have initial commits.
 The database repository contains contract documentation only. No schema or migration exists.
 The four other application repositories contain exclusion rules only.
 No remote addresses are configured.
@@ -69,16 +66,16 @@ Do not remove those snapshots as ordinary duplication.
 
 ## Current scientific evidence
 
-The [experiment index](experiments/README.md) records 10 completed bounded investigations.
-The original eight DECam investigations have a shared record checker.
+The [experiment index](experiments/README.md) records 10 completed bounded investigations. All are closed.
+The eight DECam investigations have a shared record checker.
 The Photutils comparison rejected its fixed empirical configuration.
 The TESS investigation recovered both selected known planets' periods and transit phases.
 It does not validate transit depth, completeness, false-alarm rates, or planet confirmation.
 
 Scientific calibration, independent evaluation, and the application contract remain incomplete.
-Shared validation, cohort registration, and complete-run deadlines are available through [experiment support](experiments/SUPPORT.md).
-G01 and G02 still require experiment-specific protocols and new independent evaluation selections.
-G03 will use the completed image and brightness-series evidence to propose the application contract.
+[Experiment support](experiments/SUPPORT.md) provides shared validation, cohort registration, and complete-run deadlines.
+G01 and G02 require experiment-specific protocols and new independent evaluation selections.
+G03 uses the closed image and brightness-series records to propose the application contract.
 The roadmap controls application delivery after that contract.
 
 ## Workspace checks

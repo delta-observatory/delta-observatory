@@ -34,6 +34,14 @@ Run [scripts/check_workspace.py](scripts/check_workspace.py) after changes to do
 Run the applicable component or scientific record checks when their evidence changes.
 Read [CHECKS.md](CHECKS.md) before claiming audit coverage.
 
+## Documentation style
+
+Write documentation as the current state of the project.
+Do not narrate history, sessions, threads, or who asked for a change.
+Do not add dated progress logs, "now", "no longer", or "was added" statements.
+Git history records changes. Closed experiment records keep their own chronology.
+Name an owner only for active work, and remove the name when the work closes.
+
 ## Commits
 
 Commit every completed change.
