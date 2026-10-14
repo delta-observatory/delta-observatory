@@ -6,7 +6,7 @@ The initial scientific focus covers asteroids and exoplanets.
 The workspace currently contains research, dataset documentation, and scientific experiment evidence.
 R0, the scientific contract stage, remains active.
 The TESS vertical slice runs on the local k3s cluster: database, worker, and API.
-The frontend has no code. Its design starts in review steps with Richard.
+The frontend runs as a development server on the LAN. It shows the sky sphere with the development targets and the observation table.
 Catalog inclusion does not establish local observation availability or an implemented detection method.
 
 ## Start here
@@ -45,14 +45,13 @@ Resolve a documentation conflict before executing affected work.
 | [database/](database/README.md) | Schema, migrations, and the cross-component contracts in [database/contracts/](database/contracts/README.md). |
 | [workers/](workers/README.md) | Worker with the `tess-spoc-index` and `tess-bls` methods. |
 | [backend/](backend/README.md) | Stateless application API. |
-| `frontend/` | Interactive application. No code exists. |
+| [frontend/](frontend/README.md) | Interactive application in React, Three.js, TypeScript, and Vite. [DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the agreed design. |
 | [kubernetes/](kubernetes/README.md) | k3s manifests, image builds, and migrations. |
 | `scripts/` | Workspace documentation and structure checks. |
 | `raw/` | Local downloaded observations in `raw/<dataset-id>/`. Git does not track this directory. |
 
 The workspace contains nine independent Git repositories on `main`: the root and the eight component directories.
 The root excludes all component directories.
-The frontend repository contains exclusion rules only.
 No remote addresses are configured.
 [VERSION-CONTROL.md](VERSION-CONTROL.md) defines repository boundaries, exclusions, and verification commands.
 

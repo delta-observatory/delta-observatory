@@ -14,7 +14,7 @@ Git history records changes. Experiment records hold scientific results.
 - R0, the scientific contract, is active.
 - The TESS vertical slice runs on the local k3s cluster. It has contract version 1, the database schema, the worker, and the stateless API.
 - The slice indexes 46 development light curves. With the T01 defaults, its `tess-bls` method gives the exact T01 values.
-- The frontend has no code. Its Three.js design starts in review steps with Richard.
+- The frontend shows the sky sphere, the 46 development targets, and the observation table on a LAN development server. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the agreed design.
 - Ten bounded experiments are closed. The [experiment index](experiments/README.md) lists their results and limits.
 - The DECam series recovers known moving objects on development data. Threshold three is provisional. The default mask policy is unchanged.
 - The Gaussian source model remains the baseline. The tested Photutils empirical-profile configuration failed its criteria.
@@ -49,7 +49,7 @@ A completed stage can reopen when changed requirements invalidate its evidence.
 | R2 | Storage and ingestion | Active | R1 | `workers/`, `database/`, `kubernetes/` |
 | R3 | Scientific workers | Active | R2 | `workers/` |
 | R4 | Application API | Active | R3 | `backend/` |
-| R5 | Interactive frontend | Pending | R4 for implementation | `frontend/` |
+| R5 | Interactive frontend | Active | R4 for implementation | `frontend/` |
 | R6 | Decision assistance | Pending | R3 and R4, plus evaluation evidence | `workers/`, `backend/` |
 | R7 | Expanded scientific coverage | Pending | A validated complete investigation | Relevant component repositories |
 
@@ -68,7 +68,7 @@ The slice connects one dataset and one method through every layer before the pro
 | Ingestion | `tess-spoc-index` indexes `raw/tess-spoc-light-curves/` and reads labels from the [development set manifest](datasets/tess-spoc-light-curves/application-development/manifest.json). |
 | Worker | `tess-bls` runs the T01 preparation and search, and compares the saved result with a known planet. |
 | API | Stateless FastAPI service at `http://10.0.0.47:30870/api/docs`. |
-| Frontend | Not started. Three.js design in review steps with Richard. |
+| Frontend | Sky sphere, target markers, and observation table from the API. LAN development server. No deployment manifests. |
 
 Checked items in R0 to R4 apply to the slice. DECam needs them again under a later contract version.
 The 46 light curves are development data. Results on them are not performance evidence.
@@ -188,9 +188,9 @@ Each design step requires his review and direction before implementation.
 
 Tasks:
 
-- [ ] Review visual references, layout options, and interaction paradigms with Richard.
-- [ ] Use real observations and diagnostics in design discussions.
-- [ ] Agree on measurable loading, interaction, animation, and memory targets.
+- [x] Review visual references, layout options, and interaction paradigms with Richard.
+- [x] Use real observations and diagnostics in design discussions.
+- [x] Agree on measurable loading, interaction, animation, and memory targets.
 - [ ] Implement dataset exploration and observation inspection.
 - [ ] Implement method selection, parameter controls, and execution status.
 - [ ] Implement exposure animation, time controls, and measured motion overlays.
@@ -268,7 +268,7 @@ External deployment requires Richard's explicit request.
 | Known-object references | Agreed | Dated local copies from official downloads or APIs, with experiment-specific provenance. See [policy](REFERENCE-CATALOGS.md). |
 | Local observation storage | Agreed | `raw/<dataset-id>/` at the workspace root. Names match `datasets/`. Git does not track it. |
 | Database hosting and storage | Agreed | Dedicated CNPG cluster `delta-db` in namespace `delta-observatory` on `local-path` storage. Artifacts on the `delta-artifacts` PVC. |
-| Frontend technology and process | Agreed | Three.js interface. Design proceeds in small review steps with Richard after the backend. |
+| Frontend technology and process | Agreed | React, Three.js through React Three Fiber, TypeScript, and Vite. Each design step needs Richard's review. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the decisions. |
 | Slice development data | Agreed | 46 TESS light curves registered as development data in the [cohort register](experiments/COHORTS.md). |
 | Scientific acceptance targets | Open | Dataset inspection and baseline measurements. |
 | Decision provider and authority | Open | Evidence requirements and comparative evaluation. |
@@ -277,7 +277,7 @@ External deployment requires Richard's explicit request.
 
 Follow the scientific [plan](experiments/PLAN.md) and the [procedure](experiments/PROCEDURE.md) for each successor experiment.
 
-1. Start the frontend design review with Richard: visual references, layout, and interaction paradigms.
+1. Continue the frontend in review steps: target selection and the all-sky map, then the workbench plots and the inspector, then deployment manifests.
 2. Review contract version 1 against G03 before a tagged database release.
 3. Define G01 criteria and budgets for each successor protocol.
 4. Reserve G02 evaluation cohorts before any independent-performance evaluation.

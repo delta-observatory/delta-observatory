@@ -109,7 +109,7 @@ flowchart TB
 | Decision API | Narrow judgments about supplied evidence | Returns recommendations that application policy evaluates. |
 
 React and Three.js with animations are established frontend requirements.
-React Three Fiber, TypeScript, and Vite are the proposed implementation.
+React Three Fiber, TypeScript, and Vite are the selected implementation.
 Python, PostgreSQL, and file storage are the proposed backend foundation.
 
 The API and workers have separate repositories, dependency environments, build artifacts, and deployment lifecycles.

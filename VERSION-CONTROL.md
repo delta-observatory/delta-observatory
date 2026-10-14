@@ -3,7 +3,6 @@
 The workspace contains nine independent Git repositories.
 Each repository uses the `main` branch.
 No remote addresses are configured.
-The frontend repository contains exclusion rules only.
 Agents commit every completed change under the [commit rules](AGENTS.md#commits).
 Richard controls pushes and external publication.
 
@@ -16,7 +15,7 @@ Richard controls pushes and external publication.
 | `database/` | Schema definitions, migrations, and cross-component contracts. |
 | `workers/` | Ingestion and scientific processing code, and vendored contracts. |
 | `backend/` | Application API code, and vendored contracts. |
-| `frontend/` | Future application interface code. |
+| `frontend/` | Application interface code, design decisions, and sky display assets. |
 | `kubernetes/` | Deployment manifests, build and migration templates, and scripts. |
 
 The root excludes every component directory.
