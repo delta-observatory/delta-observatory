@@ -12,9 +12,9 @@ Git history records changes. Experiment records hold scientific results.
 **Current position**
 
 - R0, the scientific contract, is active.
-- The TESS vertical slice runs on the local k3s cluster. It has contract version 1, the database schema, the worker, and the stateless API.
+- The TESS vertical slice runs on the local k3s cluster. It has contract version 1, the database schema, the worker, the stateless API, and the frontend.
 - The slice indexes 46 development light curves. With the T01 defaults, its `tess-bls` method gives the exact T01 values.
-- The frontend shows the sky sphere, the 46 development targets, search, target selection, the light curve, periodogram, and phase fold, and the measurements on a LAN development server. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the agreed design.
+- The frontend shows the sky sphere, the 46 development targets, search, target selection, the light curve, periodogram, and phase fold, and the measurements. It runs in k3s at `http://10.0.0.47:30871/`. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the agreed design.
 - Ten bounded experiments are closed. The [experiment index](experiments/README.md) lists their results and limits.
 - The DECam series recovers known moving objects on development data. Threshold three is provisional. The default mask policy is unchanged.
 - The Gaussian source model remains the baseline. The tested Photutils empirical-profile configuration failed its criteria.
@@ -68,7 +68,7 @@ The slice connects one dataset and one method through every layer before the pro
 | Ingestion | `tess-spoc-index` indexes `raw/tess-spoc-light-curves/` and reads labels from the [development set manifest](datasets/tess-spoc-light-curves/application-development/manifest.json). |
 | Worker | `tess-bls` runs the T01 preparation and search, and compares the saved result with a known planet. |
 | API | Stateless FastAPI service at `http://10.0.0.47:30870/api/docs`. |
-| Frontend | Sky sphere, search, selection, all-sky map, workbench plots, and measurements from the API. LAN development server. No run controls and no deployment manifests. |
+| Frontend | Sky sphere, search, selection, all-sky map, workbench plots, and measurements from the API. Deployment `delta-frontend` on NodePort 30871. No run controls. |
 
 Checked items in R0 to R4 apply to the slice. DECam needs them again under a later contract version.
 The 46 light curves are development data. Results on them are not performance evidence.
@@ -277,7 +277,7 @@ External deployment requires Richard's explicit request.
 
 Follow the scientific [plan](experiments/PLAN.md) and the [procedure](experiments/PROCEDURE.md) for each successor experiment.
 
-1. Continue the frontend in review steps: deployment manifests, then parameter controls and new runs.
+1. Continue the frontend in review steps: parameter controls and new runs.
 2. Review contract version 1 against G03 before a tagged database release.
 3. Define G01 criteria and budgets for each successor protocol.
 4. Reserve G02 evaluation cohorts before any independent-performance evaluation.
