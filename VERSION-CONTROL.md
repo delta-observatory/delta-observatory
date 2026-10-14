@@ -1,6 +1,6 @@
 # Local version control
 
-The workspace contains nine independent Git repositories.
+The workspace contains ten independent Git repositories.
 Each repository uses the `main` branch.
 No remote addresses are configured.
 Agents commit every completed change under the [commit rules](AGENTS.md#commits).
@@ -17,6 +17,7 @@ Richard controls pushes and external publication.
 | `backend/` | Application API code, and vendored contracts. |
 | `frontend/` | Application interface code, design decisions, and sky display assets. |
 | `kubernetes/` | Deployment manifests, build and migration templates, and scripts. |
+| `agents/` | Agent instructions, templates, and tooling. Agent code uses the API only. |
 
 The root excludes every component directory.
 The components are independent repositories, without submodules or shared release requirements.

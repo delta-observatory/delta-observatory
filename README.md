@@ -47,10 +47,11 @@ Resolve a documentation conflict before executing affected work.
 | [backend/](backend/README.md) | Stateless application API. |
 | [frontend/](frontend/README.md) | Interactive application in React, Three.js, TypeScript, and Vite. [DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the agreed design. |
 | [kubernetes/](kubernetes/README.md) | k3s manifests, image builds, and migrations. |
+| [agents/](agents/README.md) | Tooling for research agents that use the API. No agent code exists. |
 | `scripts/` | Workspace documentation and structure checks. |
 | `raw/` | Local downloaded observations in `raw/<dataset-id>/`. Git does not track this directory. |
 
-The workspace contains nine independent Git repositories on `main`: the root and the eight component directories.
+The workspace contains ten independent Git repositories on `main`: the root and the nine component directories.
 The root excludes all component directories.
 No remote addresses are configured.
 [VERSION-CONTROL.md](VERSION-CONTROL.md) defines repository boundaries, exclusions, and verification commands.

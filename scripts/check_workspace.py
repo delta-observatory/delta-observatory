@@ -286,7 +286,7 @@ def check():
     repositories = {}
     unavailable_at = []
     locations = ['.', 'datasets', 'detection', 'experiments', 'database',
-                 'workers', 'backend', 'frontend', 'kubernetes']
+                 'workers', 'backend', 'frontend', 'kubernetes', 'agents']
     for location in locations:
         try:
             identity = subprocess.run(['git', '-C', str(ROOT/location), 'rev-parse', '--show-toplevel'],
