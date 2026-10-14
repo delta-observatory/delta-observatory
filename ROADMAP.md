@@ -15,6 +15,7 @@ Git history records changes. Experiment records hold scientific results.
 - The TESS vertical slice runs on the local k3s cluster. It has contract version 1, the database schema, the worker, the stateless API, and the frontend.
 - The slice indexes 46 development light curves. With the T01 defaults, its `tess-bls` method gives the exact T01 values.
 - The frontend shows the sky sphere, the 46 development targets, search, target selection, the light curve, periodogram, and phase fold, and the measurements. It runs in k3s at `http://10.0.0.47:30871/`. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the agreed design.
+- The [agents/](agents/README.md) repository holds the agent operating manual and the campaign template. No agent code exists. The API has no access control.
 - Ten bounded experiments are closed. The [experiment index](experiments/README.md) lists their results and limits.
 - The DECam series recovers known moving objects on development data. Threshold three is provisional. The default mask policy is unchanged.
 - The Gaussian source model remains the baseline. The tested Photutils empirical-profile configuration failed its criteria.
@@ -52,6 +53,7 @@ A completed stage can reopen when changed requirements invalidate its evidence.
 | R5 | Interactive frontend | Active | R4 for implementation | `frontend/` |
 | R6 | Decision assistance | Pending | R3 and R4, plus evaluation evidence | `workers/`, `backend/` |
 | R7 | Expanded scientific coverage | Pending | A validated complete investigation | Relevant component repositories |
+| R8 | Agent control surface | Active | R4 for API operations, R1 for records, R6 for automatic authority | `agents/`, `backend/`, `database/`, `workers/`, `frontend/` |
 
 The sequence defines delivery priorities, not a requirement to postpone all interface discussion.
 Job and result contracts begin before the API implementation.
@@ -240,6 +242,31 @@ Tasks:
 Completion applies separately to each addition.
 Each capability has reproducible results, documented limitations, and compatible component releases.
 
+**R8 — Agent control surface**
+
+Give research agents the same control surface as the frontend: the HTTP API.
+[DESIGN.md](DESIGN.md) defines the requirements in its agent control surface section.
+The [agents/](agents/README.md) repository holds agent instructions, templates, and the adapter.
+R6 evaluation controls automatic authority for agent actions.
+
+Tasks:
+
+- [x] Create the `agents/` repository with its API-only boundary.
+- [x] Write the agent operating manual and the campaign template.
+- [ ] Add API operations for values that the frontend calculates: sky positions in the observation list, run selection, target query filters, and folds.
+- [ ] Change the frontend to use those operations.
+- [ ] Add client identity, permissions, and actor records, with the R4 access controls.
+- [ ] Add campaign budgets, the blinding policy, the cohort guard, and access events.
+- [ ] Add note, agent task, candidate, assessment, and decision records in a new contract version.
+- [ ] Add worker methods for acquisition, injection, controls, vetting, identity comparison, and evidence images.
+- [ ] Generate the agent adapter from the OpenAPI document.
+- [ ] Show agent records in the frontend after Richard's design review.
+- [ ] Run a pilot with two or three agents. Measure cost, duplicate work, and the campaign progress measures.
+
+Completion: agents conduct a complete campaign through the API alone.
+Richard inspects their records in the frontend.
+Budgets, blinding, and the cohort guard stop prohibited actions in tests.
+
 **Kubernetes work throughout delivery**
 
 Kubernetes is the operating environment throughout implementation.
@@ -272,6 +299,9 @@ External deployment requires Richard's explicit request.
 | Slice development data | Agreed | 46 TESS light curves registered as development data in the [cohort register](experiments/COHORTS.md). |
 | Scientific acceptance targets | Open | Dataset inspection and baseline measurements. |
 | Decision provider and authority | Open | Evidence requirements and comparative evaluation. |
+| Agent control surface | Agreed | Agents use the same HTTP API as the frontend. Code in `agents/` uses the API only and defines no record shapes. |
+| Agent permissions | Open | The actions that each agent permission allows without Richard's approval. |
+| Blinding policy | Open | The identity information that each campaign withholds, and the reveal condition. |
 
 **Immediate next actions**
 
@@ -285,6 +315,7 @@ Follow the scientific [plan](experiments/PLAN.md) and the [procedure](experiment
 6. Keep the Gaussian source model provisional. A profile successor (A08) needs separate convergence work and new evaluation stars.
 7. Include DS9 and TOPCAT/STILTS checks when image-calibration work requires them.
 8. Reopen mask or threshold evaluation only under the [documented restart conditions](experiments/README.md#closure-decisions).
+9. Specify the R8 API operations that remove scientific calculations from the frontend.
 
 Use the [external supervisor](experiments/SUPPORT.md) for all TESS reproductions.
 

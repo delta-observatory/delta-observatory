@@ -51,6 +51,7 @@ Independent confirmation and external recognition remain distinct from internal 
 - Record model judgments separately from measurements.
 - Enforce configured resource limits in application code.
 - Keep Richard involved in consequential scientific and architectural decisions.
+- Give research agents and the frontend the same control surface.
 
 The application does not require an archive connection to analyze a complete local collection.
 The system indexes additional observations when they become available in configured dataset locations.
@@ -91,9 +92,15 @@ flowchart TB
         Core <-->|"Commands and views"| Web
     end
 
-    subgraph External["External service"]
-        Decisions["Decision API"]
+    subgraph AgentClients["Agent clients"]
+        Agents["Research agents<br/>Same API operations"]
     end
+
+    subgraph External["External service"]
+        Decisions["Model provider"]
+    end
+
+    Core <-->|"Commands and views"| Agents
 
     Datasets -->|"Automatic indexing"| Loader
     Core <-->|"Evidence and judgments"| Decisions
@@ -106,7 +113,8 @@ flowchart TB
 | Backend API | Application interfaces, job coordination, budgets, results, and exports | Coordinates work through versioned contracts. |
 | Workers | Ingestion, scientific calculations, validation, and artifact generation | Execute jobs independently of API request handling. |
 | Frontend | Exploration, analysis controls, visualization, diagnostics, and comparisons | Displays backend results with their units and uncertainty. |
-| Decision API | Narrow judgments about supplied evidence | Returns recommendations that application policy evaluates. |
+| Research agents | Autonomous investigation through queries, runs, assessments, decisions, and notes | Use only API operations, with their own identity and permissions. |
+| Model provider | Narrow judgments about supplied evidence for worker methods | Returns recommendations that application policy evaluates. |
 
 React and Three.js with animations are established frontend requirements.
 React Three Fiber, TypeScript, and Vite are the selected implementation.
@@ -153,6 +161,7 @@ delta-observatory/
 ├── workers/
 ├── database/
 ├── kubernetes/
+├── agents/
 ├── datasets/
 ├── detection/
 ├── experiments/
@@ -167,6 +176,7 @@ delta-observatory/
 | `workers/` | Dataset indexing, scientific methods, validation, and derived artifacts. |
 | `database/` | Database schema, migrations, constraints, indexes, record semantics, and cross-component contracts. |
 | `kubernetes/` | Deployment manifests, component configuration, resource assignments, and persistent storage integration. |
+| `agents/` | Agent instructions, campaign templates, the API adapter for agents, and agent evaluation tools. |
 | `datasets/` | Dataset catalog, structured metadata, source references, and acquisition guidance. |
 | `detection/` | Scientific method descriptions, equations, academic citations, and reference papers. |
 | `experiments/` | Scientific procedure, task planning, protocols, evidence, decisions, and reviews. |
@@ -231,13 +241,16 @@ Exact retention periods and storage capacity remain deployment decisions.
 |---|---|
 | Dataset | A versioned manifest and its origin, format, availability, and validation findings. |
 | Observation | An exposure or measurement with timing, coordinates, instrument information, units, and source references. |
-| Campaign | A named scientific objective with selected datasets, resource limits, and investigation policy. |
+| Campaign | A named scientific objective with selected datasets, selection rule, resource limits, blinding policy, stop conditions, and investigation policy. |
 | Analysis run | A fixed observation selection, method version, parameter set, software environment, and execution record. |
 | Job | A resumable unit of execution with state, resource use, attempts, and output references. |
 | Measurement | A calculated quantity with units, uncertainty, method, quality flags, and source observations. |
 | Candidate | A possible object or event with linked measurements and evolving assessments. |
 | Artifact | A stored output with format, checksum, origin, and producing run. |
-| Decision | Supplied evidence, question version, provider response, policy version, and resulting action. |
+| Decision | Actor, supplied evidence and its checksum, question version, provider response, policy version, and resulting action. |
+| Note | Free text from a person or an agent, linked to one or more records. It does not change measured values. |
+| Agent task | A unit of agent work with a campaign, state, lease, attempts, and output references. |
+| Access event | A recorded read of a protected observation, with actor, time, reason, and campaign. |
 
 A campaign groups analysis runs without changing their recorded configurations.
 Changing parameters creates a new run.
@@ -367,10 +380,16 @@ The application preserves the reasons for rejecting a candidate.
 
 **Decision assistance**
 
-The decision service receives compact evidence and narrowly defined questions.
+Decision assistance receives compact evidence and narrowly defined questions.
 Possible questions concern visible defects, conflicting evidence, or the most useful action from an eligible action list.
 Provider selection depends on required inputs and measured performance.
 Image assessment requires a provider that accepts images.
+
+Judgments come from two sources.
+A worker method sends an evidence packet to a model provider and stores the response.
+A research agent reads the same evidence through the API and writes its judgment through the API.
+Both sources write the same decision records, with their actor identified.
+The API does not call a model provider.
 
 The backend constructs eligible actions and enforces their prerequisites and resource costs.
 The provider does not execute tools or calculate orbital parameters through this integration.
@@ -389,6 +408,52 @@ API calls alone do not train the provider on campaign outcomes.
 
 The exact provider, questions, thresholds, and automation authority remain decisions for Richard.
 
+**Agent control surface**
+
+Research agents investigate observations through the same HTTP API as the frontend.
+An agent sees the same data and takes the same actions as Richard, within its permissions.
+Records that an agent writes appear in the frontend with the agent identified.
+The API has no separate agent interface and no private data path.
+
+Parity between the two clients is a requirement.
+Each value that the frontend displays comes from an API response.
+Selection rules, query filters, and derived scientific views are API operations, not client logic.
+The API supplies rendered evidence images for clients that cannot use interactive plots.
+Each agent record includes a frontend address that opens the same target and run.
+
+Each client has an identity and a set of permissions.
+Permissions separate reading, run submission, record writing, acquisition, identity reveal, and administration.
+Each write records its actor, for example a person or a named agent.
+No API operation submits observations or candidates to an external organization.
+
+A campaign policy controls blinding.
+In a blind campaign, the API withholds catalog identity and known-object labels from agents.
+Identity reveal is a separate recorded action after the campaign's decisions are fixed.
+The API refuses agent reads of reserved evaluation observations.
+Each agent read of a protected observation creates an access event.
+
+Campaign limits apply to agents as they apply to other clients.
+The API refuses new jobs when a campaign reaches its limit.
+Agents coordinate through agent tasks in PostgreSQL.
+An agent claims a task for a bounded lease, as a worker claims a job.
+This coordination needs no coordinator agent and no API process state.
+
+Agent work has two tiers.
+Platform work uses versioned worker methods through the API. Its results are scientific evidence with full provenance.
+Lab work uses an agent's own code outside the workspace and reads data through the API. Its results are proposals.
+A lab method becomes a platform method only through an experiment under [PROCEDURE.md](experiments/PROCEDURE.md), a contract schema, and Richard's review.
+
+Platform code calculates the measures of research progress.
+Examples are the excess of real detections over control detections, and injection recovery at a fixed control false-alarm rate.
+Agent judgments do not count as progress measures.
+A larger candidate list without a better measure is not progress.
+
+Identity comparison is a worker method, not an agent role.
+It stays mechanical and independent of blind detection.
+
+The `agents/` repository holds agent instructions, campaign templates, and an API adapter for agents.
+The adapter translates the API description into agent tools and contains no scientific or policy logic.
+
 **Interactive frontend**
 The frontend must be visually polished, information-dense, and performant.
 Visual hierarchy, typography, spacing, scientific plots, and interaction behavior form a deliberate, coherent design.
@@ -402,6 +467,10 @@ The agent must not select a generic interface style or interaction pattern witho
 Performance requirements cover initial loading, image navigation, animation, input response, and browser memory use.
 Richard and the project agent define measurable targets using representative datasets and review hardware.
 Large collections use bounded data loading and rendering rather than loading every observation into the browser.
+
+The frontend calculates no stored scientific value.
+A display-only calculation carries a visible label and has an equivalent API operation.
+The frontend shows agent records with their actor. Their presentation requires Richard's review.
 
 The frontend provides three connected workspaces: datasets, analysis, and candidate evidence.
 Selecting an observation or candidate preserves context across views.
@@ -430,7 +499,7 @@ The interface provides reduced-motion controls and usable static views.
 **API and worker interfaces**
 
 The backend exposes operations for dataset inventory, indexing status, observation queries, campaign configuration, run submission, job control, candidate inspection, and exports.
-Scientific methods use the same records whether invoked through the frontend or a programmatic client.
+Scientific methods use the same records whether invoked through the frontend, a research agent, or another programmatic client.
 API schemas preserve units, identifiers, missing values, and error details.
 The API validates requests, records run configurations, and creates jobs.
 Workers claim eligible jobs from PostgreSQL and execute scientific methods.
@@ -471,7 +540,7 @@ The API exposes those errors with their scientific diagnostics.
 
 **Resource management and operation**
 
-Campaign limits cover storage, worker concurrency, compute time, and decision API spending.
+Campaign limits cover storage, worker concurrency, compute time, acquisition volume, and model provider spending.
 Workers report measured usage and enforce assigned execution limits.
 The API stops scheduling additional work when campaign limits are exhausted.
 Policies specify whether active work finishes or stops at its next safe boundary.
@@ -540,6 +609,8 @@ Submitting observations to an external organization requires an explicit action 
 | Detection and association methods | Determines search sensitivity, false positives, and compute cost. |
 | Uncertainty and validation criteria | Defines when results are scientifically useful. |
 | Decision provider and authority | Determines available evidence, operating costs, and permitted automation. |
+| Agent permissions | Determines which actions each agent can take without Richard's approval. |
+| Blinding policy | Determines which identity information each campaign withholds, and when the reveal occurs. |
 | Compute and storage budgets | Determines campaign capacity and deployment requirements. |
 | Access and recovery requirements | Determines authentication, backup, and operational design. |
 
