@@ -6,7 +6,7 @@ The initial scientific focus covers asteroids and exoplanets.
 The workspace currently contains research, dataset documentation, and scientific experiment evidence.
 R0, the scientific contract stage, remains active.
 The TESS vertical slice runs on the local k3s cluster: database, worker, and API.
-The frontend runs as a development server on the LAN. It shows the sky sphere with the development targets and the observation table.
+The frontend runs as a development server on the LAN. It shows the sky sphere with the development targets, the observation table, search, and target selection.
 Catalog inclusion does not establish local observation availability or an implemented detection method.
 
 ## Start here
