@@ -15,7 +15,8 @@ Git history records changes. Experiment records hold scientific results.
 - The TESS vertical slice runs on the local k3s cluster. It has contract version 1, the database schema, the worker, the stateless API, and the frontend.
 - The slice indexes 46 development light curves. With the T01 defaults, its `tess-bls` method gives the exact T01 values.
 - The frontend shows the sky sphere, the 46 development targets, search, target selection, the light curve, periodogram, and phase fold, the measurements, and run controls. It runs in k3s at `http://10.0.0.47:30871/`. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the agreed design.
-- The [agents/](agents/README.md) repository holds the agent operating manual and the campaign template. No agent code exists. The API has no access control.
+- The [agents/](agents/README.md) repository holds the agent operating manual and the campaign template. No agent code exists.
+- The API needs a bearer token for each client. Agents work inside campaigns with blinding, budgets, and a cohort guard. No campaign exists.
 - Ten bounded experiments are closed. The [experiment index](experiments/README.md) lists their results and limits.
 - The DECam series recovers known moving objects on development data. Threshold three is provisional. The default mask policy is unchanged.
 - The Gaussian source model remains the baseline. The tested Photutils empirical-profile configuration failed its criteria.
@@ -256,7 +257,7 @@ Tasks:
 - [x] Add API operations for values that the frontend calculates: sky positions in the observation list, run selection, target query filters, and folds.
 - [x] Change the frontend to use those operations.
 - [x] Add client identity, permissions, and actor records, with the R4 access controls.
-- [ ] Add campaign budgets, the blinding policy, the cohort guard, and access events.
+- [x] Add campaign budgets, the blinding policy, the cohort guard, and access events.
 - [ ] Add note, agent task, candidate, assessment, and decision records in a new contract version.
 - [ ] Add worker methods for acquisition, injection, controls, vetting, identity comparison, and evidence images.
 - [ ] Generate the agent adapter from the OpenAPI document.
@@ -305,8 +306,6 @@ External deployment requires Richard's explicit request.
 | Scientific acceptance targets | Open | Dataset inspection and baseline measurements. |
 | Decision provider and authority | Open | Evidence requirements and comparative evaluation. |
 | Agent control surface | Agreed | Agents use the same HTTP API as the frontend. Code in `agents/` uses the API only and defines no record shapes. |
-| Agent permissions | Open | The actions that each agent permission allows without Richard's approval. |
-| Blinding policy | Open | The identity information that each campaign withholds, and the reveal condition. |
 
 **Immediate next actions**
 
@@ -320,7 +319,7 @@ Follow the scientific [plan](experiments/PLAN.md) and the [procedure](experiment
 6. Keep the Gaussian source model provisional. A profile successor (A08) needs separate convergence work and new evaluation stars.
 7. Include DS9 and TOPCAT/STILTS checks when image-calibration work requires them.
 8. Reopen mask or threshold evaluation only under the [documented restart conditions](experiments/README.md#closure-decisions).
-9. Add the R8 campaign protections: budgets, the blinding policy, the cohort guard, and access events.
+9. Add the R8 research records in a new contract version: note, agent task, candidate, assessment, and decision.
 
 Use the [external supervisor](experiments/SUPPORT.md) for all TESS reproductions.
 

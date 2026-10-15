@@ -426,14 +426,15 @@ Permissions separate reading, run submission, record writing, acquisition, ident
 Each write records its actor, for example a person or a named agent.
 No API operation submits observations or candidates to an external organization.
 
-A campaign policy controls blinding.
-In a blind campaign, the API withholds catalog identity and known-object labels from agents.
+Each agent belongs to one campaign. Agents read observation data only after Richard approves the campaign file.
+A campaign policy controls blinding. The levels are open, labels withheld, and labels and identity withheld.
+The default level withholds catalog identity and known-object labels from agents.
 Identity reveal is a separate recorded action after the campaign's decisions are fixed.
 The API refuses agent reads of reserved evaluation observations.
 Each agent read of a protected observation creates an access event.
 
-Campaign limits apply to agents as they apply to other clients.
-The API refuses new jobs when a campaign reaches its limit.
+Campaign budgets limit the observations read, the jobs, the worker time, and the stored bytes.
+The API refuses a read or a run that passes a campaign budget.
 Agents coordinate through agent tasks in PostgreSQL.
 An agent claims a task for a bounded lease, as a worker claims a job.
 This coordination needs no coordinator agent and no API process state.
