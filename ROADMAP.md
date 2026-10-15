@@ -253,8 +253,8 @@ Tasks:
 
 - [x] Create the `agents/` repository with its API-only boundary.
 - [x] Write the agent operating manual and the campaign template.
-- [ ] Add API operations for values that the frontend calculates: sky positions in the observation list, run selection, target query filters, and folds.
-- [ ] Change the frontend to use those operations.
+- [x] Add API operations for values that the frontend calculates: sky positions in the observation list, run selection, target query filters, and folds.
+- [x] Change the frontend to use those operations.
 - [ ] Add client identity, permissions, and actor records, with the R4 access controls.
 - [ ] Add campaign budgets, the blinding policy, the cohort guard, and access events.
 - [ ] Add note, agent task, candidate, assessment, and decision records in a new contract version.
@@ -297,6 +297,8 @@ External deployment requires Richard's explicit request.
 | Database hosting and storage | Agreed | Dedicated CNPG cluster `delta-db` in namespace `delta-observatory` on `local-path` storage. Artifacts on the `delta-artifacts` PVC. |
 | Frontend technology and process | Agreed | React, Three.js through React Three Fiber, TypeScript, and Vite. Each design step needs Richard's review. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the decisions. |
 | Slice development data | Agreed | 46 TESS light curves registered as development data in the [cohort register](experiments/COHORTS.md). |
+| Frontend status colours | Agreed | A named, versioned API rule, `period-agreement/1`. Its thresholds are display bins, not validation criteria. It gives no status when a client cannot read labels. |
+| Default run | Agreed | A calculated API rule, `default-run/1`: the analysis run with the most complete jobs, and the newest wins a tie. An explicit stored choice can follow with R8 identity and permissions. |
 | Scientific acceptance targets | Open | Dataset inspection and baseline measurements. |
 | Decision provider and authority | Open | Evidence requirements and comparative evaluation. |
 | Agent control surface | Agreed | Agents use the same HTTP API as the frontend. Code in `agents/` uses the API only and defines no record shapes. |
@@ -315,7 +317,7 @@ Follow the scientific [plan](experiments/PLAN.md) and the [procedure](experiment
 6. Keep the Gaussian source model provisional. A profile successor (A08) needs separate convergence work and new evaluation stars.
 7. Include DS9 and TOPCAT/STILTS checks when image-calibration work requires them.
 8. Reopen mask or threshold evaluation only under the [documented restart conditions](experiments/README.md#closure-decisions).
-9. Specify the R8 API operations that remove scientific calculations from the frontend.
+9. Add client identity, permissions, and actor records for R8, with the R4 access controls.
 
 Use the [external supervisor](experiments/SUPPORT.md) for all TESS reproductions.
 

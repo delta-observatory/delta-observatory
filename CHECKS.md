@@ -47,7 +47,8 @@ Run each check from its component repository.
 |---|---|---|
 | `database/` | `uv run -q --no-project --with jsonschema==4.25.1 python scripts/check_contracts.py` | Every contract schema, every valid and invalid example, and the method parameter defaults. |
 | `workers/` | `.venv/bin/python -m pytest -q` | Exact T01 reproduction by `tess-bls`, and the index, search, and memory-limit flow on a temporary PostgreSQL server. |
-| `backend/` | `uv run pytest` | Every endpoint on a temporary PostgreSQL server with the vendored migrations. |
+| `backend/` | `uv run pytest` | Every endpoint on a temporary PostgreSQL server with the vendored migrations. The API rules against the shared vectors in `tests/vectors/`, and the SQL form of the target query against the same vectors. |
+| `frontend/` | `npm test` | Sky geometry, the search parser, the fold, and the parameter checks. `src/parity.test.ts` checks the search, the fold, and the parameter checks against the copy of the backend vectors in `vendor/api-vectors/`. |
 
 The component READMEs give the environment setup.
 These checks do not validate scientific performance.
