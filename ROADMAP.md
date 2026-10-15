@@ -176,7 +176,7 @@ Tasks:
 - [ ] Expose measurements, candidates, provenance, and comparisons between runs.
 - [ ] Provide reproducible evidence exports.
 - [ ] Verify API, job, result, and database contract compatibility.
-- [ ] Define access controls for the intended local deployment.
+- [x] Define access controls for the intended local deployment.
 
 Completion: a programmatic client can conduct the complete investigation through the API.
 The API and workers remain independently built and deployed.
@@ -255,7 +255,7 @@ Tasks:
 - [x] Write the agent operating manual and the campaign template.
 - [x] Add API operations for values that the frontend calculates: sky positions in the observation list, run selection, target query filters, and folds.
 - [x] Change the frontend to use those operations.
-- [ ] Add client identity, permissions, and actor records, with the R4 access controls.
+- [x] Add client identity, permissions, and actor records, with the R4 access controls.
 - [ ] Add campaign budgets, the blinding policy, the cohort guard, and access events.
 - [ ] Add note, agent task, candidate, assessment, and decision records in a new contract version.
 - [ ] Add worker methods for acquisition, injection, controls, vetting, identity comparison, and evidence images.
@@ -298,6 +298,9 @@ External deployment requires Richard's explicit request.
 | Frontend technology and process | Agreed | React, Three.js through React Three Fiber, TypeScript, and Vite. Each design step needs Richard's review. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the decisions. |
 | Slice development data | Agreed | 46 TESS light curves registered as development data in the [cohort register](experiments/COHORTS.md). |
 | Frontend status colours | Agreed | A named, versioned API rule, `period-agreement/1`. Its thresholds are display bins, not validation criteria. It gives no status when a client cannot read labels. |
+| Agent permissions | Agreed | An agent reads, submits runs, and writes research records inside its approved campaign, until the API-enforced budget stops it. Acquisition, identity reveal, cohort changes, and administration stay with Richard. A database constraint enforces the agent limit. |
+| Blinding policy | Agreed | Each campaign sets a level: open, labels withheld, or labels and identity withheld. The default withholds labels and identity. Richard records the reveal after the campaign marks its decisions fixed. |
+| Frontend authentication | Agreed | A token sign-in in each browser. The frontend proxy adds no token, so an agent cannot act as Richard through the frontend port. |
 | Default run | Agreed | A calculated API rule, `default-run/1`: the analysis run with the most complete jobs, and the newest wins a tie. An explicit stored choice can follow with R8 identity and permissions. |
 | Scientific acceptance targets | Open | Dataset inspection and baseline measurements. |
 | Decision provider and authority | Open | Evidence requirements and comparative evaluation. |
@@ -317,7 +320,7 @@ Follow the scientific [plan](experiments/PLAN.md) and the [procedure](experiment
 6. Keep the Gaussian source model provisional. A profile successor (A08) needs separate convergence work and new evaluation stars.
 7. Include DS9 and TOPCAT/STILTS checks when image-calibration work requires them.
 8. Reopen mask or threshold evaluation only under the [documented restart conditions](experiments/README.md#closure-decisions).
-9. Add client identity, permissions, and actor records for R8, with the R4 access controls.
+9. Add the R8 campaign protections: budgets, the blinding policy, the cohort guard, and access events.
 
 Use the [external supervisor](experiments/SUPPORT.md) for all TESS reproductions.
 
