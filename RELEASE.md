@@ -105,7 +105,7 @@ A published image contains GPL and LGPL packages. It must include their licence 
 ## Verification record
 
 Checked on 2026-10-18 in an empty directory on the reference node, with Python 3.14.7 for the scripts, `uv` 0.12.7 with Python 3.12 for the tests, Node 25.9.0, npm 11.12.1, and Git 2.55.0.
-An anonymous HTTPS clone copied the entry repository from GitHub at commit `2534d0c`. Later commits change documents and the message of the workspace check only.
+An anonymous HTTPS clone copied the entry repository from GitHub at commit `43c1cc8`. Later commits change documents and the message of the workspace check only.
 
 | Step | Command | Result |
 |---|---|---|

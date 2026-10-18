@@ -51,6 +51,8 @@ The wider search therefore found no stronger peak.
 | `candidate-t01a-records.zip` | `GET /api/candidates/da282d45-…/export?artifacts=none` | The candidate with its assessment. A candidate export includes only the candidate's own evidence, not the runs that an assessment cites. | `202695b857d656dc43e548c3e1e6bb0fae9c2cd116a239f1de05b1cd9f4972ad` |
 
 `SHA256SUMS` gives the SHA-256 of each ZIP file.
+Each export names its contract source as `database` commit `00913dda1c67d56a8fcd29321f6f4b309204faad`, the commit hash when the API made the export.
+The same contracts are at `database` commit `4e0d1ae6724f859053b6b7579cc3f09da4425bd4` in the published history. The export files are unchanged, so their SHA-256 values stay valid.
 The manifest SHA-256 is the value of the `X-Export-Manifest-SHA256` response header.
 
 ## Check the exports
