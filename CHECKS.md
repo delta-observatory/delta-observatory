@@ -2,7 +2,7 @@
 
 The workspace contains research, bounded scientific experiments, and the TESS vertical slice of the application.
 The current [workspace guide](WORKSPACE.md) defines document responsibilities and directory contents.
-The current [experiment procedure](experiments/PROCEDURE.md) defines scientific requirements for new experiments.
+The current [experiment procedure](https://github.com/delta-observatory/experiments/blob/main/PROCEDURE.md) defines scientific requirements for new experiments.
 
 ## Repeatable structural check
 
@@ -34,7 +34,7 @@ The checker covers:
 - `raw/` directory names against dataset IDs. The checker does not read files inside `raw/`.
 
 This is a workspace integrity checker.
-The separate [common validator](experiments/RECORD-CONTRACT.md) checks new experiment records with their original inputs.
+The separate [common validator](https://github.com/delta-observatory/experiments/blob/main/RECORD-CONTRACT.md) checks new experiment records with their original inputs.
 The workspace checker also checks cohort reservations and support-test implementation hashes.
 It does not execute scientific searches, validate candidates, or check remote service availability.
 It does not establish that every scientific statement is correct.
@@ -79,8 +79,8 @@ Its scientific-record scope covers the original eight DECam experiments.
 It checks saved recovery totals, implementation hashes, reference snapshots, and original observation checksums.
 It does not rerun image processing or establish independent performance.
 
-The [TESS record](experiments/tess-known-planet-recovery/README.md) supplies its own validation and reproduction commands.
-The [Photutils record](experiments/decam-photutils-profile/README.md) supplies its original checks and reproduction command.
+The [TESS record](https://github.com/delta-observatory/experiments/blob/main/tess-known-planet-recovery/README.md) supplies its own validation and reproduction commands.
+The [Photutils record](https://github.com/delta-observatory/experiments/blob/main/decam-photutils-profile/README.md) supplies its original checks and reproduction command.
 Use each historical record's own protocol when repeating it.
 
 ## Retained assets
@@ -92,18 +92,18 @@ Closed experiment records follow their original protocols. They do not claim com
 
 ## Testing support checks
 
-The [support report](experiments/support-check.json) records regression results and implementation hashes.
+The [support report](https://github.com/delta-observatory/experiments/blob/main/support-check.json) records regression results and implementation hashes.
 Checks cover valid closure, negative outcomes, failed attempts, invalid records, cohort conflicts, concurrent reservations, deadlines, and interruption.
-The [supervised TESS repeat](experiments/support/tess-repeat-validation.json) gives identical scientific arrays and numerical search results.
+The [supervised TESS repeat](https://github.com/delta-observatory/experiments/blob/main/support/tess-repeat-validation.json) gives identical scientific arrays and numerical search results.
 
 ## Open work
 
 | Item | Current limitation and next requirement |
 |---|---|
 | Application contract | Contract version 1 covers the TESS slice. DECam records need a later contract version. G03 review of the contract remains open. |
-| Evaluation selection | The [shared register](experiments/COHORTS.md) holds only historical development exclusions. G02 requires new evaluation selections and reservations. |
-| Scientific validation | The [common validator](experiments/RECORD-CONTRACT.md) implements the record contract. Experiment-specific calculations and scientific review remain required. |
-| Historical TESS runner | Frozen code retains its internal timeout defect. The supported [external supervisor](experiments/SUPPORT.md) enforces the complete-run deadline. |
+| Evaluation selection | The [shared register](https://github.com/delta-observatory/experiments/blob/main/COHORTS.md) holds only historical development exclusions. G02 requires new evaluation selections and reservations. |
+| Scientific validation | The [common validator](https://github.com/delta-observatory/experiments/blob/main/RECORD-CONTRACT.md) implements the record contract. Experiment-specific calculations and scientific review remain required. |
+| Historical TESS runner | Frozen code retains its internal timeout defect. The supported [external supervisor](https://github.com/delta-observatory/experiments/blob/main/SUPPORT.md) enforces the complete-run deadline. |
 | TESS measurement validity | Guided period-and-phase recovery does not establish depth accuracy, completeness, or false-alarm rates. |
 | Photutils reproduction | No full numerical repeat exists for this record. |
 | Scientific adoption | Independent evaluation and uncertainty calibration remain prerequisites for broader adoption claims. |

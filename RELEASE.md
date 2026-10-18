@@ -1,7 +1,7 @@
 # Public release
 
 This document defines the public release structure, the reviewed public material, the access model, the publication checklist, and the planned CI/CD.
-Each external step needs Richard's approval. No repository is published, and no remote address is configured.
+The [publication checklist](#publication-checklist) gives the GitHub publication steps.
 
 ## Structure
 
@@ -17,6 +17,7 @@ The workspace root is the entry repository. [components.json](components.json) l
 | `frontend` | Public | Frontend image `delta-frontend`. |
 | `kubernetes` | Public | None. Manifests and scripts that build and deploy the four images. |
 | `agents` | Public | None. The MCP adapter and the importer run from source. |
+| `.github` (local directory `community`) | Public | None. The organization profile and the default security policy. |
 | `datasets`, `detection`, `experiments` | Private | None. |
 
 Each public repository keeps its existing history. No history is rewritten.
@@ -37,7 +38,7 @@ The `kubernetes` base manifests keep the host paths of the reference node.
 The frontend keeps the d3-celestial BSD 3-Clause notice for the sky data.
 [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md) gives the data acknowledgments.
 
-**Private material.** The 65 retained papers in `detection` stay private. 53 of them do not permit redistribution, and two are unclear.
+**Private material.** The three research repositories are private repositories in the same organization. The 65 retained papers in `detection` stay private. 53 of them do not permit redistribution, and two are unclear.
 The closed experiment evidence in `experiments` stays private and unchanged.
 
 **Example exports.** [examples/wasp-18b/](examples/wasp-18b/README.md) holds three API exports. They contain no host address or home path.
@@ -45,8 +46,8 @@ The closed experiment evidence in `experiments` stays private and unchanged.
 ## Access
 
 The deployment serves the LAN only. The API needs a token for each request and checks each permission.
-Invited reviewers will receive personal clients with only the `read` permission.
-Cloudflare Tunnel and Cloudflare Access will give them the frontend without an open inbound port. That access is not deployed.
+Reviewer access is deferred. The planned form gives invited reviewers personal clients with only the `read` permission.
+Cloudflare Tunnel and Cloudflare Access would give them the frontend without an open inbound port.
 The frontend disables the controls that a client's permissions do not allow. This display authorizes nothing.
 No anonymous access is planned.
 
@@ -58,19 +59,23 @@ The [verification record](#verification-record) gives the commands, the commits,
 
 ## Publication checklist
 
-Do the steps in this order. Each step that changes something outside this computer needs Richard's approval.
+Do the steps in this order. Steps 1 and 7 need the GitHub web interface.
 
-1. Richard confirms that he owns the copyright of the public material and that no employment or client agreement claims it.
-2. Review the release commits of the seven public repositories.
-3. Create the GitHub organization `delta-observatory`.
-4. Create seven empty public repositories with the names in `components.json`. Do not add a README or a licence on GitHub.
-5. Add the `origin` remote to each of the seven local repositories and push `main`. Check each push with `git ls-remote`.
-6. Protect `main`, and turn on secret scanning in each repository.
-7. Clone the entry repository from GitHub into an empty directory. Run `python3 scripts/components.py clone` and `check`, and the [small demonstration](README.md#small-demonstration).
-8. Build and deploy the frontend image that disables the write controls: `scripts/build.sh frontend`, `scripts/set-tag.sh frontend <tag>`, and `kubectl apply -k base`.
-9. For reviewer access: create one read-only client for each reviewer, then configure Cloudflare Tunnel and an Access policy for the frontend host name. Test with one reviewer account first.
+1. Create the GitHub organization `delta-observatory` on the Free plan.
+2. Create the eight public and three private repositories that `components.json` and the entry repository name. Do not add a README or a licence on GitHub.
+3. Set the description, the topics, and the homepage of each repository.
+4. Add the `origin` remote to each local repository and push `main`. Check that `git ls-remote origin main` gives the local `HEAD`.
+5. Turn on private vulnerability reporting in each public repository. Add a ruleset that blocks deletion and force pushes of `main` in each repository.
+6. Tag the pinned commits `v0.1.0` and publish a release of the entry repository.
+7. Upload `docs/social-preview.png` as the social preview of the entry repository, and pin the entry repository on the organization page.
+8. Clone the entry repository from GitHub into an empty directory. Run `python3 scripts/components.py clone` and `check`, and the [small demonstration](README.md#small-demonstration).
 
-Keep `raw/`, the private repositories, `~/backups/delta-observatory/`, and every token file local.
+These steps are separate decisions:
+
+- Build and deploy the frontend image that disables the write controls: `scripts/build.sh frontend`, `scripts/set-tag.sh frontend <tag>`, and `kubectl apply -k base`.
+- Reviewer access through Cloudflare Tunnel and Cloudflare Access.
+
+Keep `raw/`, `~/backups/delta-observatory/`, and every token file local.
 
 ## Planned CI/CD
 

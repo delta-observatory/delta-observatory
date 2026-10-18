@@ -34,7 +34,7 @@ The initial scientific focus covers asteroids and exoplanets, with asteroid expe
 Additional targets require suitable datasets, detection methods, reference catalogs, and validation criteria.
 Asteroid and exoplanet methods require separate observations and scientific validation.
 [REFERENCE-CATALOGS.md](REFERENCE-CATALOGS.md) defines known-object references and their use in experiments.
-[experiments/PROCEDURE.md](experiments/PROCEDURE.md) defines the required procedure for scientific experiment evidence.
+[experiments/PROCEDURE.md](https://github.com/delta-observatory/experiments/blob/main/PROCEDURE.md) defines the required procedure for scientific experiment evidence.
 The system provides shared investigation infrastructure for the selected scientific capabilities.
 
 The application supports discovery work without promising new discoveries.
@@ -348,7 +348,7 @@ Candidate views display individual events, periodic alignment, fitted models, an
 
 Scientific workers use replaceable interfaces to established packages.
 Evaluate existing implementations and processed data products before creating new scientific code.
-The [reuse register](detection/TOOLING.md) records choices, evidence, and remaining gaps.
+The [reuse register](https://github.com/delta-observatory/detection/blob/main/TOOLING.md) records choices, evidence, and remaining gaps.
 Each interface records the package version, parameters, supported input products, and output interpretation.
 Images, detection tables, brightness series, and spectra retain their distinct scientific requirements.
 Detection, candidate assessment, and historical-observation recovery remain separate processing stages.
@@ -448,7 +448,7 @@ This coordination needs no coordinator agent and no API process state.
 Agent work has two tiers.
 Platform work uses versioned worker methods through the API. Its results are scientific evidence with full provenance.
 Lab work uses an agent's own code outside the workspace and reads data through the API. Its results are proposals.
-A lab method becomes a platform method only through an experiment under [PROCEDURE.md](experiments/PROCEDURE.md), a contract schema, and Richard's review.
+A lab method becomes a platform method only through an experiment under [PROCEDURE.md](https://github.com/delta-observatory/experiments/blob/main/PROCEDURE.md), a contract schema, and Richard's review.
 
 Platform code calculates the measures of research progress.
 Examples are the excess of real detections over control detections, and injection recovery at a fixed control false-alarm rate.

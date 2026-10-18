@@ -13,8 +13,8 @@ Catalog inclusion does not establish local observation availability or an implem
 
 1. Read [ROADMAP.md](ROADMAP.md) for current evidence, delivery status, and next actions.
 2. Read [DESIGN.md](DESIGN.md) for the intended system and component boundaries.
-3. Read [experiments/PROCEDURE.md](experiments/PROCEDURE.md) before scientific planning, execution, review, or reproduction.
-4. Read [experiments/PLAN.md](experiments/PLAN.md) for scientific task dependencies and ownership.
+3. Read [experiments/PROCEDURE.md](https://github.com/delta-observatory/experiments/blob/main/PROCEDURE.md) before scientific planning, execution, review, or reproduction.
+4. Read [experiments/PLAN.md](https://github.com/delta-observatory/experiments/blob/main/PLAN.md) for scientific task dependencies and ownership.
 
 ## Document responsibilities
 
@@ -22,11 +22,11 @@ Catalog inclusion does not establish local observation availability or an implem
 |---|---|
 | [DESIGN.md](DESIGN.md) | Intended application behavior, architecture, and requirements. It does not authorize implementation or deployment. |
 | [ROADMAP.md](ROADMAP.md) | Delivery status, open decisions, and next actions. |
-| [experiments/PROCEDURE.md](experiments/PROCEDURE.md) | Current required scientific procedure, evidence requirements, and stop conditions. |
-| [experiments/PLAN.md](experiments/PLAN.md) | Scientific task scope, dependencies, conditional work, and protected ownership. |
-| [Protocol template](experiments/planning/experiment-template.md) | Fields for each new experiment's specific design and criteria. |
+| [experiments/PROCEDURE.md](https://github.com/delta-observatory/experiments/blob/main/PROCEDURE.md) | Current required scientific procedure, evidence requirements, and stop conditions. |
+| [experiments/PLAN.md](https://github.com/delta-observatory/experiments/blob/main/PLAN.md) | Scientific task scope, dependencies, conditional work, and protected ownership. |
+| [Protocol template](https://github.com/delta-observatory/experiments/blob/main/planning/experiment-template.md) | Fields for each new experiment's specific design and criteria. |
 | [REFERENCE-CATALOGS.md](REFERENCE-CATALOGS.md) | Reference acquisition, identity comparison, and catalog-influence rules. |
-| [detection/TOOLING.md](detection/TOOLING.md) | Scientific software reuse, evaluated choices, adoption limits, and product gaps. |
+| [detection/TOOLING.md](https://github.com/delta-observatory/detection/blob/main/TOOLING.md) | Scientific software reuse, evaluated choices, adoption limits, and product gaps. |
 | [CHECKS.md](CHECKS.md) | Workspace audit coverage, current limitations, and repeatable checks. |
 
 An experiment's frozen protocol governs reproduction of its historical result.
@@ -39,28 +39,31 @@ Resolve a documentation conflict before executing affected work.
 
 | Location | Current contents or intended responsibility |
 |---|---|
-| [datasets/](datasets/README.md) | Catalog, product descriptions, metadata, acquisition instructions, and recorded acquisition evidence. |
-| [detection/](detection/README.md) | Method explanations, academic references, retained papers, software guidance, and synthetic demonstrations. |
-| [experiments/](experiments/README.md) | Scientific procedure, task planning, bounded experiments, evidence, and reviews. |
-| [database/](database/README.md) | Schema, migrations, and the cross-component contracts in [database/contracts/](database/contracts/README.md). |
-| [workers/](workers/README.md) | Worker with the `tess-spoc-index` and `tess-bls` methods. |
-| [backend/](backend/README.md) | Stateless application API. |
-| [frontend/](frontend/README.md) | Interactive application in React, Three.js, TypeScript, and Vite. [DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the agreed design. |
-| [kubernetes/](kubernetes/README.md) | k3s manifests, image builds, and migrations. |
-| [agents/](agents/README.md) | Agent instructions, the MCP adapter generated from the API description, the research importer, and import manifests. Agent code uses the API only. |
+| [datasets/](https://github.com/delta-observatory/datasets/blob/main/README.md) | Catalog, product descriptions, metadata, acquisition instructions, and recorded acquisition evidence. |
+| [detection/](https://github.com/delta-observatory/detection/blob/main/README.md) | Method explanations, academic references, retained papers, software guidance, and synthetic demonstrations. |
+| [experiments/](https://github.com/delta-observatory/experiments/blob/main/README.md) | Scientific procedure, task planning, bounded experiments, evidence, and reviews. |
+| [database/](https://github.com/delta-observatory/database/blob/main/README.md) | Schema, migrations, and the cross-component contracts in [database/contracts/](https://github.com/delta-observatory/database/blob/main/contracts/README.md). |
+| [workers/](https://github.com/delta-observatory/workers/blob/main/README.md) | Worker with the `tess-spoc-index` and `tess-bls` methods. |
+| [backend/](https://github.com/delta-observatory/backend/blob/main/README.md) | Stateless application API. |
+| [frontend/](https://github.com/delta-observatory/frontend/blob/main/README.md) | Interactive application in React, Three.js, TypeScript, and Vite. [DESIGN-DECISIONS.md](https://github.com/delta-observatory/frontend/blob/main/DESIGN-DECISIONS.md) records the agreed design. |
+| [kubernetes/](https://github.com/delta-observatory/kubernetes/blob/main/README.md) | k3s manifests, image builds, and migrations. |
+| [agents/](https://github.com/delta-observatory/agents/blob/main/README.md) | Agent instructions, the MCP adapter generated from the API description, the research importer, and import manifests. Agent code uses the API only. |
 | `scripts/` | Workspace documentation and structure checks, and `components.py`, which clones, checks, and pins the public component repositories. |
 | `raw/` | Local downloaded observations in `raw/<dataset-id>/`. Git does not track this directory. |
 
-The workspace contains ten independent Git repositories on `main`: the root and the nine component directories.
-The root excludes all component directories.
+The workspace contains eleven independent Git repositories on `main`: the root, the nine component directories, and `community`.
+`community` holds the organization profile and the default security policy. Its GitHub repository name is `.github`.
+The root excludes all of these directories.
 No remote addresses are configured.
 [components.json](components.json) lists the seven public repositories of the GitHub organization `delta-observatory` and their pinned commits.
 `datasets`, `detection`, and `experiments` stay private.
 [VERSION-CONTROL.md](VERSION-CONTROL.md) defines repository boundaries, exclusions, and verification commands.
+Documents link to another repository by its GitHub address, for example `https://github.com/delta-observatory/backend/blob/main/README.md`.
+In this workspace, that address refers to the local file `backend/README.md`. `scripts/check_workspace.py` checks each such link against the local file.
 [RELEASE.md](RELEASE.md) gives the public release structure, the publication checklist, and the planned CI/CD.
 
 Store downloaded observations in `raw/<dataset-id>/` at the workspace root.
-Each directory name must exactly match a dataset directory in [datasets/](datasets/README.md).
+Each directory name must exactly match a dataset directory in [datasets/](https://github.com/delta-observatory/datasets/blob/main/README.md).
 Keep execution attempts outside documentation directories.
 Retained papers, small scientific results, and documented synthetic examples are intentional assets.
 Licensed upstream snapshots and repeated experiment code preserve historical reproducibility.
@@ -68,14 +71,14 @@ Do not remove those snapshots as ordinary duplication.
 
 ## Current scientific evidence
 
-The [experiment index](experiments/README.md) records 10 completed bounded investigations. All are closed.
+The [experiment index](https://github.com/delta-observatory/experiments/blob/main/README.md) records 10 completed bounded investigations. All are closed.
 The eight DECam investigations have a shared record checker.
 The Photutils comparison rejected its fixed empirical configuration.
 The TESS investigation recovered both selected known planets' periods and transit phases.
 It does not validate transit depth, completeness, false-alarm rates, or planet confirmation.
 
 Scientific calibration, independent evaluation, and the application contract remain incomplete.
-[Experiment support](experiments/SUPPORT.md) provides shared validation, cohort registration, and complete-run deadlines.
+[Experiment support](https://github.com/delta-observatory/experiments/blob/main/SUPPORT.md) provides shared validation, cohort registration, and complete-run deadlines.
 G01 and G02 require experiment-specific protocols and new independent evaluation selections.
 G03 uses the closed image and brightness-series records to propose the application contract.
 The roadmap controls application delivery after that contract.

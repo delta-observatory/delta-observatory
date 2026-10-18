@@ -13,6 +13,9 @@ import sys
 from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[1]
+# Documents link to other repositories of the GitHub organization by address.
+# The check maps each address to the local sibling directory.
+ORGANIZATION_LINK = re.compile(r'^https://github\.com/delta-observatory/([A-Za-z0-9._-]+)/(?:blob|tree)/main/([^#?\s]*)(?:#(\S*))?$')
 
 
 # Application repositories run tests and builds locally. Their Git exclusion
@@ -90,12 +93,18 @@ def check():
             counts['markdown_files'] += 1
             text = content_without_fences(path.read_text())
             for value in re.findall(r'\]\(([^\n]+?)\)', text):
-                if value.startswith(('https://', 'http://', 'mailto:')):
-                    continue
                 value = value.split(' "')[0].strip('<>')
-                name, _, fragment = value.partition('#')
-                target = path.parent/unquote(name) if name else path
-                counts['local_markdown_links'] += 1
+                linked = ORGANIZATION_LINK.match(value)
+                if linked:
+                    repository, name, fragment = linked.group(1), linked.group(2), linked.group(3) or ''
+                    target = (ROOT if repository == 'delta-observatory' else ROOT/repository)/unquote(name)
+                    counts['organization_links'] += 1
+                elif value.startswith(('https://', 'http://', 'mailto:')):
+                    continue
+                else:
+                    name, _, fragment = value.partition('#')
+                    target = path.parent/unquote(name) if name else path
+                    counts['local_markdown_links'] += 1
                 require(target.exists(), relative+': missing link '+value)
                 if fragment and target.is_file() and target.suffix == '.md':
                     require(unquote(fragment) in heading_ids(target.read_text()),
@@ -286,7 +295,7 @@ def check():
     repositories = {}
     unavailable_at = []
     locations = ['.', 'datasets', 'detection', 'experiments', 'database',
-                 'workers', 'backend', 'frontend', 'kubernetes', 'agents']
+                 'workers', 'backend', 'frontend', 'kubernetes', 'agents', 'community']
     for location in locations:
         try:
             identity = subprocess.run(['git', '-C', str(ROOT/location), 'rev-parse', '--show-toplevel'],

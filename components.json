@@ -7,57 +7,67 @@
       "visibility": "public",
       "description": "Schema, migrations, and the cross-component contracts.",
       "repository": "https://github.com/delta-observatory/database.git",
-      "commit": "c0d774fa01ca6155509e7de41f37b7585d638b83"
+      "commit": "277b01fab3ff7024c08865f968b3ec5a75f6e9b8"
     },
     {
       "name": "workers",
       "visibility": "public",
       "description": "Ingestion and scientific methods: tess-spoc-index and tess-bls.",
       "repository": "https://github.com/delta-observatory/workers.git",
-      "commit": "1ea0a56d4b8841268c0e47694bd88b99478ba08a"
+      "commit": "5819797826618f2faf0e7f72dda703be30e2a43d"
     },
     {
       "name": "backend",
       "visibility": "public",
       "description": "Stateless FastAPI application API.",
       "repository": "https://github.com/delta-observatory/backend.git",
-      "commit": "d6c87c4f23cfc1f4e31c53425f5f94ce7082935a"
+      "commit": "ebef952ba940a3f1c4263b842a1e757e9b61a726"
     },
     {
       "name": "frontend",
       "visibility": "public",
       "description": "React, Three.js, and TypeScript interface.",
       "repository": "https://github.com/delta-observatory/frontend.git",
-      "commit": "1299e06edb7900888bda1f37dfd2180545965f52"
+      "commit": "cf78654dddd494520a171b71dc150229289a1d7c"
     },
     {
       "name": "kubernetes",
       "visibility": "public",
       "description": "k3s manifests, image builds, and migrations.",
       "repository": "https://github.com/delta-observatory/kubernetes.git",
-      "commit": "aeafdb7d8dd389526b056b4447776128cff17920"
+      "commit": "a05481cac907142cdbcb832e2f3e71ec7150b06f"
     },
     {
       "name": "agents",
       "visibility": "public",
       "description": "Agent manual, MCP adapter, research importer, and campaign templates.",
       "repository": "https://github.com/delta-observatory/agents.git",
-      "commit": "e3cbf3098b3c7993756ffd76d160f5b85b2853c5"
+      "commit": "17a90fea155a0e0d25108a13e120a6ade7137916"
+    },
+    {
+      "name": "community",
+      "visibility": "public",
+      "description": "Organization profile and default security policy. The GitHub repository name is .github.",
+      "repository": "https://github.com/delta-observatory/.github.git",
+      "commit": "9456a33823dbf28f694de86c9c8a7357970c154d"
     },
     {
       "name": "datasets",
       "visibility": "private",
-      "description": "Dataset catalog, metadata, and acquisition evidence."
+      "description": "Dataset catalog, metadata, and acquisition evidence.",
+      "repository": "https://github.com/delta-observatory/datasets.git"
     },
     {
       "name": "detection",
       "visibility": "private",
-      "description": "Method explanations, references, and retained papers."
+      "description": "Method explanations, references, and retained papers.",
+      "repository": "https://github.com/delta-observatory/detection.git"
     },
     {
       "name": "experiments",
       "visibility": "private",
-      "description": "Scientific procedure, protocols, and closed experiment evidence."
+      "description": "Scientific procedure, protocols, and closed experiment evidence.",
+      "repository": "https://github.com/delta-observatory/experiments.git"
     }
   ]
 }

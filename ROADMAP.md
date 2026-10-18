@@ -5,8 +5,8 @@ This roadmap defines delivery stages, their status, open decisions, and next act
 Git history records changes. Experiment records hold scientific results.
 
 [WORKSPACE.md](WORKSPACE.md) describes workspace structure and document responsibilities.
-[experiments/PROCEDURE.md](experiments/PROCEDURE.md) controls scientific execution and evidence quality.
-[experiments/PLAN.md](experiments/PLAN.md) defines scientific tasks and dependencies.
+[experiments/PROCEDURE.md](https://github.com/delta-observatory/experiments/blob/main/PROCEDURE.md) controls scientific execution and evidence quality.
+[experiments/PLAN.md](https://github.com/delta-observatory/experiments/blob/main/PLAN.md) defines scientific tasks and dependencies.
 [CHECKS.md](CHECKS.md) defines workspace checks and their limits.
 
 **Current position**
@@ -14,12 +14,12 @@ Git history records changes. Experiment records hold scientific results.
 - R0, the scientific contract, is active.
 - The TESS vertical slice runs on the local k3s cluster. It has contract version 1, the database schema, the worker, the stateless API, and the frontend.
 - The slice indexes 64 development light curves: the 46 of the development set, and 18 research light curves from a reviewed selection manifest. With the T01 defaults, its `tess-bls` method gives the exact T01 values.
-- The application workflow runs from observation selection through analysis, candidate review, and evidence export. The frontend at `http://<node>:30871/` on the LAN gives the sky, search, plots, run controls with cancellation and retry, run comparison, candidates, assessments, decisions, notes, agent tasks, and exports. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the agreed design.
-- The [agents/](agents/README.md) repository holds the operating manual, the campaign template, the MCP adapter that it generates from the API description, the research importer, and a functional adapter check.
+- The application workflow runs from observation selection through analysis, candidate review, and evidence export. The frontend at `http://<node>:30871/` on the LAN gives the sky, search, plots, run controls with cancellation and retry, run comparison, candidates, assessments, decisions, notes, agent tasks, and exports. [frontend/DESIGN-DECISIONS.md](https://github.com/delta-observatory/frontend/blob/main/DESIGN-DECISIONS.md) records the agreed design.
+- The [agents/](https://github.com/delta-observatory/agents/blob/main/README.md) repository holds the operating manual, the campaign template, the MCP adapter that it generates from the API description, the research importer, and a functional adapter check.
 - The API needs a bearer token for each client. Agents work inside campaigns with blinding, budgets, a cohort guard, and rule `free-text/1`.
 - Contract version 1 includes research records, record import keys, the export manifest `export/1`, and the selection manifest `tess-spoc-selection/1`. Migrations 0001 to 0005 run in k3s.
 - The seven retained candidates of delta-research publication FINAL001 are imported as lab candidates: external proposals with their dossiers, not platform evidence.
-- Ten bounded experiments are closed. The [experiment index](experiments/README.md) lists their results and limits.
+- Ten bounded experiments are closed. The [experiment index](https://github.com/delta-observatory/experiments/blob/main/README.md) lists their results and limits.
 - The DECam series recovers known moving objects on development data. Threshold three is provisional. The default mask policy is unchanged.
 - The Gaussian source model remains the baseline. The tested Photutils empirical-profile configuration failed its criteria.
 - The TESS experiment recovers the periods and phases of two known planets. Depth accuracy, completeness, and false-alarm rates are not validated.
@@ -68,9 +68,9 @@ The slice connects one dataset and one method through every layer before the pro
 
 | Layer | Scope in the slice |
 |---|---|
-| Contracts | `job/1`, `result/1`, `columns/1`, and the `tess-spoc-index` and `tess-bls` parameter schemas in [database/contracts/](database/contracts/README.md). |
+| Contracts | `job/1`, `result/1`, `columns/1`, and the `tess-spoc-index` and `tess-bls` parameter schemas in [database/contracts/](https://github.com/delta-observatory/database/blob/main/contracts/README.md). |
 | Database | CNPG cluster `delta-db`. Migration `0001_initial` defines datasets, observations, runs, jobs, measurements, and artifacts. |
-| Ingestion | `tess-spoc-index` indexes `raw/tess-spoc-light-curves/` and reads labels from the [development set manifest](datasets/tess-spoc-light-curves/application-development/manifest.json). |
+| Ingestion | `tess-spoc-index` indexes `raw/tess-spoc-light-curves/` and reads labels from the [development set manifest](https://github.com/delta-observatory/datasets/blob/main/tess-spoc-light-curves/application-development/manifest.json). |
 | Worker | `tess-bls` runs the T01 preparation and search, and compares the saved result with a known planet. |
 | API | Stateless FastAPI service at `http://<node>:30870/api/docs` on the LAN. |
 | Frontend | Sky sphere, search, selection, all-sky map, workbench plots, measurements, run submission, monitoring, cancellation, retry, run comparison, candidate evidence, research records, agent tasks, and exports. Phone layout. Deployment `delta-frontend` on NodePort 30871. |
@@ -95,7 +95,7 @@ Tasks:
 - [ ] Define coordinate frames, time scales, units, and uncertainty conventions.
 - [ ] Describe representative measurements, diagnostics, candidate evidence, and artifact formats.
 
-Validation data, resource budgets, and baseline experiments belong to the [scientific plan](experiments/PLAN.md).
+Validation data, resource budgets, and baseline experiments belong to the [scientific plan](https://github.com/delta-observatory/experiments/blob/main/PLAN.md).
 G01 defines budgets and baselines. G02 separates tuning data from evaluation data.
 These tasks govern scientific acceptance. They do not block R1.
 
@@ -116,7 +116,7 @@ Tasks:
 - [ ] Define units, uncertainties, quality flags, and missing-value semantics.
 - [x] Define job states, claims, retries, and duplicate prevention.
 - [x] Establish migrations and database compatibility expectations.
-- [x] Publish the first job, result, method-parameter, and record schemas in [database/contracts/](database/contracts/README.md).
+- [x] Publish the first job, result, method-parameter, and record schemas in [database/contracts/](https://github.com/delta-observatory/database/blob/main/contracts/README.md).
 - [ ] Add the G03 example records as valid and invalid schema examples.
 - [ ] Exercise the schema with representative scientific records.
 
@@ -249,7 +249,7 @@ Each capability has reproducible results, documented limitations, and compatible
 
 Give research agents the same control surface as the frontend: the HTTP API.
 [DESIGN.md](DESIGN.md) defines the requirements in its agent control surface section.
-The [agents/](agents/README.md) repository holds agent instructions, templates, and the adapter.
+The [agents/](https://github.com/delta-observatory/agents/blob/main/README.md) repository holds agent instructions, templates, and the adapter.
 R6 evaluation controls automatic authority for agent actions.
 
 Tasks:
@@ -298,8 +298,8 @@ External deployment requires Richard's explicit request.
 | Known-object references | Agreed | Dated local copies from official downloads or APIs, with experiment-specific provenance. See [policy](REFERENCE-CATALOGS.md). |
 | Local observation storage | Agreed | `raw/<dataset-id>/` at the workspace root. Names match `datasets/`. Git does not track it. |
 | Database hosting and storage | Agreed | Dedicated CNPG cluster `delta-db` in namespace `delta-observatory` on `local-path` storage. Artifacts on the `delta-artifacts` PVC. |
-| Frontend technology and process | Agreed | React, Three.js through React Three Fiber, TypeScript, and Vite. Each design step needs Richard's review. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the decisions. |
-| Slice development data | Agreed | 46 TESS light curves registered as development data in the [cohort register](experiments/COHORTS.md). |
+| Frontend technology and process | Agreed | React, Three.js through React Three Fiber, TypeScript, and Vite. Each design step needs Richard's review. [frontend/DESIGN-DECISIONS.md](https://github.com/delta-observatory/frontend/blob/main/DESIGN-DECISIONS.md) records the decisions. |
+| Slice development data | Agreed | 46 TESS light curves registered as development data in the [cohort register](https://github.com/delta-observatory/experiments/blob/main/COHORTS.md). |
 | Frontend status colours | Agreed | A named, versioned API rule, `period-agreement/1`. Its thresholds are display bins, not validation criteria. It gives no status when a client cannot read labels. |
 | Agent permissions | Agreed | An agent reads, submits runs, and writes research records inside its approved campaign, until the API-enforced budget stops it. Acquisition, identity reveal, cohort changes, and administration stay with Richard. A database constraint enforces the agent limit. |
 | Blinding policy | Agreed | Each campaign sets a level: open, labels withheld, or labels and identity withheld. The default withholds labels and identity. Richard records the reveal after the campaign marks its decisions fixed. |
@@ -311,18 +311,19 @@ External deployment requires Richard's explicit request.
 | Storage of large acquisitions | Open | One TESS sector of FFI light curves can need tens to hundreds of GB. The choices are `raw/<dataset-id>/` on the current disk or a separate volume. The R8 acquisition method needs this decision. |
 | Registration of the lab stars | Open | The 120 sector-56 stars of the delta-lab pass can become development data in the cohort register. The R8 pilot needs this decision. |
 | Research light curves | Agreed | The 18 light curves of the seven retained candidates of delta-research publication FINAL001 are development data. A selection manifest adds them to the inventory. Other research downloads stay outside the inventory. |
-| Investigation GUI | Agreed | Catalogue segments, a Records tab, an EVIDENCE workspace, the record vocabulary, and run comparison in the ANALYSIS workspace. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records them. |
+| Investigation GUI | Agreed | Catalogue segments, a Records tab, an EVIDENCE workspace, the record vocabulary, and run comparison in the ANALYSIS workspace. [frontend/DESIGN-DECISIONS.md](https://github.com/delta-observatory/frontend/blob/main/DESIGN-DECISIONS.md) records them. |
 | Free text under blinding | Agreed | Rule `free-text/1`. It withholds other writers' text from blinded agents and does not guarantee blinding. |
 | Public repository structure | Agreed | Separate repositories in the GitHub organization `delta-observatory`. The root is the entry repository, and [components.json](components.json) pins the public components. Histories stay unchanged. [RELEASE.md](RELEASE.md) gives the structure. |
 | Public material | Agreed | The root, `database`, `workers`, `backend`, `frontend`, `kubernetes`, and `agents` become public. `datasets`, `detection`, and `experiments` stay private. |
 | Original licence | Agreed | MIT for each public repository. |
-| Reviewer access | Agreed | Invited reviewers with personal read-only tokens, through Cloudflare Tunnel and Cloudflare Access. No anonymous access. Not deployed. |
-| Copyright ownership | Open | Richard confirms that he owns the copyright of the public material before publication. |
-| Public full-stack reproduction | Open | The worker needs the dataset catalog, and the API needs the cohort register. Both are in private repositories. A public subset of both would make a full-stack reproduction possible. |
+| Reviewer access | Deferred | The planned form is invited reviewers with personal read-only tokens, through Cloudflare Tunnel and Cloudflare Access. No anonymous access. |
+| Copyright ownership | Agreed | Richard owns the copyright of the public material. It is personal work. |
+| Public data | Agreed | The public repositories cite the public data sources and do not redistribute observations. The dataset catalog and the cohort register stay private, so the public repositories alone do not support a full-stack reproduction. |
+| Private repositories on GitHub | Agreed | `datasets`, `detection`, and `experiments` are private repositories in the same organization. |
 
 **Immediate next actions**
 
-Follow the scientific [plan](experiments/PLAN.md) and the [procedure](experiments/PROCEDURE.md) for each successor experiment.
+Follow the scientific [plan](https://github.com/delta-observatory/experiments/blob/main/PLAN.md) and the [procedure](https://github.com/delta-observatory/experiments/blob/main/PROCEDURE.md) for each successor experiment.
 
 1. Continue the frontend in review steps: the 3D views of the periodogram, the phase fold, and the orbit.
 2. Review contract version 1 against G03 before a tagged database release.
@@ -331,11 +332,11 @@ Follow the scientific [plan](experiments/PLAN.md) and the [procedure](experiment
 5. Define separate transit-injection and negative-control protocols (T02, T03) before claims about depth accuracy, completeness, or false alarms.
 6. Keep the Gaussian source model provisional. A profile successor (A08) needs separate convergence work and new evaluation stars.
 7. Include DS9 and TOPCAT/STILTS checks when image-calibration work requires them.
-8. Reopen mask or threshold evaluation only under the [documented restart conditions](experiments/README.md#closure-decisions).
+8. Reopen mask or threshold evaluation only under the [documented restart conditions](https://github.com/delta-observatory/experiments/blob/main/README.md#closure-decisions).
 9. Add the R8 worker methods: acquisition, injection, controls, vetting, identity comparison, and evidence images. Acquisition needs the storage decision. The pilot needs the lab-star decision.
 10. Complete the [publication checklist](RELEASE.md#publication-checklist). Each external step needs Richard's approval.
 
-Use the [external supervisor](experiments/SUPPORT.md) for all TESS reproductions.
+Use the [external supervisor](https://github.com/delta-observatory/experiments/blob/main/SUPPORT.md) for all TESS reproductions.
 
 ExoMiner is a candidate-assessment option, subject to compatible inputs and validation.
 THOR and ADAM Precovery are evaluation options for asteroid association and historical observations.

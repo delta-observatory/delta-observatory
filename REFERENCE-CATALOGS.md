@@ -1,6 +1,6 @@
 # Known-object reference policy
 
-Apply this policy within the current [experiment procedure](experiments/PROCEDURE.md).
+Apply this policy within the current [experiment procedure](https://github.com/delta-observatory/experiments/blob/main/PROCEDURE.md).
 The initial scientific focus covers asteroids and exoplanets.
 Additional targets require appropriate reference sources and matching rules.
 Reference catalogs support identity comparisons and recovery measurements.
@@ -10,15 +10,15 @@ Catalog absence does not establish a new discovery.
 
 | Target | Source | Role |
 |---|---|---|
-| Asteroids | [MPCORB](datasets/mpcorb/README.md) | Known-object identifiers and orbital elements for local calculations. |
-| Asteroids | [JPL SBDB](datasets/jpl-sbdb/README.md) | Orbital solutions, uncertainties, aliases, and physical properties. |
+| Asteroids | [MPCORB](https://github.com/delta-observatory/datasets/blob/main/mpcorb/README.md) | Known-object identifiers and orbital elements for local calculations. |
+| Asteroids | [JPL SBDB](https://github.com/delta-observatory/datasets/blob/main/jpl-sbdb/README.md) | Orbital solutions, uncertainties, aliases, and physical properties. |
 | Asteroids | [JPL identification API](https://ssd-api.jpl.nasa.gov/doc/sb_ident.html) | Known objects in a specified field at an observation time and observer location. |
-| Asteroids | [SkyBoT](datasets/skybot/README.md) | Saved field-and-time predictions with observer geometry and uncertainty. |
-| Exoplanets | [NASA Exoplanet Archive](datasets/nasa-exoplanet-archive/README.md) | Confirmed planets, host stars, and published parameters through its table-query service. |
+| Asteroids | [SkyBoT](https://github.com/delta-observatory/datasets/blob/main/skybot/README.md) | Saved field-and-time predictions with observer geometry and uncertainty. |
+| Exoplanets | [NASA Exoplanet Archive](https://github.com/delta-observatory/datasets/blob/main/nasa-exoplanet-archive/README.md) | Confirmed planets, host stars, and published parameters through its table-query service. |
 
 Keep confirmed exoplanets and unconfirmed candidates separately identified.
 Preserve the provider's classification, including false-positive classifications when available.
-The [TESS recovery record](experiments/tess-known-planet-recovery/README.md) preserves the first bounded NASA Exoplanet Archive subset.
+The [TESS recovery record](https://github.com/delta-observatory/experiments/blob/main/tess-known-planet-recovery/README.md) preserves the first bounded NASA Exoplanet Archive subset.
 Dataset entries and experiment manifests identify actual acquisitions.
 They do not establish complete local catalogs or application integration.
 

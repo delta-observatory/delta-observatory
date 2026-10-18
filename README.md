@@ -59,7 +59,7 @@ An agent never holds `acquire`, `identity.reveal`, or `admin`. A database constr
 
 ![The EVIDENCE workspace for a read-only client: candidate T01-A with its supported assessment and disabled write controls](docs/screenshots/evidence-read-only.png)
 
-The deployment serves the LAN only. Invited reviewers will use read-only tokens through an access-controlled tunnel. That access is not deployed.
+The deployment serves the LAN only. No public instance runs.
 
 ## Get the source
 
@@ -97,6 +97,18 @@ These steps need Python 3.12, Node 22, and `uv`. They do not need a cluster or o
    ```
 
 [RELEASE.md](RELEASE.md) records what was tested from a fresh checkout.
+
+## Data sources
+
+The repositories do not redistribute observations. They cite the public sources:
+
+| Data | Source |
+|---|---|
+| TESS SPOC 120-second light curves | MAST, "TESS Light Curves - All Sectors", [doi:10.17909/t9-nmc8-f686](https://doi.org/10.17909/t9-nmc8-f686) |
+| Reference planet values | NASA Exoplanet Archive, Planetary Systems Table, [doi:10.26133/NEA12](https://doi.org/10.26133/NEA12) |
+| Sky display stars | XHIP (Anderson and Francis 2012, VizieR V/137D) through d3-celestial |
+
+The example exports include one TESS light curve, as stored by the worker. [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md) gives the required statements.
 
 ## Run the full stack
 

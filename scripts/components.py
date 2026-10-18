@@ -3,10 +3,12 @@
 The entry repository holds components.json. Each public component is a separate
 repository. The script clones each one into a directory of the entry repository
 with the component name. The entry repository's .gitignore excludes those
-directories. Documents and build scripts use this sibling layout. Private
-components are listed without an address and are not cloned.
+directories. Documents and build scripts use this sibling layout. A private
+component is cloned only with --private, on its default branch, and only when
+it has an address.
 
-  components.py clone [--latest] [--source DIR]   clone the public components at their pinned commits
+  components.py clone [--latest] [--private] [--source DIR]
+                                                   clone the public components at their pinned commits
   components.py check                              compare the clones with the pinned commits
   components.py pin                                write the current commits of the clones to the manifest
 """
@@ -54,9 +56,10 @@ def public(manifest: dict) -> list[dict]:
     return [c for c in manifest['components'] if c['visibility'] == 'public']
 
 
-def clone(manifest: dict, dest: Path, source: str | None, latest: bool) -> int:
+def clone(manifest: dict, dest: Path, source: str | None, latest: bool, private: bool) -> int:
     for c in manifest['components']:
-        if c['visibility'] == 'private':
+        pinned = c['visibility'] == 'public' and not latest
+        if c['visibility'] == 'private' and not (private and c.get('repository')):
             print(f"{c['name']}: private, not cloned")
             continue
         target = dest/c['name']
@@ -65,9 +68,9 @@ def clone(manifest: dict, dest: Path, source: str | None, latest: bool) -> int:
             return 1
         url = f"{source.rstrip('/')}/{c['name']}" if source else c['repository']
         subprocess.run(['git', 'clone', '-q', url, str(target)], check=True)
-        if not latest:
+        if pinned:
             git(target, 'checkout', '-q', '--detach', c['commit'])
-        print(f"{c['name']}: {git(target, 'rev-parse', 'HEAD')}{'' if latest else ' (pinned)'}")
+        print(f"{c['name']}: {git(target, 'rev-parse', 'HEAD')}{' (pinned)' if pinned else ''}")
     return 0
 
 
@@ -107,6 +110,7 @@ def main() -> int:
     parser.add_argument('--dest', type=Path, default=ROOT, help='directory that holds the component directories')
     parser.add_argument('--source', help='clone from <source>/<name> instead of the repository address')
     parser.add_argument('--latest', action='store_true', help='stay on the default branch instead of the pinned commit')
+    parser.add_argument('--private', action='store_true', help='also clone the private components that have an address')
     args = parser.parse_args()
     try:
         manifest = load(args.manifest)
@@ -114,7 +118,7 @@ def main() -> int:
         print(f'components.json: {e}', file=sys.stderr)
         return 2
     if args.command == 'clone':
-        return clone(manifest, args.dest, args.source, args.latest)
+        return clone(manifest, args.dest, args.source, args.latest, args.private)
     if args.command == 'check':
         return check(manifest, args.dest)
     return pin(manifest, args.dest, args.manifest)

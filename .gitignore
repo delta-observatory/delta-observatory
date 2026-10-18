@@ -8,6 +8,7 @@
 /frontend/
 /kubernetes/
 /agents/
+/community/
 # Downloaded observations stay local. See raw/ in README.md.
 /raw/
 # Local credentials and machine-specific agent settings.

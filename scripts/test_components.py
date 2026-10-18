@@ -37,6 +37,7 @@ class ComponentsTest(unittest.TestCase):
         self.source = self.tmp/'source'
         self.alpha = make_repo(self.source/'alpha', [('a.txt', '1'), ('a.txt', '2')])
         self.beta = make_repo(self.source/'beta', [('b.txt', '1')])
+        self.gamma = make_repo(self.source/'gamma', [('g.txt', '1'), ('g.txt', '2')])
         self.manifest = self.tmp/'components.json'
         self.manifest.write_text(json.dumps({
             'contract': 'components/1',
@@ -44,7 +45,8 @@ class ComponentsTest(unittest.TestCase):
             'components': [
                 {'name': 'alpha', 'visibility': 'public', 'repository': 'https://github.com/example/alpha.git', 'commit': self.alpha[0]},
                 {'name': 'beta', 'visibility': 'public', 'repository': 'https://github.com/example/beta.git', 'commit': self.beta[0]},
-                {'name': 'gamma', 'visibility': 'private'},
+                {'name': 'gamma', 'visibility': 'private', 'repository': 'https://github.com/example/gamma.git'},
+                {'name': 'delta', 'visibility': 'private'},
             ]}))
         self.dest = self.tmp/'checkout'
         self.dest.mkdir()
@@ -57,6 +59,19 @@ class ComponentsTest(unittest.TestCase):
         self.assertEqual(git(self.dest/'beta', 'rev-parse', 'HEAD'), self.beta[0])
         self.assertFalse((self.dest/'gamma').exists())
         self.assertIn('gamma', r.stdout)
+
+    def test_clone_private_takes_the_default_branch_of_private_components(self):
+        r = run('clone', '--manifest', str(self.manifest), '--dest', str(self.dest), '--source', str(self.source), '--private')
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(git(self.dest/'gamma', 'rev-parse', 'HEAD'), self.gamma[1])
+        self.assertEqual(git(self.dest/'gamma', 'branch', '--show-current'), 'main')
+        self.assertEqual(git(self.dest/'alpha', 'rev-parse', 'HEAD'), self.alpha[0])
+        self.assertFalse((self.dest/'delta').exists())
+        self.assertIn('delta', r.stdout)
+
+    def test_check_ignores_private_components(self):
+        run('clone', '--manifest', str(self.manifest), '--dest', str(self.dest), '--source', str(self.source))
+        self.assertEqual(run('check', '--manifest', str(self.manifest), '--dest', str(self.dest)).returncode, 0)
 
     def test_clone_latest_stays_on_main(self):
         r = run('clone', '--manifest', str(self.manifest), '--dest', str(self.dest), '--source', str(self.source), '--latest')
@@ -90,7 +105,7 @@ class ComponentsTest(unittest.TestCase):
         r = run('pin', '--manifest', str(self.manifest), '--dest', str(self.source))
         self.assertEqual(r.returncode, 0, r.stderr)
         pinned = {c['name']: c.get('commit') for c in json.loads(self.manifest.read_text())['components']}
-        self.assertEqual(pinned, {'alpha': self.alpha[1], 'beta': self.beta[0], 'gamma': None})
+        self.assertEqual(pinned, {'alpha': self.alpha[1], 'beta': self.beta[0], 'gamma': None, 'delta': None})
 
     def test_pin_refuses_a_repository_with_uncommitted_changes(self):
         (self.source/'alpha'/'a.txt').write_text('dirty')

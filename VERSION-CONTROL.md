@@ -1,6 +1,6 @@
 # Local version control
 
-The workspace contains ten independent Git repositories.
+The workspace contains eleven independent Git repositories.
 Each repository uses the `main` branch.
 No remote addresses are configured.
 Agents commit every completed change under the [commit rules](AGENTS.md#commits).
@@ -18,6 +18,7 @@ Richard controls pushes and external publication.
 | `frontend/` | Application interface code, design decisions, and sky display assets. | Public |
 | `kubernetes/` | Deployment manifests, build and migration templates, and scripts. | Public |
 | `agents/` | Agent instructions, templates, and tooling. Agent code uses the API only. | Public |
+| `community/` | The organization profile and the default security policy, as the GitHub repository `.github`. | Public |
 
 The root excludes every component directory.
 The components are independent repositories, without submodules or shared release requirements.
