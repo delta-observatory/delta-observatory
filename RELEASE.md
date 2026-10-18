@@ -52,7 +52,9 @@ No anonymous access is planned.
 
 ## Fresh checkout verification
 
-This section records the checks of a fresh checkout. [Verification record](#verification-record) gives the result.
+A fresh checkout restores the entry repository and the six public components in an empty directory.
+Before publication, `--source` clones the components from the local repositories instead of GitHub.
+The [verification record](#verification-record) gives the commands, the commits, and the results.
 
 ## Publication checklist
 
@@ -94,3 +96,32 @@ The node builds images locally and does not pull them. A change to registry imag
 A published image contains GPL and LGPL packages. It must include their licence texts and offer their source.
 
 ## Verification record
+
+Checked on 2026-10-18 in an empty directory on the reference node, with Python 3.14.7 for the scripts, `uv` 0.12.7 with Python 3.12 for the tests, Node 25.9.0, npm 11.12.1, and Git 2.55.0.
+The entry repository was at commit `f462e8a`. `git clone` copied it from the local repository.
+
+| Step | Command | Result |
+|---|---|---|
+| Restore the components | `python3 scripts/components.py clone --source <local workspace>` | Exit 0. Six public components at their pinned commits. Three private components not cloned. |
+| Check the pins | `python3 scripts/components.py check` | Exit 0. All six match. The entry repository has no untracked or changed files. |
+| Example file hashes | `(cd examples/wasp-18b && sha256sum -c SHA256SUMS)` | Exit 0. Three files OK. |
+| Example export | `python3 backend/scripts/verify_export.py examples/wasp-18b/run-4dc34144-max-period-20d.zip --manifest-sha256 70c0c9b6…` | Exit 0. Passed, 13 files checked, no failures. |
+| Contracts | `uv run -q --no-project --with jsonschema==4.25.1 python scripts/check_contracts.py` in `database` | Exit 0. 14 schemas, 36 examples, 0 failures. |
+| API | `uv run pytest -q` in `backend` | Exit 0. 82 passed. |
+| Worker | `.venv/bin/python -m pytest -q` in `workers` | Exit 0. 1 passed, 8 skipped: no TESS light curves and no T01 record. |
+| Frontend | `npm ci`, `npm test`, and `npm run build` in `frontend` | 90 tests passed. The build exited 0. |
+| Agents | Both unittest suites in `agents` | 12 and 6 tests OK. |
+| Entry repository | `python3 -m unittest scripts/test_components.py` | 8 tests OK. |
+
+In the full workspace, with the light curves and the private repositories, the worker suite gives 9 passed.
+
+**Permission-aware display.** A headless Chromium session loaded the frontend build against the running API.
+It replaced the `GET /api/me` response with a client that has only `read`, and it blocked every request except `GET` and the run estimate.
+The run form and the record controls were disabled with the missing permission, the top bar showed "read only", and no page error occurred.
+The same session with Richard's permissions showed every control enabled. The session sent no write request.
+
+**Not tested.** These checks do not clone from GitHub, because no repository is published.
+They do not build the container images, deploy to k3s, run the full stack from the public repositories, or use Node 22.
+They do not run the MCP adapter against the running API.
+The deployed frontend image does not include the permission-aware display.
+
