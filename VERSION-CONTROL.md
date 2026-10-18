@@ -6,18 +6,18 @@ No remote addresses are configured.
 Agents commit every completed change under the [commit rules](AGENTS.md#commits).
 Richard controls pushes and external publication.
 
-| Repository | Intended tracked contents |
-|---|---|
-| Workspace root | Coordination documents, workspace checks, and repository guidance. |
-| `datasets/` | Catalog, metadata, acquisition instructions, manifests, and small acquisition evidence. |
-| `detection/` | Methods, citations, retained papers, supporting code, and documented synthetic demonstrations. |
-| `experiments/` | Procedures, protocols, code, dependency pins, manifests, small results, figures, reviews, and decisions. |
-| `database/` | Schema definitions, migrations, and cross-component contracts. |
-| `workers/` | Ingestion and scientific processing code, and vendored contracts. |
-| `backend/` | Application API code, and vendored contracts. |
-| `frontend/` | Application interface code, design decisions, and sky display assets. |
-| `kubernetes/` | Deployment manifests, build and migration templates, and scripts. |
-| `agents/` | Agent instructions, templates, and tooling. Agent code uses the API only. |
+| Repository | Intended tracked contents | Release visibility |
+|---|---|---|
+| Workspace root | Coordination documents, workspace checks, repository guidance, the component manifest, and the example investigation. | Public entry repository |
+| `datasets/` | Catalog, metadata, acquisition instructions, manifests, and small acquisition evidence. | Private |
+| `detection/` | Methods, citations, retained papers, supporting code, and documented synthetic demonstrations. | Private |
+| `experiments/` | Procedures, protocols, code, dependency pins, manifests, small results, figures, reviews, and decisions. | Private |
+| `database/` | Schema definitions, migrations, and cross-component contracts. | Public |
+| `workers/` | Ingestion and scientific processing code, and vendored contracts. | Public |
+| `backend/` | Application API code, and vendored contracts. | Public |
+| `frontend/` | Application interface code, design decisions, and sky display assets. | Public |
+| `kubernetes/` | Deployment manifests, build and migration templates, and scripts. | Public |
+| `agents/` | Agent instructions, templates, and tooling. Agent code uses the API only. | Public |
 
 The root excludes every component directory.
 The components are independent repositories, without submodules or shared release requirements.
@@ -61,9 +61,17 @@ git status --short
 
 A clean root status does not establish clean component repositories.
 
-## Future reconstruction
+## Reconstruction
 
-Restore the coordination repository into `delta-observatory/`.
-Restore each component into its corresponding directory.
-Keep this sibling layout because documentation uses relative links between repositories.
-Remote addresses and compatible commit references require a publication or release decision.
+[components.json](components.json) lists each component, its visibility, and, for a public component, its address in the GitHub organization `delta-observatory` and its pinned commit.
+Restore the coordination repository into `delta-observatory/`. Then clone the public components into it:
+
+```bash
+python3 scripts/components.py clone
+python3 scripts/components.py check
+```
+
+Keep this sibling layout because documentation and build scripts use relative paths between repositories.
+Restore the private components from their private copies into the directories of the same names.
+Pin the current commits with `python3 scripts/components.py pin` before a release, after each component is committed.
+[RELEASE.md](RELEASE.md) gives the publication checklist. The remote addresses are not configured until Richard approves publication.

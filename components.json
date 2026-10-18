@@ -1,0 +1,63 @@
+{
+  "contract": "components/1",
+  "organization": "delta-observatory",
+  "components": [
+    {
+      "name": "database",
+      "visibility": "public",
+      "description": "Schema, migrations, and the cross-component contracts.",
+      "repository": "https://github.com/delta-observatory/database.git",
+      "commit": "c0d774fa01ca6155509e7de41f37b7585d638b83"
+    },
+    {
+      "name": "workers",
+      "visibility": "public",
+      "description": "Ingestion and scientific methods: tess-spoc-index and tess-bls.",
+      "repository": "https://github.com/delta-observatory/workers.git",
+      "commit": "024a053be9d5a7d3a863f3ad74b2719f43373d48"
+    },
+    {
+      "name": "backend",
+      "visibility": "public",
+      "description": "Stateless FastAPI application API.",
+      "repository": "https://github.com/delta-observatory/backend.git",
+      "commit": "d6c87c4f23cfc1f4e31c53425f5f94ce7082935a"
+    },
+    {
+      "name": "frontend",
+      "visibility": "public",
+      "description": "React, Three.js, and TypeScript interface.",
+      "repository": "https://github.com/delta-observatory/frontend.git",
+      "commit": "1299e06edb7900888bda1f37dfd2180545965f52"
+    },
+    {
+      "name": "kubernetes",
+      "visibility": "public",
+      "description": "k3s manifests, image builds, and migrations.",
+      "repository": "https://github.com/delta-observatory/kubernetes.git",
+      "commit": "aeafdb7d8dd389526b056b4447776128cff17920"
+    },
+    {
+      "name": "agents",
+      "visibility": "public",
+      "description": "Agent manual, MCP adapter, research importer, and campaign templates.",
+      "repository": "https://github.com/delta-observatory/agents.git",
+      "commit": "e3cbf3098b3c7993756ffd76d160f5b85b2853c5"
+    },
+    {
+      "name": "datasets",
+      "visibility": "private",
+      "description": "Dataset catalog, metadata, and acquisition evidence."
+    },
+    {
+      "name": "detection",
+      "visibility": "private",
+      "description": "Method explanations, references, and retained papers."
+    },
+    {
+      "name": "experiments",
+      "visibility": "private",
+      "description": "Scientific procedure, protocols, and closed experiment evidence."
+    }
+  ]
+}

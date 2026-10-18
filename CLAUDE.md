@@ -1,6 +1,6 @@
 # Delta Observatory agent instructions
 
-Read [README.md](README.md) before work in this workspace.
+Read [WORKSPACE.md](WORKSPACE.md) before work in this workspace.
 Read [ROADMAP.md](ROADMAP.md) for current status.
 Read [DESIGN.md](DESIGN.md) for intended requirements.
 Follow [experiments/PROCEDURE.md](experiments/PROCEDURE.md) for scientific planning, execution, review, or reproduction.
@@ -15,7 +15,7 @@ Keep the API stateless. Do not add runtime calls between the API and workers.
 
 Use the ASD-STE100 writing instructions supplied by Richard.
 Read the `asd-ste100` skill before writing user-facing text.
-Codex uses `/home/richardtidwell/.codex/skills/asd-ste100/SKILL.md`. Claude uses `/home/richardtidwell/.claude/skills/asd-ste100/SKILL.md`.
+Codex uses `~/.codex/skills/asd-ste100/SKILL.md`. Claude uses `~/.claude/skills/asd-ste100/SKILL.md`.
 Use at most 20 words for instructions and 25 words for descriptions.
 Give one instruction in each sentence.
 Use active voice for instructions.

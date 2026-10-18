@@ -4,7 +4,7 @@ This roadmap defines delivery stages, their status, open decisions, and next act
 [DESIGN.md](DESIGN.md) defines the desired system.
 Git history records changes. Experiment records hold scientific results.
 
-[README.md](README.md) describes workspace structure and document responsibilities.
+[WORKSPACE.md](WORKSPACE.md) describes workspace structure and document responsibilities.
 [experiments/PROCEDURE.md](experiments/PROCEDURE.md) controls scientific execution and evidence quality.
 [experiments/PLAN.md](experiments/PLAN.md) defines scientific tasks and dependencies.
 [CHECKS.md](CHECKS.md) defines workspace checks and their limits.
@@ -14,7 +14,7 @@ Git history records changes. Experiment records hold scientific results.
 - R0, the scientific contract, is active.
 - The TESS vertical slice runs on the local k3s cluster. It has contract version 1, the database schema, the worker, the stateless API, and the frontend.
 - The slice indexes 64 development light curves: the 46 of the development set, and 18 research light curves from a reviewed selection manifest. With the T01 defaults, its `tess-bls` method gives the exact T01 values.
-- The application workflow runs from observation selection through analysis, candidate review, and evidence export. The frontend at `http://10.0.0.47:30871/` gives the sky, search, plots, run controls with cancellation and retry, run comparison, candidates, assessments, decisions, notes, agent tasks, and exports. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the agreed design.
+- The application workflow runs from observation selection through analysis, candidate review, and evidence export. The frontend at `http://<node>:30871/` on the LAN gives the sky, search, plots, run controls with cancellation and retry, run comparison, candidates, assessments, decisions, notes, agent tasks, and exports. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the agreed design.
 - The [agents/](agents/README.md) repository holds the operating manual, the campaign template, the MCP adapter that it generates from the API description, the research importer, and a functional adapter check.
 - The API needs a bearer token for each client. Agents work inside campaigns with blinding, budgets, a cohort guard, and rule `free-text/1`.
 - Contract version 1 includes research records, record import keys, the export manifest `export/1`, and the selection manifest `tess-spoc-selection/1`. Migrations 0001 to 0005 run in k3s.
@@ -72,7 +72,7 @@ The slice connects one dataset and one method through every layer before the pro
 | Database | CNPG cluster `delta-db`. Migration `0001_initial` defines datasets, observations, runs, jobs, measurements, and artifacts. |
 | Ingestion | `tess-spoc-index` indexes `raw/tess-spoc-light-curves/` and reads labels from the [development set manifest](datasets/tess-spoc-light-curves/application-development/manifest.json). |
 | Worker | `tess-bls` runs the T01 preparation and search, and compares the saved result with a known planet. |
-| API | Stateless FastAPI service at `http://10.0.0.47:30870/api/docs`. |
+| API | Stateless FastAPI service at `http://<node>:30870/api/docs` on the LAN. |
 | Frontend | Sky sphere, search, selection, all-sky map, workbench plots, measurements, run submission, monitoring, cancellation, retry, run comparison, candidate evidence, research records, agent tasks, and exports. Phone layout. Deployment `delta-frontend` on NodePort 30871. |
 
 Checked items in R0 to R4 apply to the slice. DECam needs them again under a later contract version.
@@ -313,6 +313,12 @@ External deployment requires Richard's explicit request.
 | Research light curves | Agreed | The 18 light curves of the seven retained candidates of delta-research publication FINAL001 are development data. A selection manifest adds them to the inventory. Other research downloads stay outside the inventory. |
 | Investigation GUI | Agreed | Catalogue segments, a Records tab, an EVIDENCE workspace, the record vocabulary, and run comparison in the ANALYSIS workspace. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records them. |
 | Free text under blinding | Agreed | Rule `free-text/1`. It withholds other writers' text from blinded agents and does not guarantee blinding. |
+| Public repository structure | Agreed | Separate repositories in the GitHub organization `delta-observatory`. The root is the entry repository, and [components.json](components.json) pins the public components. Histories stay unchanged. [RELEASE.md](RELEASE.md) gives the structure. |
+| Public material | Agreed | The root, `database`, `workers`, `backend`, `frontend`, `kubernetes`, and `agents` become public. `datasets`, `detection`, and `experiments` stay private. |
+| Original licence | Agreed | MIT for each public repository. |
+| Reviewer access | Agreed | Invited reviewers with personal read-only tokens, through Cloudflare Tunnel and Cloudflare Access. No anonymous access. Not deployed. |
+| Copyright ownership | Open | Richard confirms that he owns the copyright of the public material before publication. |
+| Public full-stack reproduction | Open | The worker needs the dataset catalog, and the API needs the cohort register. Both are in private repositories. A public subset of both would make a full-stack reproduction possible. |
 
 **Immediate next actions**
 
@@ -327,6 +333,7 @@ Follow the scientific [plan](experiments/PLAN.md) and the [procedure](experiment
 7. Include DS9 and TOPCAT/STILTS checks when image-calibration work requires them.
 8. Reopen mask or threshold evaluation only under the [documented restart conditions](experiments/README.md#closure-decisions).
 9. Add the R8 worker methods: acquisition, injection, controls, vetting, identity comparison, and evidence images. Acquisition needs the storage decision. The pilot needs the lab-star decision.
+10. Complete the [publication checklist](RELEASE.md#publication-checklist). Each external step needs Richard's approval.
 
 Use the [external supervisor](experiments/SUPPORT.md) for all TESS reproductions.
 

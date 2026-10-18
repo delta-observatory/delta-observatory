@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="1200" height="780" font-family="IBM Plex Mono, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">
+  <title>Delta Observatory architecture</title>
+  <desc>Researchers, invited reviewers, and AI agents use one API. The frontend, API, PostgreSQL, and worker run on one k3s node. Seven public repositories in the delta-observatory GitHub organization hold the source. Three research repositories stay private.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8fa3b8"/>
+    </marker>
+    <style>
+      .bg { fill: #0a0e13; }
+      .frame { fill: none; stroke: #2c3a4a; stroke-width: 1.5; }
+      .box { fill: #111821; stroke: #3d5166; stroke-width: 1.2; }
+      .key { fill: #111821; stroke: #6fb3d9; stroke-width: 1.5; }
+      .planned { fill: #0e131a; stroke: #b38a3d; stroke-width: 1.2; stroke-dasharray: 6 4; }
+      .private { fill: #0e131a; stroke: #4a4f57; stroke-width: 1.2; stroke-dasharray: 3 3; }
+      .t { fill: #d8e2ec; }
+      .h { fill: #f2f6fa; font-weight: 600; }
+      .s { fill: #8fa3b8; font-size: 12px; }
+      .w { fill: #d9a54a; font-size: 12px; }
+      .label { fill: #6fb3d9; font-size: 12px; letter-spacing: 1px; }
+      .line { stroke: #8fa3b8; stroke-width: 1.4; fill: none; }
+      .dash { stroke: #b38a3d; stroke-width: 1.4; fill: none; stroke-dasharray: 6 4; }
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="780"/>
+  <text class="h" x="30" y="38" font-size="17">DELTA OBSERVATORY · one application, separately built components</text>
+
+  <!-- Clients -->
+  <text class="label" x="30" y="78">CLIENTS</text>
+  <rect class="box" x="30" y="92" width="220" height="62" rx="4"/>
+  <text class="h" x="44" y="116">Researcher</text>
+  <text class="s" x="44" y="138">browser · personal token</text>
+
+  <rect class="planned" x="30" y="184" width="220" height="62" rx="4"/>
+  <text class="h" x="44" y="208">Invited reviewer</text>
+  <text class="s" x="44" y="230">browser · read-only token</text>
+
+  <rect class="box" x="30" y="318" width="220" height="62" rx="4"/>
+  <text class="h" x="44" y="342">AI agent</text>
+  <text class="s" x="44" y="364">MCP client · agent token</text>
+
+  <rect class="box" x="30" y="410" width="220" height="74" rx="4"/>
+  <text class="h" x="44" y="434">MCP adapter</text>
+  <text class="s" x="44" y="455">stdio · agents repository</text>
+  <text class="s" x="44" y="472">generated from the API</text>
+  <path class="line" d="M140,380 L140,408" marker-end="url(#arrow)"/>
+
+  <!-- Planned edge -->
+  <rect class="planned" x="290" y="176" width="160" height="80" rx="4"/>
+  <text class="t" x="302" y="198">Cloudflare Tunnel</text>
+  <text class="t" x="302" y="216">+ Access</text>
+  <text class="w" x="302" y="242">planned · not deployed</text>
+  <path class="dash" d="M250,215 L288,215" marker-end="url(#arrow)"/>
+  <path class="dash" d="M450,200 L500,150" marker-end="url(#arrow)"/>
+
+  <!-- k3s node -->
+  <rect class="frame" x="480" y="62" width="690" height="490" rx="6"/>
+  <text class="label" x="496" y="84">K3S NODE · PRIVATE RESEARCH DEPLOYMENT · LAN</text>
+
+  <rect class="box" x="510" y="100" width="290" height="66" rx="4"/>
+  <text class="h" x="524" y="124">frontend</text>
+  <text class="s" x="524" y="146">nginx · React build · NodePort 30871</text>
+  <path class="line" d="M250,123 L508,123" marker-end="url(#arrow)"/>
+
+  <rect class="key" x="510" y="222" width="290" height="104" rx="4"/>
+  <text class="h" x="524" y="246">API · FastAPI, stateless</text>
+  <text class="s" x="524" y="268">a token for each client</text>
+  <text class="s" x="524" y="286">permissions · campaign rules</text>
+  <text class="s" x="524" y="304">records · evidence exports</text>
+  <text class="s" x="524" y="320">NodePort 30870</text>
+  <path class="line" d="M655,166 L655,220" marker-end="url(#arrow)"/>
+  <text class="s" x="663" y="198">/api/</text>
+  <path class="line" d="M250,447 L380,447 L380,290 L508,290" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="860" y="222" width="290" height="104" rx="4"/>
+  <text class="h" x="874" y="246">PostgreSQL · CloudNativePG</text>
+  <text class="s" x="874" y="268">job queue · results</text>
+  <text class="s" x="874" y="286">measurements · research records</text>
+  <text class="s" x="874" y="304">clients · campaigns · access events</text>
+  <path class="line" d="M802,274 L858,274" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+
+  <rect class="box" x="860" y="408" width="290" height="82" rx="4"/>
+  <text class="h" x="874" y="432">worker</text>
+  <text class="s" x="874" y="454">tess-spoc-index · tess-bls</text>
+  <text class="s" x="874" y="472">claims jobs, writes results</text>
+  <path class="line" d="M1005,406 L1005,328" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+
+  <rect class="box" x="510" y="396" width="290" height="132" rx="4"/>
+  <text class="h" x="524" y="420">volumes</text>
+  <text class="s" x="524" y="442">artifacts (PVC)</text>
+  <text class="s" x="524" y="462">raw/ observations (read-only)</text>
+  <text class="s" x="524" y="482">datasets/ catalog (read-only)</text>
+  <text class="s" x="524" y="502">experiments/cohorts.json</text>
+  <text class="s" x="524" y="518">(read-only)</text>
+  <path class="line" d="M858,450 L802,450" marker-end="url(#arrow)"/>
+  <path class="line" d="M655,328 L655,394" marker-end="url(#arrow)"/>
+  <text class="s" x="663" y="366">reads artifacts</text>
+
+  <!-- GitHub -->
+  <rect class="frame" x="30" y="586" width="1140" height="168" rx="6"/>
+  <text class="label" x="46" y="608">GITHUB ORGANIZATION delta-observatory · PUBLIC SOURCE</text>
+  <rect class="key" x="46" y="622" width="190" height="62" rx="4"/>
+  <text class="h" x="58" y="645">delta-observatory</text>
+  <text class="s" x="58" y="667">entry · components.json</text>
+  <g>
+    <rect class="box" x="250" y="622" width="118" height="62" rx="4"/><text class="h" x="262" y="645">database</text><text class="s" x="262" y="667">contracts</text>
+    <rect class="box" x="378" y="622" width="118" height="62" rx="4"/><text class="h" x="390" y="645">workers</text><text class="s" x="390" y="667">image</text>
+    <rect class="box" x="506" y="622" width="118" height="62" rx="4"/><text class="h" x="518" y="645">backend</text><text class="s" x="518" y="667">image</text>
+    <rect class="box" x="634" y="622" width="118" height="62" rx="4"/><text class="h" x="646" y="645">frontend</text><text class="s" x="646" y="667">image</text>
+    <rect class="box" x="762" y="622" width="118" height="62" rx="4"/><text class="h" x="774" y="645">kubernetes</text><text class="s" x="774" y="667">manifests</text>
+    <rect class="box" x="890" y="622" width="118" height="62" rx="4"/><text class="h" x="902" y="645">agents</text><text class="s" x="902" y="667">MCP adapter</text>
+  </g>
+  <rect class="private" x="1022" y="622" width="134" height="62" rx="4"/>
+  <text class="t" x="1034" y="640">private, local</text>
+  <text class="s" x="1034" y="656" font-size="11">datasets</text>
+  <text class="s" x="1034" y="669" font-size="11">detection</text>
+  <text class="s" x="1034" y="682" font-size="11">experiments</text>
+  <text class="s" x="46" y="712">Each component repository has its own history, tests, and version. The database migration image and the worker,</text>
+  <text class="s" x="46" y="730">backend, and frontend images build separately. backend and workers copy database/contracts at a pinned commit.</text>
+  <text class="s" x="46" y="748">Agents and the frontend use the same API. The API and the worker communicate only through PostgreSQL.</text>
+</svg>

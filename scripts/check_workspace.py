@@ -107,7 +107,7 @@ def check():
                 ('.fits', '.fits.fz', '.fit', '.fts', '.npy', '.npz')):
             errors.append(relative+': observation or array belongs outside experiment records')
 
-    for name in ['README.md', 'AGENTS.md', 'DESIGN.md', 'ROADMAP.md', 'REFERENCE-CATALOGS.md',
+    for name in ['README.md', 'WORKSPACE.md', 'AGENTS.md', 'DESIGN.md', 'ROADMAP.md', 'REFERENCE-CATALOGS.md',
                  'CHECKS.md', 'experiments/PROCEDURE.md', 'experiments/AGENTS.md',
                  'experiments/README.md', 'experiments/PLAN.md',
                  'experiments/planning/experiment-template.md']:
@@ -226,8 +226,8 @@ def check():
     counts['registered_experiments'] = len(experiment_files)
     closed = sum(1 for line in index.splitlines()
                  if re.match(r'^\| \[.+\]\([^/)]+/README\.md\) \| Closed', line))
-    declared = re.search(r'records (\d+) completed bounded investigations', (ROOT/'README.md').read_text())
-    require(declared is not None and int(declared.group(1)) == closed, 'Workspace README completed-experiment count differs')
+    declared = re.search(r'records (\d+) completed bounded investigations', (ROOT/'WORKSPACE.md').read_text())
+    require(declared is not None and int(declared.group(1)) == closed, 'Workspace guide completed-experiment count differs')
     counts['closed_experiments_in_index'] = closed
 
     sources = data.get(ROOT/'detection/sources.json', [])

@@ -1,7 +1,7 @@
 # Workspace checks and consistency
 
 The workspace contains research, bounded scientific experiments, and the TESS vertical slice of the application.
-The current [workspace guide](README.md) defines document responsibilities and directory contents.
+The current [workspace guide](WORKSPACE.md) defines document responsibilities and directory contents.
 The current [experiment procedure](experiments/PROCEDURE.md) defines scientific requirements for new experiments.
 
 ## Repeatable structural check
@@ -52,7 +52,9 @@ Run each check from its component repository.
 | `agents/` | `python3 -m unittest discover -s adapter/tests -t .` and `python3 -m unittest discover -s importer/tests -t .` | Tool generation, request placement, downloads, and token scrubbing of the adapter. Manifest checks, file hashes, and repeated imports of the importer. Both use a stub API. |
 | `kubernetes/` | `scripts/rehearse.sh <database-image-tag>` | Migrations of one database image on a copy of the newest backup. |
 | `kubernetes/` | `DELTA_TOKEN_FILE=<person token file> python3 scripts/acceptance.py --report <file>` | The deployed run workflow: estimate, submission, cancellation, an inconclusive outcome, retry, comparison, and two identical exports with their check. It writes runs on development data. |
-| `frontend/` | `npm test` | Sky geometry, the search parser, the fold, the parameter checks, SHA-256, ZIP reading and the browser export check, comparison filters, and record display helpers. `src/parity.test.ts` checks the search, the fold, and the parameter checks against the copy of the backend vectors in `vendor/api-vectors/`. |
+| Root | `python3 -m unittest scripts/test_components.py` | Clone, check, and pin of the component manifest with temporary local repositories: pinned and latest clones, private components, existing directories, changed commits, uncommitted changes, and invalid manifests. |
+| Root | `python3 scripts/components.py check` | Each public component directory is at its pinned commit in [components.json](components.json) and has no uncommitted changes. |
+| `frontend/` | `npm test` | Sky geometry, the search parser, the fold, the parameter checks, SHA-256, ZIP reading and the browser export check, comparison filters, record display helpers, and the controls that each permission allows. `src/parity.test.ts` checks the search, the fold, and the parameter checks against the copy of the backend vectors in `vendor/api-vectors/`. |
 
 The component READMEs give the environment setup.
 These checks do not validate scientific performance. The frontend check does not test the browser layout. GUI acceptance uses a headless browser and screenshots.

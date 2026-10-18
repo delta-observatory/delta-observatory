@@ -145,11 +145,13 @@ Database hosting and storage technology remain explicit deployment decisions.
 `delta-observatory/` is an umbrella workspace for separate component repositories, not a monorepo.
 Directory nesting provides organization without imposing a shared build or release lifecycle.
 This section defines intended boundaries.
-[README.md](README.md) and [ROADMAP.md](ROADMAP.md) describe the current workspace and implementation status.
+[WORKSPACE.md](WORKSPACE.md) and [ROADMAP.md](ROADMAP.md) describe the current workspace and implementation status.
 
 ```text
 delta-observatory/
 ├── README.md
+├── WORKSPACE.md
+├── components.json
 ├── AGENTS.md
 ├── DESIGN.md
 ├── ROADMAP.md
