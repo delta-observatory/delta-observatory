@@ -45,13 +45,17 @@ Run each check from its component repository.
 
 | Component | Command | Coverage |
 |---|---|---|
-| `database/` | `uv run -q --no-project --with jsonschema==4.25.1 python scripts/check_contracts.py` | Every contract schema, every valid and invalid example, and the method parameter defaults. |
-| `workers/` | `.venv/bin/python -m pytest -q` | Exact T01 reproduction by `tess-bls`, and the index, search, and memory-limit flow on a temporary PostgreSQL server. |
-| `backend/` | `uv run pytest` | Every endpoint on a temporary PostgreSQL server with the vendored migrations. The API rules against the shared vectors in `tests/vectors/`, and the SQL form of the target query against the same vectors. |
-| `frontend/` | `npm test` | Sky geometry, the search parser, the fold, and the parameter checks. `src/parity.test.ts` checks the search, the fold, and the parameter checks against the copy of the backend vectors in `vendor/api-vectors/`. |
+| `database/` | `uv run -q --no-project --with jsonschema==4.25.1 python scripts/check_contracts.py` | Every contract schema, every valid and invalid example, and the method parameter defaults: jobs, results, methods, columns, research records, the export manifest, and the selection manifest. |
+| `workers/` | `.venv/bin/python -m pytest -q` | Exact T01 reproduction by `tess-bls`, the index, search, and memory-limit flow, selection manifests, cancellation of a running job, and unchanged finished jobs, on a temporary PostgreSQL server. |
+| `backend/` | `uv run pytest` | Every endpoint on a temporary PostgreSQL server with the vendored migrations, including agent scope, blinding, the free-text rule, cancellation, retries, comparisons, exports, and import keys. The API rules against the shared vectors in `tests/vectors/`, and the SQL form of the target query against the same vectors. |
+| `backend/` | `python3 scripts/verify_export.py <export.zip> --schema vendor/contracts/exports/manifest/v1.schema.json` | The size and SHA-256 of every file of one evidence export, unlisted files, and unsafe paths. |
+| `agents/` | `python3 -m unittest discover -s adapter/tests -t .` and `python3 -m unittest discover -s importer/tests -t .` | Tool generation, request placement, downloads, and token scrubbing of the adapter. Manifest checks, file hashes, and repeated imports of the importer. Both use a stub API. |
+| `kubernetes/` | `scripts/rehearse.sh <database-image-tag>` | Migrations of one database image on a copy of the newest backup. |
+| `kubernetes/` | `DELTA_TOKEN_FILE=<person token file> python3 scripts/acceptance.py --report <file>` | The deployed run workflow: estimate, submission, cancellation, an inconclusive outcome, retry, comparison, and two identical exports with their check. It writes runs on development data. |
+| `frontend/` | `npm test` | Sky geometry, the search parser, the fold, the parameter checks, SHA-256, ZIP reading and the browser export check, comparison filters, and record display helpers. `src/parity.test.ts` checks the search, the fold, and the parameter checks against the copy of the backend vectors in `vendor/api-vectors/`. |
 
 The component READMEs give the environment setup.
-These checks do not validate scientific performance.
+These checks do not validate scientific performance. The frontend check does not test the browser layout. GUI acceptance uses a headless browser and screenshots.
 
 ## Additional existing checks
 
@@ -101,6 +105,8 @@ The [supervised TESS repeat](experiments/support/tess-repeat-validation.json) gi
 | TESS measurement validity | Guided period-and-phase recovery does not establish depth accuracy, completeness, or false-alarm rates. |
 | Photutils reproduction | No full numerical repeat exists for this record. |
 | Scientific adoption | Independent evaluation and uncertainty calibration remain prerequisites for broader adoption claims. |
+| GUI performance | Headless Chromium with software WebGL measured 1.10 s to the catalogue and 544 ms for a first target change, against the 400 ms target. The review hardware with GPU rendering needs its own measurement. |
+| Blinding of free text | Rule `free-text/1` withholds other writers' text from blinded agents. No check searches text for withheld values. |
 
 The structural check can pass while these items remain open.
 

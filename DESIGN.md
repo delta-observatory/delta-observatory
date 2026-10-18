@@ -210,6 +210,8 @@ The application reports missing files, incomplete collections, and incompatible 
 A dataset is a named collection of files with documented origin and a stable manifest.
 The manifest lists source identifiers, local locations, checksums, product types, and available processing versions.
 Indexing references existing files without copying them.
+Files in subdirectories enter the inventory only through a reviewed selection manifest. Indexing does not scan subdirectories.
+A selection manifest names the owner of the files, their checksums, and their cohort registration.
 The storage record identifies whether the application manages a file or references an external location.
 
 Ingestion extracts observation metadata and identifies supported scientific capabilities.
@@ -430,6 +432,8 @@ Each agent belongs to one campaign. Agents read observation data only after Rich
 A campaign policy controls blinding. The levels are open, labels withheld, and labels and identity withheld.
 The default level withholds catalog identity and known-object labels from agents.
 Identity reveal is a separate recorded action after the campaign's decisions are fixed.
+Free text can contain withheld values. While blinding applies, an agent receives only the text of its own campaign's clients and the text that is written for agents: campaign questions and task instructions.
+The API withholds other writers' text. It does not search text for withheld values, so this handling does not guarantee scientific blinding.
 The API refuses agent reads of reserved evaluation observations.
 Each agent read of a protected observation creates an access event.
 
@@ -596,6 +600,7 @@ The finished system must demonstrate these properties:
 - Exports preserve measurements, units, uncertainty, quality flags, and provenance.
 
 An export can include a file manifest, selected images, measurements, diagnostics, and a machine-readable run configuration.
+The manifest lists the size and SHA-256 of each exported file. The same request on the same records gives the same bytes.
 External submission formats require their own validation.
 Submitting observations to an external organization requires an explicit action separate from export creation.
 

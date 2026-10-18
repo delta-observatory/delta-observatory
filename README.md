@@ -6,7 +6,7 @@ The initial scientific focus covers asteroids and exoplanets.
 The workspace currently contains research, dataset documentation, and scientific experiment evidence.
 R0, the scientific contract stage, remains active.
 The TESS vertical slice runs on the local k3s cluster: database, worker, API, and frontend.
-The frontend at `http://10.0.0.47:30871/` shows the sky sphere with the development targets, search, target selection, the result plots, the measurements, and run controls.
+The frontend at `http://10.0.0.47:30871/` gives the workflow from observation selection through analysis, run comparison, candidate review, and evidence export.
 Catalog inclusion does not establish local observation availability or an implemented detection method.
 
 ## Start here
@@ -47,7 +47,7 @@ Resolve a documentation conflict before executing affected work.
 | [backend/](backend/README.md) | Stateless application API. |
 | [frontend/](frontend/README.md) | Interactive application in React, Three.js, TypeScript, and Vite. [DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the agreed design. |
 | [kubernetes/](kubernetes/README.md) | k3s manifests, image builds, and migrations. |
-| [agents/](agents/README.md) | Tooling for research agents that use the API. No agent code exists. |
+| [agents/](agents/README.md) | Agent instructions, the MCP adapter generated from the API description, the research importer, and import manifests. Agent code uses the API only. |
 | `scripts/` | Workspace documentation and structure checks. |
 | `raw/` | Local downloaded observations in `raw/<dataset-id>/`. Git does not track this directory. |
 

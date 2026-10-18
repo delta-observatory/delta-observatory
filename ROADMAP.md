@@ -13,11 +13,12 @@ Git history records changes. Experiment records hold scientific results.
 
 - R0, the scientific contract, is active.
 - The TESS vertical slice runs on the local k3s cluster. It has contract version 1, the database schema, the worker, the stateless API, and the frontend.
-- The slice indexes 46 development light curves. With the T01 defaults, its `tess-bls` method gives the exact T01 values.
-- The frontend shows the sky sphere, the 46 development targets, search, target selection, the light curve, periodogram, and phase fold, the measurements, and run controls. It runs in k3s at `http://10.0.0.47:30871/`. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the agreed design.
-- The [agents/](agents/README.md) repository holds the agent operating manual and the campaign template. No agent code exists.
-- The API needs a bearer token for each client. Agents work inside campaigns with blinding, budgets, and a cohort guard. No campaign exists.
-- Contract version 1 includes research records: candidates, assessments, decisions, notes, and agent tasks with leases. Migration 0004 and the API in the `database/` and `backend/` repositories implement them. The k3s release does not include them yet.
+- The slice indexes 64 development light curves: the 46 of the development set, and 18 research light curves from a reviewed selection manifest. With the T01 defaults, its `tess-bls` method gives the exact T01 values.
+- The application workflow runs from observation selection through analysis, candidate review, and evidence export. The frontend at `http://10.0.0.47:30871/` gives the sky, search, plots, run controls with cancellation and retry, run comparison, candidates, assessments, decisions, notes, agent tasks, and exports. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records the agreed design.
+- The [agents/](agents/README.md) repository holds the operating manual, the campaign template, the MCP adapter that it generates from the API description, the research importer, and a functional adapter check.
+- The API needs a bearer token for each client. Agents work inside campaigns with blinding, budgets, a cohort guard, and rule `free-text/1`.
+- Contract version 1 includes research records, record import keys, the export manifest `export/1`, and the selection manifest `tess-spoc-selection/1`. Migrations 0001 to 0005 run in k3s.
+- The seven retained candidates of delta-research publication FINAL001 are imported as lab candidates: external proposals with their dossiers, not platform evidence.
 - Ten bounded experiments are closed. The [experiment index](experiments/README.md) lists their results and limits.
 - The DECam series recovers known moving objects on development data. Threshold three is provisional. The default mask policy is unchanged.
 - The Gaussian source model remains the baseline. The tested Photutils empirical-profile configuration failed its criteria.
@@ -72,7 +73,7 @@ The slice connects one dataset and one method through every layer before the pro
 | Ingestion | `tess-spoc-index` indexes `raw/tess-spoc-light-curves/` and reads labels from the [development set manifest](datasets/tess-spoc-light-curves/application-development/manifest.json). |
 | Worker | `tess-bls` runs the T01 preparation and search, and compares the saved result with a known planet. |
 | API | Stateless FastAPI service at `http://10.0.0.47:30870/api/docs`. |
-| Frontend | Sky sphere, search, selection, all-sky map, workbench plots, measurements, run submission, run monitoring, and run choice from the API. Phone layout. Deployment `delta-frontend` on NodePort 30871. No run comparison. |
+| Frontend | Sky sphere, search, selection, all-sky map, workbench plots, measurements, run submission, monitoring, cancellation, retry, run comparison, candidate evidence, research records, agent tasks, and exports. Phone layout. Deployment `delta-frontend` on NodePort 30871. |
 
 Checked items in R0 to R4 apply to the slice. DECam needs them again under a later contract version.
 The 46 light curves are development data. Results on them are not performance evidence.
@@ -109,7 +110,7 @@ Use the desired system's record model without creating speculative tables for ev
 
 Tasks:
 
-- [ ] Define datasets, observations, campaigns, runs, jobs, measurements, candidates, artifacts, and decisions as required.
+- [x] Define datasets, observations, campaigns, runs, jobs, measurements, candidates, artifacts, and decisions as required.
 - [ ] Establish identifiers, relationships, constraints, and record ownership.
 - [ ] Define source versions, duplicate exposure handling, and immutable run configurations.
 - [ ] Define units, uncertainties, quality flags, and missing-value semantics.
@@ -133,7 +134,7 @@ Tasks:
 - [x] Configure dataset locations and storage access for workers.
 - [x] Map the selected dataset's metadata into the agreed observation records.
 - [x] Index files without unnecessary copies or source modification.
-- [ ] Record checksums, source identifiers, processing versions, and supporting-product relationships.
+- [ ] Record checksums, source identifiers, processing versions, and supporting-product relationships. Checksums, source identifiers, and owners exist for selected files. Supporting products remain open.
 - [ ] Validate dimensions, timing, coordinates, units, and method prerequisites.
 - [x] Report missing, changed, incomplete, or incompatible inputs.
 - [ ] Implement repeatable refreshes and recovery after interruption.
@@ -157,7 +158,7 @@ Tasks:
 - [x] Implement known-object comparison independently of blind detection.
 - [ ] Execute validation with known objects, inserted signals, and suitable negative examples.
 - [ ] Measure recovery, false detections, runtime, memory, and storage use.
-- [ ] Verify interruption, retry, and duplicate prevention behavior.
+- [x] Verify interruption, retry, and duplicate prevention behavior. A cancelled running job discards its attempt. A retry run repeats only failed and cancelled jobs.
 - [x] Record worker and scientific-library versions for every run.
 
 Completion: a recorded job produces reproducible candidate evidence from real observations.
@@ -174,9 +175,9 @@ Tasks:
 - [x] Expose dataset inventory, observations, quality findings, and artifact access.
 - [x] Expose supported methods, parameter definitions, and compatibility requirements.
 - [ ] Support campaign configuration and analysis submission.
-- [ ] Expose progress, cancellation, retry, failures, and resource use.
-- [ ] Expose measurements, candidates, provenance, and comparisons between runs.
-- [ ] Provide reproducible evidence exports.
+- [x] Expose progress, cancellation, retry, failures, and resource use.
+- [x] Expose measurements, candidates, provenance, and comparisons between runs.
+- [x] Provide reproducible evidence exports.
 - [ ] Verify API, job, result, and database contract compatibility.
 - [x] Define access controls for the intended local deployment.
 
@@ -198,7 +199,7 @@ Tasks:
 - [ ] Implement dataset exploration and observation inspection.
 - [x] Implement method selection, parameter controls, and execution status.
 - [ ] Implement exposure animation, time controls, and measured motion overlays.
-- [ ] Implement candidate evidence, scientific diagnostics, and run comparisons.
+- [x] Implement candidate evidence, scientific diagnostics, and run comparisons.
 - [ ] Distinguish observations from predictions and preserve visible uncertainty.
 - [ ] Verify performance with representative collections and review hardware.
 
@@ -261,8 +262,8 @@ Tasks:
 - [x] Add campaign budgets, the blinding policy, the cohort guard, and access events.
 - [x] Add note, agent task, candidate, assessment, and decision records in a new contract version.
 - [ ] Add worker methods for acquisition, injection, controls, vetting, identity comparison, and evidence images.
-- [ ] Generate the agent adapter from the OpenAPI document.
-- [ ] Show agent records in the frontend after Richard's design review.
+- [x] Generate the agent adapter from the OpenAPI document.
+- [x] Show agent records in the frontend after Richard's design review.
 - [ ] Run a pilot with two or three agents. Measure cost, duplicate work, and the campaign progress measures.
 
 Completion: agents conduct a complete campaign through the API alone.
@@ -309,12 +310,15 @@ External deployment requires Richard's explicit request.
 | Agent control surface | Agreed | Agents use the same HTTP API as the frontend. Code in `agents/` uses the API only and defines no record shapes. |
 | Storage of large acquisitions | Open | One TESS sector of FFI light curves can need tens to hundreds of GB. The choices are `raw/<dataset-id>/` on the current disk or a separate volume. The R8 acquisition method needs this decision. |
 | Registration of the lab stars | Open | The 120 sector-56 stars of the delta-lab pass can become development data in the cohort register. The R8 pilot needs this decision. |
+| Research light curves | Agreed | The 18 light curves of the seven retained candidates of delta-research publication FINAL001 are development data. A selection manifest adds them to the inventory. Other research downloads stay outside the inventory. |
+| Investigation GUI | Agreed | Catalogue segments, a Records tab, an EVIDENCE workspace, the record vocabulary, and run comparison in the ANALYSIS workspace. [frontend/DESIGN-DECISIONS.md](frontend/DESIGN-DECISIONS.md) records them. |
+| Free text under blinding | Agreed | Rule `free-text/1`. It withholds other writers' text from blinded agents and does not guarantee blinding. |
 
 **Immediate next actions**
 
 Follow the scientific [plan](experiments/PLAN.md) and the [procedure](experiments/PROCEDURE.md) for each successor experiment.
 
-1. Continue the frontend in review steps: run comparison, then the 3D views of the periodogram, the phase fold, and the orbit.
+1. Continue the frontend in review steps: the 3D views of the periodogram, the phase fold, and the orbit.
 2. Review contract version 1 against G03 before a tagged database release.
 3. Define G01 criteria and budgets for each successor protocol.
 4. Reserve G02 evaluation cohorts before any independent-performance evaluation.
@@ -322,8 +326,7 @@ Follow the scientific [plan](experiments/PLAN.md) and the [procedure](experiment
 6. Keep the Gaussian source model provisional. A profile successor (A08) needs separate convergence work and new evaluation stars.
 7. Include DS9 and TOPCAT/STILTS checks when image-calibration work requires them.
 8. Reopen mask or threshold evaluation only under the [documented restart conditions](experiments/README.md#closure-decisions).
-9. Release migration 0004 and the API with the research records to k3s when Richard requests it.
-10. Add the R8 worker methods: acquisition, injection, controls, vetting, identity comparison, and evidence images. Acquisition needs the storage decision. The pilot needs the lab-star decision.
+9. Add the R8 worker methods: acquisition, injection, controls, vetting, identity comparison, and evidence images. Acquisition needs the storage decision. The pilot needs the lab-star decision.
 
 Use the [external supervisor](experiments/SUPPORT.md) for all TESS reproductions.
 
