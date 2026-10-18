@@ -86,7 +86,7 @@ These steps need Python 3.12, Node 22, and `uv`. They do not need a cluster or o
    ```
 
 2. Run the component tests. The backend and worker tests start a temporary PostgreSQL server with `pgserver`.
-   The worker tests that need TESS light curves skip when `raw/tess-spoc-light-curves/` is absent.
+   In a public checkout, the worker suite runs one test and skips eight. They need TESS light curves in `raw/tess-spoc-light-curves/` or the private T01 record.
 
    ```bash
    (cd database && uv run -q --no-project --with jsonschema==4.25.1 python scripts/check_contracts.py)

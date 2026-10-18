@@ -14,7 +14,7 @@
       "visibility": "public",
       "description": "Ingestion and scientific methods: tess-spoc-index and tess-bls.",
       "repository": "https://github.com/delta-observatory/workers.git",
-      "commit": "024a053be9d5a7d3a863f3ad74b2719f43373d48"
+      "commit": "1ea0a56d4b8841268c0e47694bd88b99478ba08a"
     },
     {
       "name": "backend",
