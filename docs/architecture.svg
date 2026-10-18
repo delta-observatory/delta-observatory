@@ -97,7 +97,7 @@
 
   <!-- GitHub -->
   <rect class="frame" x="30" y="586" width="1140" height="168" rx="6"/>
-  <text class="label" x="46" y="608">GITHUB ORGANIZATION delta-observatory · PUBLIC SOURCE</text>
+  <text class="label" x="46" y="608">GITHUB ORGANIZATION delta-observatory · PUBLIC SOURCE AND PRIVATE RESEARCH</text>
   <rect class="key" x="46" y="622" width="190" height="62" rx="4"/>
   <text class="h" x="58" y="645">delta-observatory</text>
   <text class="s" x="58" y="667">entry · components.json</text>
@@ -110,7 +110,7 @@
     <rect class="box" x="890" y="622" width="118" height="62" rx="4"/><text class="h" x="902" y="645">agents</text><text class="s" x="902" y="667">MCP adapter</text>
   </g>
   <rect class="private" x="1022" y="622" width="134" height="62" rx="4"/>
-  <text class="t" x="1034" y="640">private, local</text>
+  <text class="t" x="1034" y="640">private repos</text>
   <text class="s" x="1034" y="656" font-size="11">datasets</text>
   <text class="s" x="1034" y="669" font-size="11">detection</text>
   <text class="s" x="1034" y="682" font-size="11">experiments</text>
