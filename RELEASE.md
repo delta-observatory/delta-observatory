@@ -1,7 +1,7 @@
 # Public release
 
-This document defines the public release structure, the reviewed public material, the access model, the publication checklist, and the planned CI/CD.
-The [publication checklist](#publication-checklist) gives the GitHub publication steps.
+This document defines the public release structure, the reviewed public material, the access model, the publication state, and the planned CI/CD.
+All eleven repositories are on GitHub in the organization [`delta-observatory`](https://github.com/delta-observatory).
 
 ## Structure
 
@@ -53,22 +53,24 @@ No anonymous access is planned.
 
 ## Fresh checkout verification
 
-A fresh checkout restores the entry repository and the six public components in an empty directory.
-Before publication, `--source` clones the components from the local repositories instead of GitHub.
+A fresh checkout restores the entry repository and the seven other public repositories in an empty directory.
 The [verification record](#verification-record) gives the commands, the commits, and the results.
 
-## Publication checklist
+## Publication state
 
-Do the steps in this order. Steps 1 and 7 need the GitHub web interface.
+| Item | State |
+|---|---|
+| Repositories | Eight public repositories and three private repositories, each with a description and the entry repository as homepage. The public repositories have topics. |
+| Branches | Each local `main` tracks `origin/main`. |
+| Vulnerability reports | Private vulnerability reporting is on in each public repository. `.github` holds the default `SECURITY.md`. |
+| Secret scanning | Secret scanning and push protection are on in each public repository. |
+| Branch protection | The ruleset "Protect main" blocks deletion and force pushes of `main` in each public repository. The GitHub Free plan does not give rulesets to private repositories. |
+| Release | Tag `v0.1.0` marks the pinned commit of each public repository. The entry repository has the GitHub release `v0.1.0`. |
 
-1. Create the GitHub organization `delta-observatory` on the Free plan.
-2. Create the eight public and three private repositories that `components.json` and the entry repository name. Do not add a README or a licence on GitHub.
-3. Set the description, the topics, and the homepage of each repository.
-4. Add the `origin` remote to each local repository and push `main`. Check that `git ls-remote origin main` gives the local `HEAD`.
-5. Turn on private vulnerability reporting in each public repository. Add a ruleset that blocks deletion and force pushes of `main` in each repository.
-6. Tag the pinned commits `v0.1.0` and publish a release of the entry repository.
-7. Upload `docs/social-preview.png` as the social preview of the entry repository, and pin the entry repository on the organization page.
-8. Clone the entry repository from GitHub into an empty directory. Run `python3 scripts/components.py clone` and `check`, and the [small demonstration](README.md#small-demonstration).
+These steps need the GitHub web interface:
+
+1. Upload `docs/social-preview.png` in the entry repository: **Settings**, **General**, **Social preview**, **Edit**, **Upload an image**.
+2. Pin the entry repository on the organization page: open https://github.com/delta-observatory, select **Customize pins**, and select `delta-observatory`.
 
 These steps are separate decisions:
 
@@ -103,12 +105,12 @@ A published image contains GPL and LGPL packages. It must include their licence 
 ## Verification record
 
 Checked on 2026-10-18 in an empty directory on the reference node, with Python 3.14.7 for the scripts, `uv` 0.12.7 with Python 3.12 for the tests, Node 25.9.0, npm 11.12.1, and Git 2.55.0.
-The entry repository was at commit `f462e8a`. `git clone` copied it from the local repository.
+An anonymous HTTPS clone copied the entry repository from GitHub at commit `2534d0c`. Later commits change documents and the message of the workspace check only.
 
 | Step | Command | Result |
 |---|---|---|
-| Restore the components | `python3 scripts/components.py clone --source <local workspace>` | Exit 0. Six public components at their pinned commits. Three private components not cloned. |
-| Check the pins | `python3 scripts/components.py check` | Exit 0. All six match. The entry repository has no untracked or changed files. |
+| Restore the components | `python3 scripts/components.py clone` | Exit 0. Seven public repositories from GitHub at their pinned commits. Three private components not cloned. |
+| Check the pins | `python3 scripts/components.py check` | Exit 0. All seven match. The entry repository has no untracked or changed files. |
 | Example file hashes | `(cd examples/wasp-18b && sha256sum -c SHA256SUMS)` | Exit 0. Three files OK. |
 | Example export | `python3 backend/scripts/verify_export.py examples/wasp-18b/run-4dc34144-max-period-20d.zip --manifest-sha256 70c0c9b6…` | Exit 0. Passed, 13 files checked, no failures. |
 | Contracts | `uv run -q --no-project --with jsonschema==4.25.1 python scripts/check_contracts.py` in `database` | Exit 0. 14 schemas, 36 examples, 0 failures. |
@@ -116,7 +118,8 @@ The entry repository was at commit `f462e8a`. `git clone` copied it from the loc
 | Worker | `.venv/bin/python -m pytest -q` in `workers` | Exit 0. 1 passed, 8 skipped: no TESS light curves and no T01 record. |
 | Frontend | `npm ci`, `npm test`, and `npm run build` in `frontend` | 90 tests passed. The build exited 0. |
 | Agents | Both unittest suites in `agents` | 12 and 6 tests OK. |
-| Entry repository | `python3 -m unittest scripts/test_components.py` | 8 tests OK. |
+| Entry repository | `python3 -m unittest scripts/test_components.py` | 10 tests OK. |
+| Workspace check | `python3 scripts/check_workspace.py` | Status `unavailable`, exit 2: the private repositories are absent. In the full workspace, the check passes. |
 
 In the full workspace, with the light curves and the private repositories, the worker suite gives 9 passed.
 
@@ -125,8 +128,6 @@ It replaced the `GET /api/me` response with a client that has only `read`, and i
 The run form and the record controls were disabled with the missing permission, the top bar showed "read only", and no page error occurred.
 The same session with Richard's permissions showed every control enabled. The session sent no write request.
 
-**Not tested.** These checks do not clone from GitHub, because no repository is published.
-They do not build the container images, deploy to k3s, run the full stack from the public repositories, or use Node 22.
+**Not tested.** These checks do not build the container images, deploy to k3s, run the full stack from the public repositories, or use Node 22.
 They do not run the MCP adapter against the running API.
 The deployed frontend image does not include the permission-aware display.
-

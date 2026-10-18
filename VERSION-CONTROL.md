@@ -2,7 +2,7 @@
 
 The workspace contains eleven independent Git repositories.
 Each repository uses the `main` branch.
-No remote addresses are configured.
+Each repository has the remote `origin` in the GitHub organization `delta-observatory`.
 Agents commit every completed change under the [commit rules](AGENTS.md#commits).
 Richard controls pushes and external publication.
 
@@ -75,4 +75,4 @@ python3 scripts/components.py check
 Keep this sibling layout because documentation and build scripts use relative paths between repositories.
 Restore the private components from their private copies into the directories of the same names.
 Pin the current commits with `python3 scripts/components.py pin` before a release, after each component is committed.
-[RELEASE.md](RELEASE.md) gives the publication checklist. The remote addresses are not configured until Richard approves publication.
+[RELEASE.md](RELEASE.md) gives the publication state and the repository settings.

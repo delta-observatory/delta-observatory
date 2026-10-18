@@ -163,5 +163,5 @@ The sky star and constellation data come from d3-celestial under the BSD 3-Claus
 | [WORKSPACE.md](WORKSPACE.md) | Workspace structure and document responsibilities. |
 | [DESIGN.md](DESIGN.md) | Intended behavior, architecture, and requirements. |
 | [ROADMAP.md](ROADMAP.md) | Delivery status, decisions, and next actions. |
-| [RELEASE.md](RELEASE.md) | Public release structure, publication checklist, and planned CI/CD. |
+| [RELEASE.md](RELEASE.md) | Public release structure, publication state, verification record, and planned CI/CD. |
 | [CHECKS.md](CHECKS.md) | Check coverage and limits. |

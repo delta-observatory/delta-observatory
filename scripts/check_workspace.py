@@ -20,6 +20,7 @@ ORGANIZATION_LINK = re.compile(r'^https://github\.com/delta-observatory/([A-Za-z
 
 # Application repositories run tests and builds locally. Their Git exclusion
 # rules ignore these generated folders, so the scan skips them there.
+PRIVATE_REPOSITORIES = ['datasets', 'detection', 'experiments']
 APPLICATION_REPOSITORIES = {'backend', 'database', 'frontend', 'kubernetes', 'workers'}
 APPLICATION_GENERATED = {'__pycache__', 'node_modules', 'dist', 'build', 'coverage'}
 
@@ -339,6 +340,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--output', type=Path)
     args = parser.parse_args()
+    # The check covers the private research repositories. A public checkout does not have them.
+    missing = [name for name in PRIVATE_REPOSITORIES if not (ROOT/name).is_dir()]
+    if missing:
+        print(json.dumps(dict(status='unavailable', missing=missing,
+                              reason='The workspace check needs the private repositories '+', '.join(missing)+'. '
+                                     'Run the component checks in CHECKS.md instead.'), indent=2))
+        raise SystemExit(2)
     report = check()
     if args.output:
         with args.output.open('x') as stream:

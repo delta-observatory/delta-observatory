@@ -54,13 +54,13 @@ Resolve a documentation conflict before executing affected work.
 The workspace contains eleven independent Git repositories on `main`: the root, the nine component directories, and `community`.
 `community` holds the organization profile and the default security policy. Its GitHub repository name is `.github`.
 The root excludes all of these directories.
-No remote addresses are configured.
+Each repository has the remote `origin` in the GitHub organization `delta-observatory`.
 [components.json](components.json) lists the seven public repositories of the GitHub organization `delta-observatory` and their pinned commits.
 `datasets`, `detection`, and `experiments` stay private.
 [VERSION-CONTROL.md](VERSION-CONTROL.md) defines repository boundaries, exclusions, and verification commands.
 Documents link to another repository by its GitHub address, for example `https://github.com/delta-observatory/backend/blob/main/README.md`.
 In this workspace, that address refers to the local file `backend/README.md`. `scripts/check_workspace.py` checks each such link against the local file.
-[RELEASE.md](RELEASE.md) gives the public release structure, the publication checklist, and the planned CI/CD.
+[RELEASE.md](RELEASE.md) gives the public release structure, the publication state, and the planned CI/CD.
 
 Store downloaded observations in `raw/<dataset-id>/` at the workspace root.
 Each directory name must exactly match a dataset directory in [datasets/](https://github.com/delta-observatory/datasets/blob/main/README.md).

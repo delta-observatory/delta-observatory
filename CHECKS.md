@@ -12,6 +12,9 @@ Run this command from the workspace root:
 python3 scripts/check_workspace.py
 ```
 
+The workspace check needs the private repositories `datasets`, `detection`, and `experiments`.
+Without them, it reports `unavailable` with exit status 2. A public checkout uses the [component checks](#application-component-checks) instead.
+
 To save a report, select an unused output path:
 
 ```bash

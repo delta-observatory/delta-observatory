@@ -334,7 +334,7 @@ Follow the scientific [plan](https://github.com/delta-observatory/experiments/bl
 7. Include DS9 and TOPCAT/STILTS checks when image-calibration work requires them.
 8. Reopen mask or threshold evaluation only under the [documented restart conditions](https://github.com/delta-observatory/experiments/blob/main/README.md#closure-decisions).
 9. Add the R8 worker methods: acquisition, injection, controls, vetting, identity comparison, and evidence images. Acquisition needs the storage decision. The pilot needs the lab-star decision.
-10. Complete the [publication checklist](RELEASE.md#publication-checklist). Each external step needs Richard's approval.
+10. Upload the social preview and pin the entry repository on the organization page. [RELEASE.md](RELEASE.md#publication-state) gives the steps.
 
 Use the [external supervisor](https://github.com/delta-observatory/experiments/blob/main/SUPPORT.md) for all TESS reproductions.
 
