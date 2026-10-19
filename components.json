@@ -35,7 +35,7 @@
       "visibility": "public",
       "description": "k3s manifests, image builds, and migrations.",
       "repository": "https://github.com/delta-observatory/kubernetes.git",
-      "commit": "5dd4cdec749983cb52704125557ae1cd6edd254a"
+      "commit": "5108f0a80efae4033b6cc28466028e4d7ee125af"
     },
     {
       "name": "agents",
