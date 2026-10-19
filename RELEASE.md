@@ -81,7 +81,11 @@ Keep `raw/`, `~/backups/delta-observatory/`, and every token file local.
 
 ## Planned CI/CD
 
-This outline is not implemented. Each repository gets its own workflow, image, and version.
+This outline is not implemented. Each repository gets its own workflow and version.
+The four application components produce separate images.
+Standard GitHub-hosted Linux runners perform tests and builds.
+Flux applies the cloud deployment from the `kubernetes` repository.
+The [hosting plan](https://github.com/delta-observatory/kubernetes/blob/main/HOSTING.md#github-actions-and-flux-workflow) defines deployment ordering, credentials, and free usage conditions.
 
 | Repository | Pull request checks | Release |
 |---|---|---|
@@ -89,7 +93,7 @@ This outline is not implemented. Each repository gets its own workflow, image, a
 | `backend` | `uv run pytest` with `pgserver`, and a check that `vendor/contracts/SOURCE` names a tagged `database` commit | A tag builds the API image. A change to `tests/vectors/` or the API description sends an event to `frontend` and `agents`. |
 | `workers` | `pytest`, and the same contract source check | A tag builds the worker image. The T01 regression needs two public TESS light curves, which a cached download step can supply. |
 | `frontend` | `npm ci`, `npm test`, `npm run typecheck`, and `npm run build` | A tag builds the frontend image. |
-| `kubernetes` | `kubectl kustomize base`, and a schema check of the rendered manifests | No automatic deployment. The node has no inbound access. A later decision can add a self-hosted runner or a pull-based deployment. |
+| `kubernetes` | Render the home base and cloud overlay, check schemas, and check release compatibility | A checked deployment PR selects image digests. After merge, Flux applies the cloud configuration without inbound runner access. |
 | `agents` | Both unittest suites, and the adapter generation against the current API description | None. |
 | `delta-observatory` | `python3 -m unittest scripts/test_components.py`, and a check that each pinned commit exists in its repository | None. |
 
@@ -98,8 +102,11 @@ The `contracts-changed` event opens a pull request in `backend` and in `workers`
 A `backend` change to the shared vectors or the API description opens the same kind of pull request in `frontend` (`scripts/sync-api-vectors.sh`) and in `agents` (adapter generation).
 After the component releases, a pull request in the entry repository updates `components.json` with `python3 scripts/components.py pin`.
 
-**Images.** GitHub Container Registry can hold the four images with version and commit tags.
-The node builds images locally and does not pull them. A change to registry images is a separate deployment decision.
+**Images.** GitHub Actions builds images after successful tests on trusted `main` commits or release tags.
+GHCR holds the four images with version and commit tags.
+A deployment pull request selects exact image digests for the cloud installation.
+The home deployment retains its local build procedure.
+The cloud plan uses GitHub-hosted runners and requires no build runner on the VPS.
 A published image contains GPL and LGPL packages. It must include their licence texts and offer their source.
 
 ## Verification record
