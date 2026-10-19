@@ -28,7 +28,8 @@ Keep historical experiment and review evidence unchanged.
 Protect another thread's task, environment, inputs, and outputs.
 Do not start experiments merely because they appear in the plan.
 Do not claim implemented capabilities from target-design prose or directory names.
-Do not push, publish, or deploy unless Richard requests that action.
+Push completed commits to each repository's existing GitHub remote.
+Do not publish releases or deploy unless Richard requests that action.
 
 Run [scripts/check_workspace.py](scripts/check_workspace.py) after changes to documentation or structure.
 Run the applicable component or scientific record checks when their evidence changes.
@@ -45,6 +46,8 @@ Name an owner only for active work, and remove the name when the work closes.
 ## Commits
 
 Commit every completed change.
+Push completed commits after the applicable checks pass.
+Do not force-push or change repository visibility without Richard's explicit request.
 Commit each change in the repository that owns the changed files.
 Commit documentation changes, new datasets, new detection material, and code changes.
 Commit every valid experiment when it closes under [experiments/PROCEDURE.md](experiments/PROCEDURE.md).

@@ -4,7 +4,9 @@ The workspace contains eleven independent Git repositories.
 Each repository uses the `main` branch.
 Each repository has the remote `origin` in the GitHub organization `delta-observatory`.
 Agents commit every completed change under the [commit rules](AGENTS.md#commits).
-Richard controls pushes and external publication.
+Agents push completed commits to each repository's existing GitHub remote after the applicable checks pass.
+Richard controls release publication, deployment, and repository visibility changes.
+Agents do not force-push without Richard's explicit request.
 
 | Repository | Intended tracked contents | Release visibility |
 |---|---|---|
