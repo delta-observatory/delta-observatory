@@ -187,6 +187,8 @@ Backend manifests provide local connectivity and configured access to storage an
 
 **R5 — Interactive frontend**
 
+The CPU renderer and DATASETS workspace are available in the local source. Deployment on NodePort 30871 uses the earlier frontend image.
+
 Build a polished, information-dense, performant interface around working scientific capabilities.
 Richard directs the visual style and interaction design before frontend code is written.
 Each design step requires his review and direction before implementation.
@@ -196,7 +198,8 @@ Tasks:
 - [x] Review visual references, layout options, and interaction paradigms with Richard.
 - [x] Use real observations and diagnostics in design discussions.
 - [x] Agree on measurable loading, interaction, animation, and memory targets.
-- [ ] Implement dataset exploration and observation inspection.
+- [x] Implement catalog search, registered experiment reports, and indexed TESS observation inspection.
+- [ ] Implement image inspection, observation timelines, and broader dataset coverage.
 - [x] Implement method selection, parameter controls, and execution status.
 - [ ] Implement exposure animation, time controls, and measured motion overlays.
 - [x] Implement candidate evidence, scientific diagnostics, and run comparisons.
@@ -298,7 +301,7 @@ External deployment requires Richard's explicit request.
 | Known-object references | Agreed | Dated local copies from official downloads or APIs, with experiment-specific provenance. See [policy](REFERENCE-CATALOGS.md). |
 | Local observation storage | Agreed | `raw/<dataset-id>/` at the workspace root. Names match `datasets/`. Git does not track it. |
 | Database hosting and storage | Agreed | Dedicated CNPG cluster `delta-db` in namespace `delta-observatory` on `local-path` storage. Artifacts on the `delta-artifacts` PVC. |
-| Frontend technology and process | Agreed | React, Three.js through React Three Fiber, TypeScript, and Vite. Each design step needs Richard's review. [frontend/DESIGN-DECISIONS.md](https://github.com/delta-observatory/frontend/blob/main/DESIGN-DECISIONS.md) records the decisions. |
+| Frontend technology and process | Agreed | React, Canvas 2D, TypeScript, and Vite. Each design step needs Richard's review. [frontend/DESIGN-DECISIONS.md](https://github.com/delta-observatory/frontend/blob/main/DESIGN-DECISIONS.md) records the decisions. |
 | Slice development data | Agreed | 46 TESS light curves registered as development data in the [cohort register](https://github.com/delta-observatory/experiments/blob/main/COHORTS.md). |
 | Frontend status colours | Agreed | A named, versioned API rule, `period-agreement/1`. Its thresholds are display bins, not validation criteria. It gives no status when a client cannot read labels. |
 | Agent permissions | Agreed | An agent reads, submits runs, and writes research records inside its approved campaign, until the API-enforced budget stops it. Acquisition, identity reveal, cohort changes, and administration stay with Richard. A database constraint enforces the agent limit. |

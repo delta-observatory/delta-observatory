@@ -45,7 +45,7 @@ Resolve a documentation conflict before executing affected work.
 | [database/](https://github.com/delta-observatory/database/blob/main/README.md) | Schema, migrations, and the cross-component contracts in [database/contracts/](https://github.com/delta-observatory/database/blob/main/contracts/README.md). |
 | [workers/](https://github.com/delta-observatory/workers/blob/main/README.md) | Worker with the `tess-spoc-index` and `tess-bls` methods. |
 | [backend/](https://github.com/delta-observatory/backend/blob/main/README.md) | Stateless application API. |
-| [frontend/](https://github.com/delta-observatory/frontend/blob/main/README.md) | Interactive application in React, Three.js, TypeScript, and Vite. [DESIGN-DECISIONS.md](https://github.com/delta-observatory/frontend/blob/main/DESIGN-DECISIONS.md) records the agreed design. |
+| [frontend/](https://github.com/delta-observatory/frontend/blob/main/README.md) | Interactive application in React, Canvas 2D, TypeScript, and Vite. [DESIGN-DECISIONS.md](https://github.com/delta-observatory/frontend/blob/main/DESIGN-DECISIONS.md) records the agreed design. |
 | [kubernetes/](https://github.com/delta-observatory/kubernetes/blob/main/README.md) | k3s manifests, image builds, and migrations. |
 | [agents/](https://github.com/delta-observatory/agents/blob/main/README.md) | Agent instructions, the MCP adapter generated from the API description, the research importer, and import manifests. Agent code uses the API only. |
 | `scripts/` | Workspace documentation and structure checks, and `components.py`, which clones, checks, and pins the public component repositories. |

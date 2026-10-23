@@ -116,8 +116,8 @@ flowchart TB
 | Research agents | Autonomous investigation through queries, runs, assessments, decisions, and notes | Use only API operations, with their own identity and permissions. |
 | Model provider | Narrow judgments about supplied evidence for worker methods | Returns recommendations that application policy evaluates. |
 
-React and Three.js with animations are established frontend requirements.
-React Three Fiber, TypeScript, and Vite are the selected implementation.
+React with CPU rendering and animations is an established frontend requirement.
+Canvas 2D, TypeScript, and Vite are the selected implementation.
 Python, PostgreSQL, and file storage are the proposed backend foundation.
 
 The API and workers have separate repositories, dependency environments, build artifacts, and deployment lifecycles.
@@ -173,7 +173,7 @@ delta-observatory/
 
 | Directory | Responsibility |
 |---|---|
-| `frontend/` | React and Three.js application, visual interactions, and backend API client. |
+| `frontend/` | React and Canvas 2D application, visual interactions, and backend API client. |
 | `backend/` | Application API, campaign state, job coordination, resource policy, and result access. |
 | `workers/` | Dataset indexing, scientific methods, validation, and derived artifacts. |
 | `database/` | Database schema, migrations, constraints, indexes, record semantics, and cross-component contracts. |
@@ -488,7 +488,7 @@ Unavailable metadata and gaps remain visible.
 The analysis workspace exposes method documentation, equations, parameters, run status, resource use, and comparisons.
 The evidence workspace links images, measurements, diagnostics, associations, annotations, and exports.
 
-Three.js supports animated exposure playback, sky navigation, observation footprints, motion tracks, and suitable orbital views.
+CPU rendering must support sky navigation and future exposure playback, observation footprints, motion tracks, and suitable orbital views.
 React supplies forms, tables, controls, and descriptive information.
 The browser uses prepared display assets and requests higher detail as required.
 Original scientific arrays remain available through explicit inspection or export.

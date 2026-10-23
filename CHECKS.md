@@ -57,7 +57,7 @@ Run each check from its component repository.
 | `kubernetes/` | `DELTA_TOKEN_FILE=<person token file> python3 scripts/acceptance.py --report <file>` | The deployed run workflow: estimate, submission, cancellation, an inconclusive outcome, retry, comparison, and two identical exports with their check. It writes runs on development data. |
 | Root | `python3 -m unittest scripts/test_components.py` | Clone, check, and pin of the component manifest with temporary local repositories: pinned and latest clones, private components, existing directories, changed commits, uncommitted changes, and invalid manifests. |
 | Root | `python3 scripts/components.py check` | Each public component directory is at its pinned commit in [components.json](components.json) and has no uncommitted changes. |
-| `frontend/` | `npm test` | Sky geometry, the search parser, the fold, the parameter checks, SHA-256, ZIP reading and the browser export check, comparison filters, record display helpers, and the controls that each permission allows. `src/parity.test.ts` checks the search, the fold, and the parameter checks against the copy of the backend vectors in `vendor/api-vectors/`. |
+| `frontend/` | `npm test` | CPU rendering, catalog associations, sky geometry, search, folds, parameters, exports, comparisons, record helpers, and permissions. `src/parity.test.ts` checks the search, the fold, and the parameter checks against the copy of the backend vectors in `vendor/api-vectors/`. |
 
 The component READMEs give the environment setup.
 These checks do not validate scientific performance. The frontend check does not test the browser layout. GUI acceptance uses a headless browser and screenshots.
@@ -110,7 +110,7 @@ The [supervised TESS repeat](https://github.com/delta-observatory/experiments/bl
 | TESS measurement validity | Guided period-and-phase recovery does not establish depth accuracy, completeness, or false-alarm rates. |
 | Photutils reproduction | No full numerical repeat exists for this record. |
 | Scientific adoption | Independent evaluation and uncertainty calibration remain prerequisites for broader adoption claims. |
-| GUI performance | Headless Chromium with software WebGL measured 1.10 s to the catalogue and 544 ms for a first target change, against the 400 ms target. The review hardware with GPU rendering needs its own measurement. |
+| GUI performance | CPU rendering works with WebGL disabled. Browser checks cover sky navigation, plot interaction, and dataset browsing. Full performance-target verification remains open. |
 | Blinding of free text | Rule `free-text/1` withholds other writers' text from blinded agents. No check searches text for withheld values. |
 
 The structural check can pass while these items remain open.

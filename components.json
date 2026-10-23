@@ -21,21 +21,21 @@
       "visibility": "public",
       "description": "Stateless FastAPI application API.",
       "repository": "https://github.com/delta-observatory/backend.git",
-      "commit": "f4a6ac66b3330ff53cb626d406c4992c54652e75"
+      "commit": "bbbaee5eefc69aff76ec43e5182bdb345d7c4d64"
     },
     {
       "name": "frontend",
       "visibility": "public",
-      "description": "React, Three.js, and TypeScript interface.",
+      "description": "React, Canvas 2D, and TypeScript interface.",
       "repository": "https://github.com/delta-observatory/frontend.git",
-      "commit": "c8f8ee8305162e892456ffd40d333015d83f3d9a"
+      "commit": "126fe16bb6f394562d7d50c1eeaa6813c9a311b3"
     },
     {
       "name": "kubernetes",
       "visibility": "public",
       "description": "k3s manifests, image builds, and migrations.",
       "repository": "https://github.com/delta-observatory/kubernetes.git",
-      "commit": "a2cea5f1d2a5d02d2a7cf953d4e63f812b453fee"
+      "commit": "6f2479f32b777a8f10e08cb3d3991b5ef8e57282"
     },
     {
       "name": "agents",
