@@ -74,12 +74,25 @@ Other unmeasured overhead remains unknown.
 The bounded archival assessment does not classify TIC 358463507's companion.
 Gaia's combined velocity does not supply an orbital amplitude or an epoch time series.
 The exact-source catalog responses do not establish novelty.
-The ESO query timed out, so its spectral coverage remains unchecked.
+The 20-request validation audit finds no suitable target velocity series in the specified public tables.
+ESO spectrum-position and cube-coverage queries return no matching rows.
+Raw pointing metadata and the selected archive tables do not establish exhaustive spectral coverage.
+
+The saved nearby-source probability model excludes companions below 0.1 solar masses from its binary alternatives.
+Its planet scenario fits radius but does not measure mass.
+Renormalizing these scenarios cannot exclude brown dwarfs or omitted unresolved blends.
+A separate reviewer confirms this model limitation.
+
+Saved phase-curve coefficients differ between SAP and PDCSAP processing products.
+Their errors lack calibrated source dilution, processing transfer, and correlated-noise coverage.
+They do not establish a companion-mass limit.
+A prospective calibrated phase-curve experiment remains a possible route, alongside source-resolved velocity measurements.
 
 Four source-resolved spectra near opposite quadratures, at 0.3 km/s precision, provide a minimum screening series under the stated circular-orbit assumptions.
 A Jupiter-mass measurement needs at least six suitably phased spectra targeting 30 m/s precision, including instrumental and stellar noise.
 The local archival report preserves the assumptions and amplitude calculations.
 No observer contact or external submission occurred.
+The validation audit preserves its metadata, software checks, separate review, and explicit unclassified outcome.
 
 ## Bounded method comparison
 
@@ -108,6 +121,8 @@ The external evidence root is `/home/richardtidwell/repos/delta-research/outputs
 Its `assessments`, `scope-corrections`, `audit`, `backlog-inspection`, and `coordination` directories preserve the underlying records.
 The application-import response files preserve every created note identifier and duplicate check.
 The lab repository has no configured remote. The research directory is not a Git repository.
+The lab's `validation` directory contains the companion evidence audit and its reproducible checks.
+Its external evidence copy is `/home/richardtidwell/repos/delta-research/outputs/planet-validation-01a166e5`.
 
 [Importer manifests](https://github.com/delta-observatory/agents/tree/main/imports) preserve the API import instructions.
 The [mirror pilot](https://github.com/delta-observatory/experiments/blob/main/tess-mirror-pilot/README.md) contains the separate formal method comparison.
