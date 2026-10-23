@@ -21,14 +21,14 @@
       "visibility": "public",
       "description": "Stateless FastAPI application API.",
       "repository": "https://github.com/delta-observatory/backend.git",
-      "commit": "bbbaee5eefc69aff76ec43e5182bdb345d7c4d64"
+      "commit": "1e34929495035e62bd2a3c02f82e489be421e9e1"
     },
     {
       "name": "frontend",
       "visibility": "public",
       "description": "React, Canvas 2D, and TypeScript interface.",
       "repository": "https://github.com/delta-observatory/frontend.git",
-      "commit": "126fe16bb6f394562d7d50c1eeaa6813c9a311b3"
+      "commit": "546e49a3a553382fe3ce061ca1da596bb3a5eaf5"
     },
     {
       "name": "kubernetes",

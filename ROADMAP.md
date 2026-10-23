@@ -187,7 +187,7 @@ Backend manifests provide local connectivity and configured access to storage an
 
 **R5 — Interactive frontend**
 
-The CPU renderer and DATASETS workspace are available in the local source. Deployment on NodePort 30871 uses the earlier frontend image.
+The CPU renderer, default EXPLORE workspace, and DATASETS workspace are available in the local source. Deployment on NodePort 30871 uses the earlier frontend image.
 
 Build a polished, information-dense, performant interface around working scientific capabilities.
 Richard directs the visual style and interaction design before frontend code is written.
@@ -203,6 +203,7 @@ Tasks:
 - [x] Implement method selection, parameter controls, and execution status.
 - [ ] Implement exposure animation, time controls, and measured motion overlays.
 - [x] Implement candidate evidence, scientific diagnostics, and run comparisons.
+- [x] Connect ranked BLS signals, interactive charts, candidate review, and search execution in EXPLORE.
 - [ ] Distinguish observations from predictions and preserve visible uncertainty.
 - [ ] Verify performance with representative collections and review hardware.
 

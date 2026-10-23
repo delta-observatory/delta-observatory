@@ -479,7 +479,9 @@ The frontend calculates no stored scientific value.
 A display-only calculation carries a visible label and has an equivalent API operation.
 The frontend shows agent records with their actor. Their presentation requires Richard's review.
 
-The frontend provides three connected workspaces: datasets, analysis, and candidate evidence.
+The frontend opens in Explore, with a ranked signal queue, linked charts, and candidate review.
+Sky, datasets, analysis, and candidate evidence provide connected views.
+The queue shows algorithm results for review. Ranking alone does not establish a candidate or confirm a planet.
 Selecting an observation or candidate preserves context across views.
 Tables and plots expose the same records as the visual workspace.
 

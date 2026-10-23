@@ -8,6 +8,7 @@ The first workflow searches TESS light curves for transit signals with box least
 
 ## What the application does
 
+- Opens EXPLORE with ranked BLS signals, interactive charts, candidate review, and search controls.
 - Indexes TESS SPOC 120-second light curves and shows them on a sky view with a searchable catalogue.
 - Runs the versioned `tess-bls` method as queued jobs, with parameter checks, cost estimates, cancellation, and retry.
 - Stores every measurement with its unit, uncertainty, time convention, and software versions.
@@ -35,7 +36,7 @@ Each component is a separate repository with its own history, tests, and image.
 | [database](https://github.com/delta-observatory/database) | Schema, migrations, and the cross-component contracts. |
 | [workers](https://github.com/delta-observatory/workers) | Ingestion and scientific methods: `tess-spoc-index` and `tess-bls`. |
 | [backend](https://github.com/delta-observatory/backend) | Stateless API: tokens, permissions, campaign rules, records, comparisons, and exports. |
-| [frontend](https://github.com/delta-observatory/frontend) | React, Three.js, and TypeScript interface. |
+| [frontend](https://github.com/delta-observatory/frontend) | React, Canvas 2D, and TypeScript interface. |
 | [kubernetes](https://github.com/delta-observatory/kubernetes) | k3s manifests, in-cluster image builds, backups, and migrations. |
 | [agents](https://github.com/delta-observatory/agents) | Agent manual, MCP adapter, research importer, and campaign template. |
 
