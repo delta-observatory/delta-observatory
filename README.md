@@ -54,7 +54,8 @@ A person's assessment records that result with its limits: the light curve is de
 
 ## Access
 
-Each client has its own token and permissions: `read`, `run.submit`, `record.write`, `acquire`, `identity.reveal`, and `admin`.
+The local GUI supports token-free browsing. Search submission and saved reviews require sign-in.
+Each authenticated API client has its own token and permissions: `read`, `run.submit`, `record.write`, `acquire`, `identity.reveal`, and `admin`.
 The API checks the permission of every request. The frontend disables the controls that a client's permissions do not allow, and it states the missing permission.
 An agent never holds `acquire`, `identity.reveal`, or `admin`. A database constraint also refuses them.
 

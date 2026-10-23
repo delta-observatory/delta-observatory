@@ -190,7 +190,7 @@ Backend manifests provide local connectivity and configured access to storage an
 
 **R5 — Interactive frontend**
 
-The CPU renderer, default EXPLORE workspace, and DATASETS workspace are available in the local source. Deployment on NodePort 30871 uses the earlier frontend image.
+The local source provides CPU rendering, mobile EXPLORE views, DATASETS, and optional token-free browsing. Deployment on NodePort 30871 uses the earlier frontend image.
 
 Build a polished, information-dense, performant interface around working scientific capabilities.
 Richard directs the visual style and interaction design before frontend code is written.
@@ -310,7 +310,7 @@ External deployment requires Richard's explicit request.
 | Frontend status colours | Agreed | A named, versioned API rule, `period-agreement/1`. Its thresholds are display bins, not validation criteria. It gives no status when a client cannot read labels. |
 | Agent permissions | Agreed | An agent reads, submits runs, and writes research records inside its approved campaign, until the API-enforced budget stops it. Acquisition, identity reveal, cohort changes, and administration stay with Richard. A database constraint enforces the agent limit. |
 | Blinding policy | Agreed | Each campaign sets a level: open, labels withheld, or labels and identity withheld. The default withholds labels and identity. Richard records the reveal after the campaign marks its decisions fixed. |
-| Frontend authentication | Agreed | A token sign-in in each browser. The frontend proxy adds no token, so an agent cannot act as Richard through the frontend port. |
+| Frontend authentication | Agreed | The local GUI permits token-free browsing. Searches and saved reviews require sign-in. The authenticated API preserves client permissions and campaign restrictions. |
 | Default run | Agreed | A calculated API rule, `default-run/1`: the analysis run with the most complete jobs, and the newest wins a tie. An explicit stored choice can follow with R8 identity and permissions. |
 | Scientific acceptance targets | Open | Dataset inspection and baseline measurements. |
 | Decision provider and authority | Open | Evidence requirements and comparative evaluation. |
@@ -323,7 +323,7 @@ External deployment requires Richard's explicit request.
 | Public repository structure | Agreed | Separate repositories in the GitHub organization `delta-observatory`. The root is the entry repository, and [components.json](components.json) pins the public components. Histories stay unchanged. [RELEASE.md](RELEASE.md) gives the structure. |
 | Public material | Agreed | The root, `database`, `workers`, `backend`, `frontend`, `kubernetes`, and `agents` become public. `datasets`, `detection`, and `experiments` stay private. |
 | Original licence | Agreed | MIT for each public repository. |
-| Reviewer access | Deferred | The planned form is invited reviewers with personal read-only tokens, through Cloudflare Tunnel and Cloudflare Access. No anonymous access. |
+| Reviewer access | Deferred | The planned form is invited reviewers with personal read-only tokens, through Cloudflare Tunnel and Cloudflare Access. Anonymous GUI browsing stays disabled for that external deployment. |
 | Copyright ownership | Agreed | Richard owns the copyright of the public material. It is personal work. |
 | Public data | Agreed | The public repositories cite the public data sources and do not redistribute observations. The dataset catalog and the cohort register stay private, so the public repositories alone do not support a full-stack reproduction. |
 | Private repositories on GitHub | Agreed | `datasets`, `detection`, and `experiments` are private repositories in the same organization. |
