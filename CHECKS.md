@@ -104,7 +104,7 @@ The [supervised TESS repeat](https://github.com/delta-observatory/experiments/bl
 | Item | Current limitation and next requirement |
 |---|---|
 | Application contract | Contract version 1 covers the TESS slice. DECam records need a later contract version. G03 review of the contract remains open. |
-| Evaluation selection | The [shared register](https://github.com/delta-observatory/experiments/blob/main/COHORTS.md) holds only historical development exclusions. G02 requires new evaluation selections and reservations. |
+| Evaluation selection | The [shared register](https://github.com/delta-observatory/experiments/blob/main/COHORTS.md) includes the mirror pilot's separate development and evaluation reservations. Future comparisons need their own G02 selections. |
 | Scientific validation | The [common validator](https://github.com/delta-observatory/experiments/blob/main/RECORD-CONTRACT.md) implements the record contract. Experiment-specific calculations and scientific review remain required. |
 | Historical TESS runner | Frozen code retains its internal timeout defect. The supported [external supervisor](https://github.com/delta-observatory/experiments/blob/main/SUPPORT.md) enforces the complete-run deadline. |
 | TESS measurement validity | Guided period-and-phase recovery does not establish depth accuracy, completeness, or false-alarm rates. |

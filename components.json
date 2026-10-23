@@ -42,7 +42,7 @@
       "visibility": "public",
       "description": "Agent manual, MCP adapter, research importer, and campaign templates.",
       "repository": "https://github.com/delta-observatory/agents.git",
-      "commit": "2cba1adbd58629a8eb4a26034fd4de7549784ee8"
+      "commit": "58beb70ef90ee33ba6b2f582a8e3ab6c5e543187"
     },
     {
       "name": "community",
