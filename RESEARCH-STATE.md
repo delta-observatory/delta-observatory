@@ -58,10 +58,16 @@ They exclude targeted follow-up, controls, reliability checks, and the separate 
 | Acquired targets with failed searches | 7 |
 
 The ledger correction restores 28 saved inspections without changing prior owner assignments.
-All 96 formerly uninspected crossings have explicit numerical assessments and remain unresolved.
-A predetermined sample of 16 diagnostic figures received visual review.
-Another 80 figures and 124 identity comparisons remain unfinished.
+All 96 formerly uninspected crossings have explicit numerical assessments.
+Two predetermined samples cover 32 diagnostic figures.
+Another 64 figures and 124 identity comparisons remain unfinished.
 Numerical inspection does not establish physical classification.
+
+The [saved-packet review](https://github.com/delta-observatory/experiments/blob/main/reviews/tess-backlog-review/README.md) assesses the second sample of 16 figures.
+Nine judgments remain ambiguous, and seven exclude the selected interpretation from this review’s follow-up list.
+TIC 441763252 receives priority for source-localization evidence. Its companion class and catalog identity remain unresolved.
+No selected target has an indexed observation mapping, so the review creates no application candidate.
+Two reviewer disagreements retain the less conclusive disposition. RS-001 remains deferred.
 
 ## Campaign readiness
 
