@@ -2,10 +2,12 @@
 
 ## Status and product outcome
 
-This document proposes a downloadable Delta application for review.
+This document defines the proposed downloadable Delta application.
 It defines product scope, reuse decisions, delivery dependencies, and acceptance criteria.
 [DESIGN.md](DESIGN.md) and [ROADMAP.md](ROADMAP.md) retain authority for agreed requirements and implementation status.
-This proposal does not start implementation, experiments, releases, or deployment.
+P0 has a separate local [desktop prototype](release/README.md) and [dependency audit](release/P0.md).
+The later stages remain proposals.
+The plan does not authorize scientific experiments, public binary releases, or external deployment.
 
 Delta should let a person direct an astronomical investigation from one application.
 The person can select observations, connect an agent, change the plan, inspect measurements, and export reproducible evidence.
@@ -25,7 +27,8 @@ The deployed slice supports observation selection, BLS searches, cancellation, r
 BLS means Box Least Squares, a search for repeated brightness decreases.
 The adapter uses MCP, the Model Context Protocol, to expose API operations to external agents.
 
-The missing product work includes desktop installation, public runtime resources, automatic acquisition, managed agent sessions, editable investigation plans, and complete GUI coverage.
+The prototype supplies bundled services and a minimal public TESS catalog.
+Remaining product work includes a qualified installer, complete public resources, automatic acquisition, managed agent sessions, editable investigation plans, and complete GUI coverage.
 Scientific validation remains separate from these engineering tasks.
 The two-host TESS experiment establishes bounded period-and-phase recovery.
 It does not establish depth accuracy, completeness, or false-alarm rates.
@@ -90,7 +93,7 @@ An external agent connection through MCP remains distinct from a managed agent s
 | Acquisition manager | The manager previews selections and storage estimates. It downloads approved products, checks files, and recovers after interruption. | `workers/`, `backend/`, `frontend/` |
 | Agent host | The host manages provider sessions, events, interruptions, and saved decisions. | `agents/` |
 | Evidence assembly | Connect each claim to measurements, diagnostics, inputs, method versions, limitations, and human decisions. | `workers/`, `backend/`, `frontend/` |
-| Desktop lifecycle | The desktop component manages pinned services, processes, credentials, record migration, and backup restoration. | Proposed `desktop/` component |
+| Desktop lifecycle | The desktop component manages pinned services, processes, credentials, record migration, and backup restoration. | P0 prototype in `release/`. Backup restoration remains pending. |
 | Public runtime resources | Supply the supported method list, archive recipes, example manifests, and installation checks without private repository access. | Relevant public component repositories |
 
 “Investigation” is the GUI term for the existing campaign concept.
@@ -240,7 +243,7 @@ Product usability checks do not replace scientific evaluation.
 
 ## Delivery order and acceptance
 
-This proposal defines the stages below.
+This plan defines the stages below.
 They supplement R0–R8 without changing their recorded completion status.
 
 | Stage | Deliverable | Dependency | Acceptance evidence |
@@ -251,6 +254,10 @@ They supplement R0–R8 without changing their recorded completion status.
 | P3: One managed agent | Codex adapter, credential handling, session controls, and failure recovery. | P1 and supported provider authentication. | Steering, pause, reconnection, and manual fallback work without duplicate jobs or permission bypasses. |
 | P4: Complete TESS journey | Guided and user-selected investigations, comparison, review, and reproducible export. | P2, P3, and Richard's interface design review. | Every supported operation has a GUI route. A second installation repeats the selected numerical result. |
 | P5: Beta qualification | Installer, migration, backup, recovery, and external usability checks. | P4 and explicit scientific claim limits. | Representative users complete the journey. Supported systems pass recovery checks. Release documentation states scientific and platform limits. |
+
+P0 passes offline execution and desktop rendering checks in an isolated Ubuntu filesystem.
+The [P0 report](release/P0.md) records measurements and private dependency treatment.
+Fresh desktop installation, normal distribution security policies, and complete resource measurements remain open.
 
 P2 and P3 can proceed independently after their contracts and permissions are stable.
 Scientific validation proceeds under its own dependencies.

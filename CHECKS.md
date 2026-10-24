@@ -32,7 +32,7 @@ The checker covers:
 - Retained source-file sizes, PDF headers, and SHA-256 hashes.
 - Applicable experiment freeze, script, closure, and legacy input-manifest hashes.
 - Generated caches, temporary files, and observation arrays inside experiment records.
-- Generated caches in research repositories. The scan skips Git-ignored `__pycache__`, `node_modules`, `dist`, `build`, and `coverage` folders in the application repositories.
+- Generated caches in research repositories. The scan skips Git-ignored `__pycache__`, `node_modules`, `dist`, `build`, and `coverage` folders in application directories, including `release/`.
 - Available Git status at the workspace and component boundaries.
 - `raw/` directory names against dataset IDs. The checker does not read files inside `raw/`.
 
@@ -61,6 +61,21 @@ Run each check from its component repository.
 
 The component READMEs give the environment setup.
 These checks do not validate scientific performance. The frontend check does not test the browser layout. GUI acceptance uses a headless browser and screenshots.
+
+## Desktop prototype checks
+
+[release/README.md](release/README.md#checks) gives the desktop commands and prerequisites.
+[release/P0.md](release/P0.md) describes the checked environment and qualification limits.
+
+| Command from the workspace root | Coverage |
+|---|---|
+| `node --test release/tests/*.test.cjs` | Static path restrictions, credential forwarding, atomic import, original-file preservation, replacement refusal, and repeated imports. |
+| `python3 release/scripts/smoke.py --app <packaged-app> --workspace <unused-path> --output <unused-report-path>` | Empty startup, permissions, public catalog, workspace locking, synthetic indexing, BLS execution, export hashes, cohort refusal, shutdown, and restart. |
+| `python3 release/scripts/check-clean.py --rootfs <ubuntu-root> --package <package> --output <unused-path>` | The runtime check without host files, network access, or system language runtimes. Electron fonts, sandbox, renderer errors, plot pixels, and screenshot capture. |
+
+The desktop checks need no private repository or downloaded astronomical observation.
+The fixture is synthetic engineering input.
+The checks do not qualify a fresh operating-system installation, large campaigns, scientific performance, or public binary distribution.
 
 ## Additional existing checks
 

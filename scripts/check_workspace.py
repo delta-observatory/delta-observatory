@@ -21,7 +21,7 @@ ORGANIZATION_LINK = re.compile(r'^https://github\.com/delta-observatory/([A-Za-z
 # Application repositories run tests and builds locally. Their Git exclusion
 # rules ignore these generated folders, so the scan skips them there.
 PRIVATE_REPOSITORIES = ['datasets', 'detection', 'experiments']
-APPLICATION_REPOSITORIES = {'backend', 'database', 'frontend', 'kubernetes', 'workers'}
+APPLICATION_REPOSITORIES = {'backend', 'database', 'frontend', 'kubernetes', 'workers', 'release'}
 APPLICATION_GENERATED = {'__pycache__', 'node_modules', 'dist', 'build', 'coverage'}
 
 

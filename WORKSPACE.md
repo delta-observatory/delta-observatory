@@ -8,6 +8,7 @@ R0, the scientific contract stage, remains active.
 The TESS vertical slice runs on the local k3s cluster: database, worker, API, and frontend.
 The frontend on NodePort 30871 gives the workflow from observation selection through analysis, run comparison, candidate review, and evidence export.
 Catalog inclusion does not establish local observation availability or an implemented detection method.
+The [desktop prototype](release/README.md) runs separate local services with its own workspace.
 
 ## Start here
 
@@ -22,7 +23,7 @@ Catalog inclusion does not establish local observation availability or an implem
 |---|---|
 | [DESIGN.md](DESIGN.md) | Intended application behavior, architecture, and requirements. It does not authorize implementation or deployment. |
 | [ROADMAP.md](ROADMAP.md) | Delivery status, open decisions, and next actions. |
-| [PRODUCT-PLAN.md](PRODUCT-PLAN.md) | Proposed desktop product scope, reuse decisions, first investigation, and acceptance criteria. It does not authorize implementation. |
+| [PRODUCT-PLAN.md](PRODUCT-PLAN.md) | Desktop product scope, reuse decisions, first investigation, and acceptance criteria. P0 has a separate local prototype. |
 | [experiments/PROCEDURE.md](https://github.com/delta-observatory/experiments/blob/main/PROCEDURE.md) | Current required scientific procedure, evidence requirements, and stop conditions. |
 | [experiments/PLAN.md](https://github.com/delta-observatory/experiments/blob/main/PLAN.md) | Scientific task scope, dependencies, conditional work, and protected ownership. |
 | [Protocol template](https://github.com/delta-observatory/experiments/blob/main/planning/experiment-template.md) | Fields for each new experiment's specific design and criteria. |
@@ -50,6 +51,7 @@ Resolve a documentation conflict before executing affected work.
 | [kubernetes/](https://github.com/delta-observatory/kubernetes/blob/main/README.md) | k3s manifests, image builds, and migrations. |
 | [agents/](https://github.com/delta-observatory/agents/blob/main/README.md) | Agent instructions, the MCP adapter generated from the API description, the research importer, and import manifests. Agent code uses the API only. |
 | `scripts/` | Workspace documentation and structure checks, and `components.py`, which clones, checks, and pins the public component repositories. |
+| [release/](release/README.md) | P0 desktop packaging source, public runtime resources, dependency audit, and engineering checks. The root repository owns this directory. |
 | `raw/` | Local downloaded observations in `raw/<dataset-id>/`. Git does not track this directory. |
 
 The workspace contains eleven independent Git repositories on `main`: the root, the nine component directories, and `community`.

@@ -1,0 +1,21 @@
+{
+  "id": "tess-spoc-light-curves",
+  "name": "TESS SPOC light curves",
+  "kind": "observations",
+  "category": "time-domain",
+  "description": "Local TESS SPOC light curves for the desktop prototype. The application includes no observations or private research records.",
+  "grain": "One light-curve file for one target and sector.",
+  "coverage": "Only files that the user imports into this separate workspace.",
+  "bands": ["TESS"],
+  "formats": ["FITS"],
+  "access": {
+    "provider": "MAST",
+    "url": "https://archive.stsci.edu/missions-and-data/tess",
+    "method": "Import existing SPOC 120-second light-curve files through the desktop menu."
+  },
+  "acquisition": {
+    "status": "local-import",
+    "scope": "Archive acquisition is outside this prototype. Imported files stay in this workspace."
+  },
+  "related_dataset_ids": []
+}

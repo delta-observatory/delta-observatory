@@ -2,7 +2,7 @@
 
 This roadmap defines delivery stages, their status, open decisions, and next actions.
 [DESIGN.md](DESIGN.md) defines the desired system.
-[PRODUCT-PLAN.md](PRODUCT-PLAN.md) proposes desktop product scope and delivery criteria for review. It does not change agreed requirements or stage status.
+[PRODUCT-PLAN.md](PRODUCT-PLAN.md) defines proposed desktop product scope and delivery criteria. P0 has a separate local prototype.
 Git history records changes. Experiment records hold scientific results.
 
 [WORKSPACE.md](WORKSPACE.md) describes workspace structure and document responsibilities.
@@ -15,6 +15,7 @@ Git history records changes. Experiment records hold scientific results.
 [RESEARCH-STATE.md](RESEARCH-STATE.md) records reconciled lab conclusions, corrected counts, and regional-campaign prerequisites.
 
 - R0, the scientific contract, is active.
+- The [P0 desktop prototype](release/P0.md) runs isolated services from public sources. Offline engineering checks pass. Fresh desktop installation qualification remains open.
 - The TESS vertical slice runs on the local k3s cluster. It has contract version 1, the database schema, the worker, the stateless API, and the frontend.
 - The slice indexes 65 development light curves: 46 application light curves, 18 FINAL001 light curves, and one RS-001 aperture observation. With the T01 defaults, its `tess-bls` method gives the exact T01 values.
 - The application workflow runs from observation selection through analysis, candidate review, and evidence export. The frontend at `http://<node>:30871/` on the LAN gives the sky, search, plots, run controls with cancellation and retry, run comparison, candidates, assessments, decisions, notes, agent tasks, and exports. [frontend/DESIGN-DECISIONS.md](https://github.com/delta-observatory/frontend/blob/main/DESIGN-DECISIONS.md) records the agreed design.

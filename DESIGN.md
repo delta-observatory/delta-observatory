@@ -168,6 +168,7 @@ delta-observatory/
 ├── detection/
 ├── experiments/
 ├── scripts/
+├── release/
 └── raw/
 ```
 
@@ -183,6 +184,7 @@ delta-observatory/
 | `detection/` | Scientific method descriptions, equations, academic citations, and reference papers. |
 | `experiments/` | Scientific procedure, task planning, protocols, evidence, decisions, and reviews. |
 | `scripts/` | Workspace structure and documentation checks. |
+| `release/` | Separate desktop packaging prototype, public runtime resources, and engineering checks. The root repository owns this directory. |
 | `raw/` | Local downloaded observations, one directory for each dataset ID. Excluded from version control. |
 
 The catalog and research library guide the selection of supported datasets and methods.
@@ -194,6 +196,14 @@ Component releases declare compatible API, job, result, and database schema vers
 Deployment manifests select compatible releases explicitly.
 The database repository owns schema definitions and migrations used by the API and workers.
 Independent repositories do not require an additional service for each directory.
+
+**Desktop prototype boundary**
+
+The P0 prototype packages pinned public components and manages its own PostgreSQL, API, and worker processes.
+It reuses the frontend and canonical database contracts.
+Its workspace, credentials, observations, results, and ports remain separate from the k3s deployment.
+The API stays stateless and does not call workers or models.
+[release/P0.md](release/P0.md) records platform requirements, private dependencies, and qualification limits.
 
 **Dataset ingestion and storage**
 

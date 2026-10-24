@@ -1,0 +1,5 @@
+.build/
+.cache/
+.dist/
+.state/
+node_modules/

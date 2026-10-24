@@ -1,0 +1,8 @@
+{
+  "name": "delta-observatory-prototype",
+  "productName": "Delta Observatory Prototype",
+  "version": "0.1.0",
+  "description": "Separate Linux desktop prototype for Delta Observatory",
+  "license": "MIT",
+  "main": "main.cjs"
+}

@@ -1,0 +1,150 @@
+{
+  "scope": "Engineering integration with synthetic input. No scientific validation.",
+  "environment": {
+    "baseline": "Ubuntu 24.04.5 user-space filesystem",
+    "kernel": "7.2.3-arch1-3, shared with the host",
+    "isolation": "Bubblewrap with no network or host home mounts",
+    "package_configuration": "Desktop libraries available. Some package configuration steps incomplete in the builder user namespace.",
+    "system_runtimes": {
+      "python3": false,
+      "node": false,
+      "psql": false,
+      "postgres": false,
+      "docker": false,
+      "kubectl": false
+    },
+    "host_home_visible": false,
+    "private_repositories_visible": false
+  },
+  "runtime": {
+    "scope": "Engineering integration with synthetic input. No scientific validation.",
+    "checks": {
+      "empty_new_database": true,
+      "authentication_and_read_only_gui": true,
+      "public_catalog_without_private_reports": true,
+      "public_method_contracts": true,
+      "exclusive_workspace_ownership": true,
+      "synthetic_fits_index": true,
+      "worker_bls_execution": true,
+      "evidence_export_hashes_and_repeatability": true,
+      "missing_cohort_register_blocks_agents": true,
+      "clean_shutdown": true,
+      "restart_preserves_observations_results_and_export": true
+    },
+    "startup_seconds": 2.103,
+    "worker_resources": {
+      "peak_rss_mib": 257.8203125,
+      "elapsed_seconds": 7.695297312006005
+    },
+    "status": "passed"
+  },
+  "desktop": {
+    "ready": true,
+    "consoleErrors": [],
+    "canvasPixels": [
+      2388,
+      14039,
+      978,
+      1295,
+      3634,
+      1409,
+      1209,
+      4056,
+      2095
+    ],
+    "plotsReady": true,
+    "runtime": {
+      "type": "ready",
+      "api_url": "http://127.0.0.1:60671",
+      "supervisor_pid": 250,
+      "service_pids": [
+        324,
+        325
+      ],
+      "startup_seconds": 1.202,
+      "workspace": "/work/runtime-workspace"
+    },
+    "electron": "45.0.0",
+    "chromium": "156.0.8078.48",
+    "os": "7.2.3-arch1-3",
+    "sandbox": true,
+    "fontsReady": true
+  },
+  "unit_checks": {
+    "command": "node --test release/tests/*.test.cjs",
+    "passed": 2,
+    "failed": 0
+  },
+  "package": {
+    "files_checked": 20469,
+    "file_bytes": 952645871,
+    "build_manifest_sha256": "b6c46c122e7097caa3dbc3c32a62c96a9f9f27ceb2ca6349c421c47b30c01f6c",
+    "archive_bytes": 339013152,
+    "archive_sha256": "50a7bddda0e520e777205811efb5f5e28c492df32582d7f6b3f89075753f807a"
+  },
+  "sources": {
+    "components": {
+      "database": {
+        "name": "database",
+        "visibility": "public",
+        "description": "Schema, migrations, and the cross-component contracts.",
+        "repository": "https://github.com/delta-observatory/database.git",
+        "commit": "d68df98d7fc8bc79d0bc8aed6d11fef16c6cab17"
+      },
+      "workers": {
+        "name": "workers",
+        "visibility": "public",
+        "description": "Ingestion and scientific methods: tess-spoc-index and tess-bls.",
+        "repository": "https://github.com/delta-observatory/workers.git",
+        "commit": "ba56d3095543290e38e9d99a1f9d40aca31046d4"
+      },
+      "backend": {
+        "name": "backend",
+        "visibility": "public",
+        "description": "Stateless FastAPI application API.",
+        "repository": "https://github.com/delta-observatory/backend.git",
+        "commit": "c289df5b2ead89480c4a581f22a62ccbb65efc41"
+      },
+      "frontend": {
+        "name": "frontend",
+        "visibility": "public",
+        "description": "React, Canvas 2D, and TypeScript interface.",
+        "repository": "https://github.com/delta-observatory/frontend.git",
+        "commit": "d0984616d3b49ae6b0b24b0cd6c77fafeefc4728"
+      }
+    },
+    "vendored_contract_sources": {
+      "backend": "4e0d1ae6724f859053b6b7579cc3f09da4425bd4",
+      "workers": "4e0d1ae6724f859053b6b7579cc3f09da4425bd4"
+    },
+    "component_manifest_sha256": "1b563d6381859e88300933bddc9574361accebb17d9e623e17d4586a4aa36528",
+    "private_repositories": []
+  },
+  "implementation_sha256": {
+    "desktop/import.cjs": "ffadf45b85e2471ed0c2475fb48b73593cef02ffabe50ab4e3fe30207a5140f4",
+    "desktop/main.cjs": "621f3fd6e4091999d2e815019389bccf5982e71434d485b6591e83863fdc86ce",
+    "desktop/package.json": "e6c44a76edea990a15e6b8383c13db19a3e77855b07fc8c0a0d4dc2f37ca9f1e",
+    "desktop/server.cjs": "1ad5fcfcb7b647582e55401a3a0577e8358a656d393a036b5572619d41c382a9",
+    "desktop/supervisor.py": "760c7f356fdd51880aabfad6d771a09f7988cdb1db61da114ff802b4f0d42123",
+    "resources/catalog/datasets/catalog.json": "6b361135cae71c53066aa3a60c45917de688f974bccd7d6592c4f52c728ee716",
+    "resources/catalog/datasets/tess-spoc-light-curves/README.md": "ca85e3c2ca85589a087be3fdeb099588f075d3b71815f0769be95947b3545a3e",
+    "resources/catalog/datasets/tess-spoc-light-curves/metadata.json": "3fa1906163a46dae1f02ed511d497dea322dcec1ed5ce8281135b56134b589e6",
+    "scripts/build-runtime.sh": "19a5c4bb22b3c161e73fe4776277c204d16e92bb417579af1314d579848cc355",
+    "scripts/check-clean.py": "158d4757cca66301fc980feb6dcffc7688528db056648399174f2a3626b19575",
+    "scripts/fetch-source.py": "1b8aa32c92f519b65e692b3b07bd4c7c2f9cee26f80c9e5e89fd56f16f33a40c",
+    "scripts/package.py": "c80ba0855ca5a43c205bc372a07e5d595f632ea23c63d4182fe7e820dc28c7cf",
+    "scripts/prepare.py": "2cf17d61ceb841c6ed263850f50c85d544af3d836d7bbf050a389e1e80167f99",
+    "scripts/smoke.py": "a176e04511671dff12d8002fab25042ef682309553ff58cc8f79a8aaf9e0fb66",
+    "tests/clean-inside.py": "8284afccd10f2586f5a4a25cffbe0dd8cc9fdd1761cbedb36f357737bd42d19e",
+    "tests/desktop.test.cjs": "76adc18855537fb3d5581ea13a32587ee2538ba7f7a5f3bbfd398fab9be9398a",
+    "tests/fixture.py": "7995063b39d59cecf532d5c316483ef9bd597f69dec9d9a547a30a77e832d6fb"
+  },
+  "desktop_screenshot_sha256": "071ae1f2770af329cf6eb24c6b4063c7cfb72c0ae5abdf18472fa388a9dca42c",
+  "limitations": [
+    "Not a booted Ubuntu VM or a fresh desktop installation.",
+    "No scientific performance or independent observation validation.",
+    "No total application memory benchmark.",
+    "No backup restoration, crash recovery, installer, or update qualification.",
+    "No private repository or live deployment data included."
+  ]
+}
