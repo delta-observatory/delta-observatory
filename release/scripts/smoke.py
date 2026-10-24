@@ -19,7 +19,7 @@ def start(app, workspace, public_exploration=False):
     payload = app / 'payload'
     process = subprocess.Popen([str(payload / 'python/bin/python3.12'), '-s', str(app / 'supervisor.py'),
                                 '--payload', str(payload), '--workspace', str(workspace), *(['--public-exploration'] if public_exploration else [])],
-                               env={'PATH': '/usr/bin:/bin', 'LANG': 'C.UTF-8'},
+                               env={'PATH': '/usr/bin:/bin', 'LANG': 'C.UTF-8', 'PYTHONNOUSERSITE': '1', 'PYTHONDONTWRITEBYTECODE': '1'},
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     selector = selectors.DefaultSelector()
     selector.register(process.stdout, selectors.EVENT_READ)
@@ -107,7 +107,7 @@ def exercise(app, workspace, output):
         # A second owner of the same workspace must fail without stopping its services.
         duplicate = subprocess.run([str(app / 'payload/python/bin/python3.12'), '-s', str(app / 'supervisor.py'),
                                     '--payload', str(app / 'payload'), '--workspace', str(workspace)],
-                                   env={'PATH': '/usr/bin:/bin', 'LANG': 'C.UTF-8'}, capture_output=True, text=True, timeout=15)
+                                   env={'PATH': '/usr/bin:/bin', 'LANG': 'C.UTF-8', 'PYTHONNOUSERSITE': '1', 'PYTHONDONTWRITEBYTECODE': '1'}, capture_output=True, text=True, timeout=15)
         assert duplicate.returncode != 0 and 'owns this workspace' in duplicate.stdout
         assert request(base, '/api/health')['status'] == 'ok'
         report['checks']['exclusive_workspace_ownership'] = True

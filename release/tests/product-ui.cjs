@@ -25,6 +25,7 @@ module.exports = async function ({window, output, consoleErrors, ownerToken}) {
   };
   try {
     await wait("document.body.innerText.includes('Open your workspace')",'welcome login');
+    checks.both_providers_on_welcome=await js("document.body.innerText.includes('Continue with OpenAI')&&document.body.innerText.includes('Continue with Anthropic')");
     await screenshot('login');
     await click('Continue with read-only access');
     await click('Settings');
@@ -36,8 +37,8 @@ module.exports = async function ({window, output, consoleErrors, ownerToken}) {
     checks.native_login=true;
     await click('Settings');
     await click('Provider account');
-    await wait("document.body.innerText.includes('Continue with ChatGPT')",'provider login before a plan');
-    checks.provider_controls_before_plan=true;
+    await wait("document.body.innerText.includes('Sign in with ChatGPT')",'provider login before a plan');
+    checks.provider_controls_before_plan=await js("document.body.innerText.includes('Sign in with your Claude account')");
     await screenshot('provider-login');
     await click('Appearance');
     await js("(()=>{const s=document.querySelector('.settings-content select');s.value='reduced';s.dispatchEvent(new Event('change',{bubbles:true}));})()");

@@ -18,7 +18,7 @@ class AgentHost {
     if (process.env.DBUS_SESSION_BUS_ADDRESS) env.DBUS_SESSION_BUS_ADDRESS=process.env.DBUS_SESSION_BUS_ADDRESS;
     this.process=spawn(path.join(this.payload,'python/bin/python3.12'),['-s','-m','managed.host',
       '--api-url',this.apiUrl+'/api','--runtime-dir',path.join(this.payload,'codex'),
-      '--state-dir',path.join(this.workspace,'agent-profiles'),'--bwrap',path.join(this.payload,'host-bin/bwrap'),
+      '--claude-runtime-dir',path.join(this.payload,'claude'),'--state-dir',path.join(this.workspace,'agent-profiles'),'--bwrap',path.join(this.payload,'host-bin/bwrap'),
       '--library-dir',path.join(this.payload,'host-lib')],{env,stdio:['pipe','pipe','pipe']});
     createInterface({input:this.process.stdout}).on('line',line=>{
       let message;try{message=JSON.parse(line);}catch{return;}
@@ -52,4 +52,11 @@ class AgentHost {
     });
   }
 }
-module.exports={AgentHost};
+function providerLoginAddress(login) {
+  const address=login?.authUrl||login?.verificationUrl;
+  if(typeof address!=='string')throw new Error('Start login before opening the authorization page.');
+  const url=new URL(address);
+  if(url.protocol!=='https:'||url.username||url.password||url.port||!['auth.openai.com','chatgpt.com','claude.ai','claude.com','platform.claude.com','console.anthropic.com'].includes(url.hostname))throw new Error('The provider returned an unsupported login address.');
+  return url.href;
+}
+module.exports={AgentHost,providerLoginAddress};

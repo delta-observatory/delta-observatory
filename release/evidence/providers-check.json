@@ -1,0 +1,191 @@
+{
+  "status": "passed",
+  "scope": "Provider login engineering checks. No account approval or real model request.",
+  "runtimes": {
+    "codex": "0.164.0",
+    "claude_code": "2.1.305"
+  },
+  "checks": {
+    "contracts": {
+      "schemas": 25,
+      "examples": 58
+    },
+    "api_tests": 102,
+    "worker_tests": 14,
+    "frontend_tests": 108,
+    "managed_host_tests": 19,
+    "desktop_server_tests": 3,
+    "desktop_package_tests": 3,
+    "provider_renderer": {
+      "status": "passed",
+      "checks": {
+        "openai_onboarding": true,
+        "device_code": true,
+        "openai_completion": true,
+        "provider_logout": true,
+        "provider_switch": true,
+        "error_feedback": true,
+        "anthropic_code_completion": true,
+        "continue_workspace": true,
+        "anthropic_onboarding": true,
+        "no_console_errors": true
+      },
+      "errors": []
+    },
+    "native_login_start": {
+      "codex": {
+        "authorization_host": "auth.openai.com",
+        "startup": true,
+        "cancellation": true
+      },
+      "claude": {
+        "authorization_host": "claude.com",
+        "startup": true,
+        "cancellation": true
+      },
+      "browser_opened": false,
+      "account_used": false,
+      "model_requests": 0
+    },
+    "claude_isolation": {
+      "status": "passed",
+      "provider_requests": 3,
+      "only_api_tools": true,
+      "host_files_inaccessible": true,
+      "tool_calls": 1,
+      "resumed": true,
+      "measured_tokens": 48
+    },
+    "adapter_tests": 12,
+    "importer_tests": 10,
+    "isolated_runtime": {
+      "scope": "Engineering integration with synthetic input. No scientific validation.",
+      "checks": {
+        "empty_new_database": true,
+        "authentication_and_read_only_gui": true,
+        "public_catalog_without_private_reports": true,
+        "public_method_contracts": true,
+        "exclusive_workspace_ownership": true,
+        "synthetic_fits_index": true,
+        "worker_bls_execution": true,
+        "evidence_export_hashes_and_repeatability": true,
+        "missing_cohort_register_blocks_agents": true,
+        "clean_shutdown": true,
+        "restart_preserves_observations_results_and_export": true
+      },
+      "startup_seconds": 2.171,
+      "worker_resources": {
+        "peak_rss_mib": 248.91015625,
+        "elapsed_seconds": 7.764299937989563
+      },
+      "status": "passed"
+    },
+    "isolated_gui": {
+      "status": "passed",
+      "checks": {
+        "both_providers_on_welcome": true,
+        "anonymous_native_privileges_denied": true,
+        "native_login": true,
+        "provider_controls_before_plan": true,
+        "workspace_signout": true,
+        "preference_survives_login": true,
+        "manual_plan_approval_execution_and_plots": true,
+        "sandbox": true,
+        "fonts": true,
+        "generated_operation_form": true,
+        "saved_investigation_navigation": true,
+        "native_settings_bridge": true,
+        "settings_scroll": true,
+        "invalid_browser_token": true,
+        "browser_session_only_token": true,
+        "browser_signout": true,
+        "remember_browser_token": true,
+        "browser_settings": true,
+        "no_console_errors": true
+      },
+      "consoleErrors": []
+    },
+    "codex_isolation": {
+      "status": "passed",
+      "provider_requests": 2,
+      "only_api_tools": true,
+      "host_files_inaccessible": true,
+      "model": "gpt-5.4"
+    },
+    "migration": {
+      "scope": "Engineering migration and data-only recovery. No scientific validation.",
+      "checks": {
+        "backup_precedes_new_migrations": true,
+        "existing_owner_remains_valid": true,
+        "previous_schema_restore_and_forward_migration": true,
+        "restored_credentials_rotated": true
+      },
+      "status": "passed"
+    },
+    "package_integrity": {
+      "status": "passed",
+      "files": 20596,
+      "bytes": 1552734713
+    },
+    "installer_integrity": {
+      "status": "passed",
+      "installer": "delta-observatory_0.2.0~preview3_amd64.deb",
+      "sha256": "c5f7fce761a534d7290f21b5cb27c681bb637d8b04869f29875ebcaa895873e4",
+      "bytes": 618913522,
+      "matched_regular_files": 20597,
+      "matched_symlinks": 1056,
+      "build_sha256": "d8482350271021940e52ae5563d00a9e8fc500f1ddc6bacc56fc66cc443768fa",
+      "component_sources": {
+        "components": {
+          "database": {
+            "name": "database",
+            "visibility": "public",
+            "description": "Schema, migrations, and the cross-component contracts.",
+            "repository": "https://github.com/delta-observatory/database.git",
+            "commit": "1c34fb49b857a9e82be1036859bd0c9452150a35"
+          },
+          "workers": {
+            "name": "workers",
+            "visibility": "public",
+            "description": "Ingestion and scientific methods: tess-spoc-index and tess-bls.",
+            "repository": "https://github.com/delta-observatory/workers.git",
+            "commit": "d76e647d6ffa16dabea55b0d98d80c596cba27d7"
+          },
+          "backend": {
+            "name": "backend",
+            "visibility": "public",
+            "description": "Stateless FastAPI application API.",
+            "repository": "https://github.com/delta-observatory/backend.git",
+            "commit": "35ac7eea2b881600126395d660067b07755af259"
+          },
+          "frontend": {
+            "name": "frontend",
+            "visibility": "public",
+            "description": "React, Canvas 2D, and TypeScript interface.",
+            "repository": "https://github.com/delta-observatory/frontend.git",
+            "commit": "43b0a186e4fcdda70c1be9601bbb868d218d7c0f"
+          },
+          "agents": {
+            "name": "agents",
+            "visibility": "public",
+            "description": "Agent manual, MCP adapter, research importer, and campaign templates.",
+            "repository": "https://github.com/delta-observatory/agents.git",
+            "commit": "75ce542bd6f7c1c9233cf5c2188179d3b57f58e0"
+          }
+        },
+        "vendored_contract_sources": {
+          "backend": "1c34fb49b857a9e82be1036859bd0c9452150a35",
+          "workers": "1c34fb49b857a9e82be1036859bd0c9452150a35"
+        },
+        "component_manifest_sha256": "acf2dc44788dd29c8de42dc185aaed90347c9f52f3e61ad91b8b0cefaf15ca2a",
+        "private_repositories": []
+      }
+    }
+  },
+  "limitations": [
+    "Real account authorization, entitlement, and expiration need the account owner.",
+    "Operating-system keyring behavior needs qualification on the supported desktop.",
+    "The isolated Ubuntu filesystem is not a fresh operating-system installation.",
+    "Engineering fixtures do not establish scientific validity."
+  ]
+}

@@ -64,7 +64,7 @@ def ar_member(out,name,path):
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--package',type=Path,required=True);parser.add_argument('--output',type=Path,required=True);parser.add_argument('--version',default='0.2.0~preview2');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--package',type=Path,required=True);parser.add_argument('--output',type=Path,required=True);parser.add_argument('--version',default='0.2.0~preview3');args=parser.parse_args()
     if not re.fullmatch(r'[0-9][A-Za-z0-9.+:~_-]*',args.version):raise SystemExit('Invalid Debian package version.')
     if not (args.package/'BUILD.json').exists():raise SystemExit('Select a checked application directory.')
     spec=importlib.util.spec_from_file_location('verify_package',Path(__file__).with_name('verify-package.py'))

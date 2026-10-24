@@ -33,7 +33,7 @@ def package(release, output):
     if output.exists():
         raise SystemExit('The package destination must not exist.')
     payload = release / '.build/payload'
-    for required in ('python/bin/python3.12', 'postgres/bin/postgres', 'sources.json', 'codex/codex', 'host-bin/bwrap'):
+    for required in ('python/bin/python3.12', 'postgres/bin/postgres', 'sources.json', 'codex/codex', 'claude/claude', 'host-bin/bwrap'):
         if not (payload / required).is_file():
             raise SystemExit(f'Missing runtime: {required}')
     frontend = release / '.build/sources/frontend/dist'
@@ -55,13 +55,14 @@ def package(release, output):
     shutil.copyfile(release / 'tests/product-ui.cjs', checks / 'product-ui.cjs')
     shutil.copyfile(release / 'scripts/product-check.py', checks / 'product-check.py')
     shutil.copyfile(release / '.build/sources/agents/scripts/check_managed_isolation.py', checks / 'check_managed_isolation.py')
+    shutil.copyfile(release / '.build/sources/agents/scripts/check_claude_isolation.py', checks / 'check_claude_isolation.py')
     shutil.copyfile(release.parent / 'LICENSE', output / 'DELTA-LICENSE')
     launcher = output / 'Delta Observatory.sh'
     launcher.write_text('#!/bin/sh\nset -eu\napp_dir=$(CDPATH= cd -- "$(dirname "$0")" && pwd)\n'
                         'exec "$app_dir/delta-observatory" "$@"\n')
     launcher.chmod(0o755)
     manifest = {'platform': 'linux-x64', 'baseline': 'Ubuntu 24.04, glibc 2.39',
-                'python': '3.12.14', 'postgresql': '18.6', 'electron': '45.0.0', 'codex':'0.164.0', 'managed_model':'gpt-5.4', 'bubblewrap':'0.9.0-1ubuntu0.3',
+                'python': '3.12.14', 'postgresql': '18.6', 'electron': '45.0.0', 'codex':'0.164.0', 'claude_code':'2.1.305', 'managed_model':'gpt-5.4', 'bubblewrap':'0.9.0-1ubuntu0.3',
                 'fonts': {'@fontsource/ibm-plex-mono': '5.3.0', '@fontsource/ibm-plex-sans': '5.3.0'},
                 'sources': json.loads((payload / 'sources.json').read_text()), 'files': {}}
     for path in sorted(output.rglob('*')):

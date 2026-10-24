@@ -1,7 +1,6 @@
 """Execute within the clean filesystem. No repository paths are accessible here."""
 import json
 import os
-import os
 from pathlib import Path
 import subprocess
 import sys
@@ -22,6 +21,12 @@ agent_check = subprocess.run([sys.executable, '-s', str(app/'checks/check_manage
 Path('/work/agent-isolation.log').write_text(agent_check.stdout + agent_check.stderr)
 agent_check.check_returncode()
 Path('/work/agent-isolation.json').write_text(agent_check.stdout)
+claude_check = subprocess.run([sys.executable, '-s', str(app/'checks/check_claude_isolation.py'),
+                             '--runtime', str(app/'payload/claude'), '--bwrap', str(app/'payload/host-bin/bwrap')],
+                            env=agent_environment, capture_output=True, text=True, timeout=90)
+Path('/work/claude-isolation.log').write_text(claude_check.stdout + claude_check.stderr)
+claude_check.check_returncode()
+Path('/work/claude-isolation.json').write_text(claude_check.stdout)
 subprocess.run([sys.executable, '-s', str(app / 'checks/smoke.py'), '--app', str(app),
                 '--workspace', '/work/runtime-workspace', '--output', '/work/runtime-check'], check=True)
 with open('/work/xvfb.log', 'wb') as log:

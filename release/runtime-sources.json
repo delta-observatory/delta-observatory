@@ -23,5 +23,15 @@
     "url": "https://raw.githubusercontent.com/openai/codex/8a559e7938bd841d78dc2c442deaa76424faf1d9/NOTICE",
     "filename": "Codex-NOTICE",
     "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+  },
+  "claude-code": {
+    "url": "https://downloads.claude.ai/claude-code-releases/2.1.305/linux-x64/claude",
+    "filename": "claude-2.1.305-linux-x64",
+    "sha256": "86cb722ab68348877dba7971e4d0c659919e05e6228c05e006e83da320e656ef"
+  },
+  "claude-manifest": {
+    "url": "https://downloads.claude.ai/claude-code-releases/2.1.305/manifest.json",
+    "filename": "claude-2.1.305-manifest.json",
+    "sha256": "6a9678036996a4722f696703864aa1849b77d962401d48303bab4ba5b6088cae"
   }
 }

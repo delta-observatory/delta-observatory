@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bundle pinned Codex and Ubuntu namespace dependencies without a host installation."""
+"""Bundle pinned provider runtimes and Ubuntu namespace dependencies without a host installation."""
 import argparse
 import hashlib
 import json
@@ -26,7 +26,14 @@ def main():
     for package_name,docroot in [('bubblewrap',extracted),('libcap2',ubuntu),('libselinux1',ubuntu),('libpcre2-8-0',ubuntu)]:
         shutil.copyfile(docroot/'usr/share/doc'/package_name/'copyright',notices/(package_name+'-copyright'))
     sources=json.loads((release/'runtime-sources.json').read_text())
-    (notices/'agent-runtime-sources.json').write_text(json.dumps({key:sources[key] for key in ('bubblewrap','codex-license','codex-notice')},indent=2)+'\n')
-    print('Bundled Codex 0.164.0 and Ubuntu 24.04 namespace dependencies.')
+    claude=release/'.cache'/sources['claude-code']['filename']
+    if hashlib.file_digest(claude.open('rb'),'sha256').hexdigest()!=sources['claude-code']['sha256']:
+        raise SystemExit('The Claude Code binary checksum differs from the pin.')
+    (payload/'claude').mkdir(exist_ok=True)
+    shutil.copyfile(claude,payload/'claude/claude');(payload/'claude/claude').chmod(0o755)
+    for name in ('Claude-Code-TERMS','Claude-Code-manifest.json'):
+        shutil.copyfile(release/'resources/notices'/name,notices/name)
+    (notices/'agent-runtime-sources.json').write_text(json.dumps({key:sources[key] for key in ('bubblewrap','codex-license','codex-notice','claude-code','claude-manifest')},indent=2)+'\n')
+    print('Bundled Codex 0.164.0, Claude Code 2.1.305, and Ubuntu namespace dependencies.')
 
 if __name__=='__main__':main()

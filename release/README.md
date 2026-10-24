@@ -1,7 +1,7 @@
 # Delta Observatory desktop
 
 The desktop preview supports exploratory TESS investigations in a separate local workspace.
-It bundles PostgreSQL, Python, the API, the scientific worker, the frontend, and the optional Codex agent host.
+It bundles PostgreSQL, Python, the API, the scientific worker, the frontend, and optional OpenAI and Anthropic agent hosts.
 It uses five pinned public components and requires no private research repository.
 [QUALIFICATION.md](QUALIFICATION.md) defines checked behavior and remaining acceptance requirements.
 [P0.md](P0.md) preserves the initial packaging evidence.
@@ -19,11 +19,12 @@ The first start requests a workspace directory.
 The application remembers that directory in `$XDG_CONFIG_HOME/delta-observatory/desktop.json`, or `~/.config/delta-observatory/desktop.json`.
 An explicit `--workspace=<directory>` selects a separate workspace without changing this preference.
 The adjacent `.electron-profile` directory stores the browser profile.
-The welcome page offers **Continue as workspace owner** and read-only access.
+The welcome page offers **Continue with OpenAI**, **Continue with Anthropic**, local workspace access, and read-only access.
+Each provider button opens its sign-in page before the user creates an investigation.
 The desktop owner token remains in the current window session.
 **Settings → Workspace access** shows permissions and provides sign-out.
 
-The Ubuntu 24.04 amd64 installer is `release/.dist/delta-observatory_0.2.0~preview2_amd64.deb`.
+The Ubuntu 24.04 amd64 installer is `release/.dist/delta-observatory_0.2.0~preview3_amd64.deb`.
 It installs the application under `/opt/delta-observatory` and supplies a desktop menu entry.
 It supplies application-specific AppArmor permissions for the Chromium and Bubblewrap user namespaces.
 The installer is a local preview artifact. Fresh operating-system installation qualification remains open.
@@ -62,25 +63,29 @@ The API enforces permissions on every request.
 
 ## Optional managed agent
 
-The connection controls use pinned Codex app-server 0.164.0 and the checked `gpt-5.4` model.
-Model access requires an eligible account or an OpenAI API key.
+The desktop bundles Codex 0.164.0 and unmodified Claude Code 2.1.305.
+OpenAI supports ChatGPT sign-in, device authorization, and an API key.
+Anthropic supports subscription sign-in, Console sign-in, and organization SSO.
 The connection requests explicit consent before sending permitted investigation evidence and instructions to the provider.
-Open **Settings → Provider account** to connect before creating an investigation.
-**Continue with ChatGPT** opens the provider authorization page in the default browser.
-**Use a device code** provides an alternative authorization method.
-The API key form accepts an OpenAI API key.
-Pending login provides browser reopening and cancellation controls.
-Live account login and provider reconnection still require acceptance checks.
+Open **Settings → Provider account** to connect or change providers.
+The opening screen also supplies direct provider buttons.
+Pending sign-in provides browser reopening and cancellation controls.
+An Anthropic page can return an authorization code for entry in Delta.
+The provider application checks the callback and authorization code.
+Delta does not implement its own Anthropic OAuth exchange or read Claude OAuth tokens.
 
-Credentials use memory or the operating-system credential store.
-Memory credentials disappear when the isolated provider process ends.
-The credential store requires a working desktop session bus and secret service.
+Both providers support memory-only credentials.
+OpenAI also supports the operating-system credential store.
+Anthropic also supports a private native provider profile with owner-only directory permissions.
+The OpenAI credential store requires a working desktop session bus and secret service.
 Delta does not copy credentials into research records, exports, backups, or diagnostics.
+Actual account approval and expiration checks remain account-specific acceptance requirements.
 
 The agent receives API tools scoped to its approved investigation.
 The isolated process has no Delta database socket, access token, observation files, or artifact directory.
-The checked model receives no shell, filesystem, browser, application, or delegation tools.
-Unsupported models remain unavailable until their isolation checks pass.
+The provider runtimes receive no shell, filesystem, browser, application, or delegation tools.
+OpenAI uses `gpt-5.4`. Anthropic offers its `sonnet`, `opus`, and `haiku` selectors.
+Claude Code returns the resolved model identifier in retained session events.
 
 Saved session records preserve provider references and measured use.
 Reconnect rotates the scoped client token.
@@ -131,10 +136,10 @@ Run this command from the workspace root:
 ```bash
 "release/.dist/delta-observatory-preview-linux-x64/Delta Observatory.sh" \
   --workspace="$PWD/release/.state/product-preview" \
-  --review-host=0.0.0.0 --review-port=41871
+  --review-host=0.0.0.0 --review-port=41872
 ```
 
-Open `http://<machine-LAN-address>:41871/?investigations` in a LAN browser.
+Open `http://<machine-LAN-address>:41872/?investigations` in a LAN browser.
 Anonymous browser access uses the existing read-only GUI client.
 **Sign in** accepts a workspace access token.
 The token stays in the current tab unless the user selects **Remember this browser**.
@@ -208,24 +213,30 @@ Build downloads require network access. Manual analysis runs offline after acqui
    dpkg-deb -x /tmp/bubblewrap_0.9.0-1ubuntu0.3_amd64.deb /tmp/delta-bwrap-package
    ```
 
-10. Bundle the agent runtime and Ubuntu libraries:
+10. Download the pinned Claude Code binary:
+
+    ```bash
+    python3 release/scripts/fetch-source.py claude-code
+    ```
+
+11. Bundle the agent runtimes and Ubuntu libraries:
 
     ```bash
     python3 release/scripts/bundle-agent.py --ubuntu-root /
     ```
 
-11. Assemble the application in an unused directory:
+12. Assemble the application in an unused directory:
 
     ```bash
     python3 release/scripts/package.py --output release/.dist/delta-observatory-preview-linux-x64
     ```
 
-12. Create the installer without installing it:
+13. Create the installer without installing it:
 
     ```bash
     python3 release/scripts/installer.py \
       --package release/.dist/delta-observatory-preview-linux-x64 \
-      --output 'release/.dist/delta-observatory_0.2.0~preview2_amd64.deb' --version '0.2.0~preview2'
+      --output 'release/.dist/delta-observatory_0.2.0~preview3_amd64.deb' --version '0.2.0~preview3'
     ```
 
 `prepare.py` exports Git commits and checks vendored contracts and migrations.
@@ -252,8 +263,16 @@ The fixtures contain synthetic engineering samples. They do not measure scientif
 The product check covers plan approval, branches, review records, numerical reproduction, backups, credential rotation, and restart.
 The migration check covers automatic backup and recovery from the previous desktop schema.
 The isolated check hides host files and system language runtimes.
-It disables external networking and checks the agent against a local fake provider.
+It disables external networking and checks both agent runtimes against local fake providers.
 It checks native desktop forms, plots, navigation, settings, scrolling, and screenshots on an isolated X screen.
+The provider renderer fixture checks sign-in, device authorization, fallback codes, cancellation, retries, provider switching, and sign-out.
+Run its isolated screen check after building the fixture:
+
+```bash
+node frontend/tests/build-provider-ui.mjs
+python3 release/scripts/check-provider-ui.py --rootfs <ubuntu-root> --output <unused-directory>
+```
+
 [QUALIFICATION.md](QUALIFICATION.md) records the evidence and limits.
 
 ## Local files

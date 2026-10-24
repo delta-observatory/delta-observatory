@@ -7,7 +7,7 @@ const { spawn } = require('node:child_process');
 const { createInterface } = require('node:readline');
 const { createServer } = require('./server.cjs');
 const { importFiles } = require('./import.cjs');
-const { AgentHost } = require('./agent.cjs');
+const { AgentHost, providerLoginAddress } = require('./agent.cjs');
 const { utility } = require('./maintenance.cjs');
 
 app.setName('Delta Observatory');
@@ -34,8 +34,8 @@ if (!app.requestSingleInstanceLock()) app.exit(0);
 
 let supervisor, server, window, readyRecord, stopping = false, allowQuit = false, exitCode = 0;
 const consoleErrors = [];
-let agentHost, loginUrl, signedIn=false;
-const AGENT_ACTIONS=new Set(['initialize','status','login','models','connect','send','interrupt','disconnect','logout','cancelLogin']);
+let agentHost, signedIn=false;
+const AGENT_ACTIONS=new Set(['initialize','status','login','models','connect','send','interrupt','disconnect','logout','cancelLogin','submitLoginCode','selectProvider']);
 
 function startRuntime() {
   return new Promise((resolve, reject) => {
@@ -201,25 +201,21 @@ app.whenReady().then(async () => {
   ipcMain.handle('delta:access',async(event,action)=>{
     if(!validCaller(event))throw new Error('Invalid desktop caller.');
     if(action==='signIn'){signedIn=true;installMenu();return {token:(await fs.readFile(path.join(workspace,'owner.token'),'utf8')).trim()};}
-    if(action==='signOut'){signedIn=false;installMenu();loginUrl=null;await agentHost.close();return;}
+    if(action==='signOut'){signedIn=false;installMenu();await agentHost.close();return;}
     throw new Error('Unknown workspace access operation.');
   });
   ipcMain.handle('delta:agent',async(event,action,params={})=>{
     if(event.sender!==window.webContents||event.senderFrame!==window.webContents.mainFrame||new URL(event.senderFrame.url).origin!==origin)throw new Error('Invalid desktop caller.');
     if(!signedIn){if(action==='status')return {initialized:false,account:null,session:null,campaign_id:null,credential_store:null,login:null};throw new Error('Sign in to the workspace first.');}
     if(action==='openLogin'){
-      if(!loginUrl)throw new Error('Start login before opening the authorization page.');
-      await shell.openExternal(loginUrl);return {opened:true};
+      await agentHost.start();
+      const status=await agentHost.call('status');
+      await shell.openExternal(providerLoginAddress(status.login));return {opened:true};
     }
     if(!AGENT_ACTIONS.has(action))throw new Error('Unknown agent operation.');
     await agentHost.start();
     const result=await agentHost.call(action,params);
-    if(['logout','cancelLogin'].includes(action))loginUrl=null;
-    if(action==='login'&&(result.authUrl||result.verificationUrl)){
-      const url=new URL(result.authUrl||result.verificationUrl);
-      if(url.protocol!=='https:'||!['auth.openai.com','chatgpt.com'].includes(url.hostname))throw new Error('The provider returned an unsupported login address.');
-      loginUrl=url.href;
-    }
+    if(action==='login'&&(result.authUrl||result.verificationUrl))providerLoginAddress(result);
     return result;
   });
   ipcMain.handle('delta:settings',async(event,action,params={})=>{

@@ -45,8 +45,8 @@ The mirror pilot does not authorize method adoption.
 | Application foundation | Retain PostgreSQL, FastAPI, React, and the existing job contracts. | Extend the complete investigation without creating a second execution system. |
 | Desktop distribution | Use Electron as a shell around the existing frontend and a Debian installer for Ubuntu 24.04 amd64. | Manage local services, installation, updates, storage, recovery, and operating-system integration. |
 | Agent execution | Use Codex app-server for the first managed agent adapter. Retain API-key access as an alternative. | Delta translates agent events into investigation records. It enforces Delta permissions. |
-| Additional providers | Add an Anthropic API adapter after the first complete workflow. | Preserve the same operations, controls, records, and failure behavior across providers. |
-| Credentials | Use operating-system credential storage through a maintained library. | Keep credentials outside exports, model context, logs, and application records. |
+| Anthropic access | Run unmodified Claude Code with the user’s own account. | Preserve the same operations, controls, records, and failure behavior across providers. |
+| Credentials | Use memory-only storage or the provider’s protected persistent store. | Keep credentials outside exports, model context, logs, and application records. |
 | Visualization | Retain the existing plots and observation views. Evaluate Jdaviz ideas for scientific inspection. | Connect every plot to its source, preparation, run, and uncertainty. |
 
 Astropy documents its [BLS implementation](https://docs.astropy.org/en/stable/timeseries/bls.html).
@@ -81,9 +81,11 @@ Identity access and model-use consent are separate.
 Delta must check current eligibility and support API-key access when appropriate.
 The desktop proposal does not assume permission for a hosted commercial service.
 
-Anthropic documents API access through its [Agent SDK](https://code.claude.com/docs/en/agent-sdk/overview).
-Embedded third-party use of Claude subscription login requires prior Anthropic approval.
-Claude API-key access remains deferred. The initial desktop supports one managed Codex connection.
+Delta runs unmodified Claude Code under Anthropic’s published [hosting conditions](https://code.claude.com/docs/en/legal-and-compliance#can-customers-offer-claude-code-in-their-products).
+The native application owns subscription login, Console login, organization SSO, callbacks, and token refresh.
+Delta does not collect or reuse Claude OAuth tokens through a separate SDK client.
+Each user authenticates with their own account and pays the provider directly.
+The desktop supports OpenAI and Anthropic accounts, with one active investigation connection.
 An external agent connection through MCP remains distinct from a managed agent session inside Delta.
 
 ## What Delta must build

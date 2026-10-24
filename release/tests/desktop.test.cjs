@@ -46,3 +46,12 @@ test('imports preserve originals, refuse replacement, reject symlinks, and do no
   await assert.rejects(importFiles(workspace, [link]), /regular files/);
   await assert.rejects(importFiles(workspace, [source, source]), /different file|repeated/);
 });
+
+// Authorization pages come from the current pending provider login.
+test('provider login addresses require an active HTTPS provider page',()=>{
+  const {providerLoginAddress}=require('../desktop/agent.cjs');
+  for(const host of ['auth.openai.com','chatgpt.com','claude.ai','claude.com','platform.claude.com','console.anthropic.com'])assert.equal(providerLoginAddress({authUrl:`https://${host}/oauth/authorize?state=fixture`}),`https://${host}/oauth/authorize?state=fixture`);
+  assert.equal(providerLoginAddress({verificationUrl:'https://auth.openai.com/codex/device'}),'https://auth.openai.com/codex/device');
+  for(const authUrl of ['http://claude.com','https://example.invalid','https://claude.com.example.invalid','https://user@claude.com','https://claude.com:9000'])assert.throws(()=>providerLoginAddress({authUrl}));
+  assert.throws(()=>providerLoginAddress(null));
+});

@@ -17,9 +17,9 @@ Git history records changes. Experiment records hold scientific results.
 
 - R0, the scientific contract, is active.
 - The [desktop preview](release/README.md) implements approved investigation plans, bounded MAST acquisition, managed agent controls, numerical reproduction, and backup recovery.
-- Workspace login and Settings provide account access, provider authorization, appearance, storage, reproduction, and recovery controls.
+- The opening screen and Settings provide OpenAI and Anthropic sign-in, account access, appearance, storage, reproduction, and recovery controls.
 - A local Ubuntu installer bundles five public runtime components. Isolated engineering checks pass. Provider login, fresh installation, interface review, and external usability qualification remain open.
-- Desktop migrations 0006–0008 define investigations, acquisition, and managed sessions. The k3s deployment retains its separate migration state.
+- Desktop migrations 0006–0009 define investigations, acquisition, and managed sessions for both providers. The k3s deployment retains its separate migration state.
 - The TESS vertical slice runs on the local k3s cluster. It has contract version 1, the database schema, the worker, the stateless API, and the frontend.
 - The slice indexes 65 development light curves: 46 application light curves, 18 FINAL001 light curves, and one RS-001 aperture observation. With the T01 defaults, its `tess-bls` method gives the exact T01 values.
 - The application workflow runs from observation selection through analysis, candidate review, and evidence export. The frontend at `http://<node>:30871/` on the LAN gives the sky, search, plots, run controls with cancellation and retry, run comparison, candidates, assessments, decisions, notes, agent tasks, and exports. [frontend/DESIGN-DECISIONS.md](https://github.com/delta-observatory/frontend/blob/main/DESIGN-DECISIONS.md) records the agreed design.
