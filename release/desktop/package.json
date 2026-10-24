@@ -1,8 +1,8 @@
 {
-  "name": "delta-observatory-prototype",
-  "productName": "Delta Observatory Prototype",
-  "version": "0.1.0",
-  "description": "Separate Linux desktop prototype for Delta Observatory",
+  "name": "delta-observatory",
+  "productName": "Delta Observatory",
+  "version": "0.2.0",
+  "description": "Local exploratory TESS investigations with an optional managed agent",
   "license": "MIT",
   "main": "main.cjs"
 }

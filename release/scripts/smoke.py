@@ -15,10 +15,10 @@ import urllib.request
 import zipfile
 
 
-def start(app, workspace):
+def start(app, workspace, public_exploration=False):
     payload = app / 'payload'
     process = subprocess.Popen([str(payload / 'python/bin/python3.12'), '-s', str(app / 'supervisor.py'),
-                                '--payload', str(payload), '--workspace', str(workspace)],
+                                '--payload', str(payload), '--workspace', str(workspace), *(['--public-exploration'] if public_exploration else [])],
                                env={'PATH': '/usr/bin:/bin', 'LANG': 'C.UTF-8'},
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     selector = selectors.DefaultSelector()

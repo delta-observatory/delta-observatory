@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import tarfile
 
-COMPONENTS = ('database', 'backend', 'workers', 'frontend')
+COMPONENTS = ('database', 'backend', 'workers', 'frontend', 'agents')
 
 
 def prepare(workspace, destination):
@@ -18,7 +18,7 @@ def prepare(workspace, destination):
     pins = json.loads((workspace / 'components.json').read_text())
     selected = {c['name']: c for c in pins['components'] if c['name'] in COMPONENTS}
     if set(selected) != set(COMPONENTS) or any(c['visibility'] != 'public' for c in selected.values()):
-        raise SystemExit('The component manifest must identify four public runtime components.')
+        raise SystemExit('The component manifest must identify five public runtime components.')
     destination.mkdir(parents=True)
     for name, component in selected.items():
         archive = subprocess.check_output(['git', '-C', str(workspace / name), 'archive', component['commit']])
@@ -42,7 +42,7 @@ def prepare(workspace, destination):
         'component_manifest_sha256': hashlib.sha256((workspace / 'components.json').read_bytes()).hexdigest(),
         'private_repositories': [],
     }, indent=2) + '\n')
-    print(f'Prepared four public components in {destination}')
+    print(f'Prepared five public components in {destination}')
 
 
 if __name__ == '__main__':

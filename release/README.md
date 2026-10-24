@@ -1,69 +1,148 @@
-# Delta desktop prototype
+# Delta Observatory desktop
 
-This directory contains the P0 Linux desktop prototype.
-The root repository owns its source.
-It uses the pinned public frontend, API, worker, and database components.
-[P0.md](P0.md) records dependencies, private repository boundaries, checks, and remaining qualification work.
+The desktop preview supports exploratory TESS investigations in a separate local workspace.
+It bundles PostgreSQL, Python, the API, the scientific worker, the frontend, and the optional Codex agent host.
+It uses five pinned public components and requires no private research repository.
+[QUALIFICATION.md](QUALIFICATION.md) defines checked behavior and remaining acceptance requirements.
+[P0.md](P0.md) preserves the initial packaging evidence.
 
-The prototype starts its own PostgreSQL database, API, worker, and Electron window.
-Its workspace contains its credentials, observations, results, and logs.
-It does not connect to the k3s deployment.
-The existing frontend provides analysis, comparison, review, and export controls.
+## Open the application
 
-## Run the local package
-
-Open `release/.dist/delta-observatory-desktop-linux-x64/Delta Observatory.sh` from the file manager.
+Open `release/.dist/delta-observatory-preview-linux-x64/Delta Observatory.sh` from the file manager.
 Alternatively, run this command from the workspace root:
 
 ```bash
-"release/.dist/delta-observatory-desktop-linux-x64/Delta Observatory.sh"
+"release/.dist/delta-observatory-preview-linux-x64/Delta Observatory.sh"
 ```
 
-The default workspace is `$XDG_DATA_HOME/delta-observatory-prototype/workspace`.
-When `XDG_DATA_HOME` is absent, the application uses `~/.local/share/delta-observatory-prototype/workspace`.
+The first start requests a workspace directory.
+The application remembers that directory in `$XDG_CONFIG_HOME/delta-observatory/desktop.json`, or `~/.config/delta-observatory/desktop.json`.
+An explicit `--workspace=<directory>` selects a separate workspace without changing this preference.
 The adjacent `.electron-profile` directory stores the browser profile.
-The application signs the local owner into its desktop window.
+The desktop window receives its workspace owner's token.
 
-Select **File → Import TESS light curves** to copy local `_lc.fits` files into the prototype.
-The worker checks the files before analysis.
-The prototype starts empty and includes no astronomical observations.
-File import supports at most 128 files and 2 GiB per operation.
-Automatic archive acquisition and managed agents remain outside P0.
+The Ubuntu 24.04 amd64 installer is `release/.dist/delta-observatory_0.2.0~preview1_amd64.deb`.
+It installs the application under `/opt/delta-observatory` and supplies a desktop menu entry.
+It supplies application-specific AppArmor permissions for the Chromium and Bubblewrap user namespaces.
+The installer is a local preview artifact. Fresh operating-system installation qualification remains open.
 
-Select **File → Quit** to stop the desktop and its services.
-The workspace remains available for the next start.
-Startup refuses foreign directories, conflicting workspace ownership, incompatible PostgreSQL versions, and database downgrades.
+## Complete an investigation
 
-## Separate review workspace
+1. Select **Guided known-signal demonstration** or **New TESS investigation**.
+2. Select **Acquire observations** to query MAST for a TIC target and sectors.
+3. Inspect the exact product manifest and storage estimate.
+4. Approve the manifest to download and check its files.
+5. Select usable observations in the plan.
+6. Review the question, scientific settings, exclusions, limits, and stopping conditions.
+7. Save the investigation.
+8. Approve its exact revision.
+9. Select **Run approved plan**.
+10. Select **Inspect plots** after the run completes.
 
-Run this command from the workspace root to expose the prototype for LAN review:
+The guided target is TIC 100100827, WASP-18, in sector 2.
+It is a known-object demonstration on development data.
+The package contains no downloaded astronomical observations.
+**Workspace → Import TESS light curves** also accepts local `_lc.fits` files.
+
+Each saved revision preserves its parent and settings.
+An execution refers to an approved revision and a unique request key.
+Repeated requests with that key return the same run.
+**Pause new submissions** lets active jobs finish.
+**Stop active work** cancels queued and active jobs while preserving completed results.
+A recorded instruction does not change scientific parameters.
+Parameter or scope changes require a saved revision and approval.
+
+The evidence controls provide plots, complete results, run comparison, and export.
+**Explore and inspect all records** provides the existing observation and research views.
+**All operations** generates forms from the current API description and canonical record schemas.
+These forms provide every API operation without requiring JSON input.
+The API enforces permissions on every request.
+
+## Optional managed agent
+
+The connection controls use pinned Codex app-server 0.164.0 and the checked `gpt-5.4` model.
+Model access requires an eligible account or an OpenAI API key.
+The connection requests explicit consent before sending permitted investigation evidence and instructions to the provider.
+Live account login and provider reconnection still require acceptance checks.
+
+Credentials use memory or the operating-system credential store.
+Memory credentials disappear when the isolated provider process ends.
+The credential store requires a working desktop session bus and secret service.
+Delta does not copy credentials into research records, exports, backups, or diagnostics.
+
+The agent receives API tools scoped to its approved investigation.
+The isolated process has no Delta database socket, access token, observation files, or artifact directory.
+The checked model receives no shell, filesystem, browser, application, or delegation tools.
+Unsupported models remain unavailable until their isolation checks pass.
+
+Saved session records preserve provider references and measured use.
+Reconnect rotates the scoped client token.
+The API enforces approved job, compute, turn, and measured token limits.
+Token notifications can arrive after use. These controls do not guarantee a provider spending cap.
+Closing the investigation view disconnects the managed agent.
+Manual controls remain available without a provider connection.
+
+## Storage, reproduction, and recovery
+
+**Workspace** provides storage limits, import, reproduction, backups, restore, diagnostics, and release metadata checks.
+The default workspace limit is 20 GiB. The minimum free-space reserve is 512 MiB.
+Downloads, imports, and worker outputs check these limits before writing.
+Startup also requires at least 512 MiB of available memory.
+Large campaigns need separate resource qualification.
+
+**Export evidence** can create a portable reproduction package.
+Original observation inclusion requires an explicit selection.
+The package preserves input hashes, source identifiers, settings, software versions, research records, and numerical evidence.
+
+A second workspace imports the package through normal indexing.
+**Prepare repeat plan** creates a separate investigation for review and approval.
+Missing inputs remain explicit. Acquire or import the exact files before preparing the repeat.
+**Compare numerical results** checks input hashes, measurement metadata, parameters, and values.
+Absolute tolerance is `1e-12`. Relative tolerance is `1e-10`.
+These tolerances measure numerical agreement and do not represent scientific uncertainty.
+Runtime differences appear separately in the report.
+
+Backups contain checked CSV table values, artifacts, reproduction records, and optional original observations.
+They exclude provider profiles, logs, and plaintext access credentials.
+Restore uses trusted application migrations and never executes SQL supplied by a backup.
+It creates a separate workspace and regenerates client credentials.
+The original workspace remains available.
+Startup saves a full backup before pending database migrations.
+
+**Check published release** reads GitHub release metadata only.
+It does not install an update.
+The application refuses database downgrades and incomplete restores.
+**File → Quit** stops the desktop and its local services.
+
+## LAN review
+
+Run this command from the workspace root:
 
 ```bash
-"release/.dist/delta-observatory-desktop-linux-x64/Delta Observatory.sh" \
-  --workspace="$PWD/release/.state/preview" \
+"release/.dist/delta-observatory-preview-linux-x64/Delta Observatory.sh" \
+  --workspace="$PWD/release/.state/product-preview" \
   --review-host=0.0.0.0 --review-port=41871
 ```
 
-The browser address is `http://<machine-LAN-address>:41871/`.
-The desktop window receives the workspace owner's credential.
-A LAN browser receives read access through the existing GUI reader.
+Open `http://<machine-LAN-address>:41871/?investigations` in a LAN browser.
+Anonymous browser access uses the existing read-only GUI client.
 The server does not attach the owner credential to browser requests.
-The **Prototype** menu identifies the workspace and provides its owner token.
-Authenticated browser operations require that token.
-The default start binds the frontend to loopback on an available port.
-The API always binds to loopback on an available port.
+**Workspace → Copy this workspace token** supplies the token for authorized browser operations.
+Managed model connections and local file operations require the native desktop window.
+
+The default frontend binds to loopback on an available port.
+The API always binds to loopback.
 PostgreSQL uses a private Unix socket and does not listen on TCP.
+The desktop does not connect to the k3s deployment.
 
 ## Build from public source
 
-Build the runtime on Ubuntu 24.04 x86-64 with glibc 2.39.
-The build needs Git, Python 3.12 or later, Node.js 22 or later, npm, and uv.
-It also needs a C compiler, Make, Bison, Flex, pkg-config, tar, and bzip2.
+Build on Ubuntu 24.04 x86-64 with glibc 2.39.
+Build dependencies include Git, Python, Node.js, npm, uv, a C compiler, Make, Bison, Flex, pkg-config, tar, and bzip2.
 The checked build uses Node.js 22.22.3 and uv 0.12.7.
-Build downloads require network access.
-The completed package runs without network access.
+Build downloads require network access. Manual analysis runs offline after acquisition.
 
-1. Restore the public component checkouts from the root repository:
+1. Restore the public components:
 
    ```bash
    python3 scripts/components.py clone
@@ -75,97 +154,108 @@ The completed package runs without network access.
    python3 release/scripts/prepare.py --output release/.build/sources
    ```
 
-3. Install the pinned desktop build packages:
+3. Install the desktop dependencies:
 
    ```bash
    npm ci --prefix release
    ```
 
-4. Build the exported frontend:
+4. Install the frontend dependencies:
 
    ```bash
    npm ci --prefix release/.build/sources/frontend
+   ```
+
+5. Build the frontend:
+
+   ```bash
    npm run build --prefix release/.build/sources/frontend
    ```
 
-5. Download the checked PostgreSQL source:
+6. Download the checked PostgreSQL source:
 
    ```bash
    python3 release/scripts/fetch-source.py postgresql
    ```
 
-6. Build the private runtime directory:
+7. Build the runtime directory:
 
    ```bash
    sh release/scripts/build-runtime.sh
    ```
 
-7. Assemble the application in an unused output directory:
+8. Download the pinned Bubblewrap package inside the Ubuntu build environment:
 
    ```bash
-   python3 release/scripts/package.py \
-     --output release/.dist/delta-observatory-desktop-linux-x64
+   (cd /tmp && apt download bubblewrap=0.9.0-1ubuntu0.3)
    ```
 
-`prepare.py` exports Git commits, not working files.
-It checks all vendored JSON contracts and SQL migrations against the pinned database component.
-The API and worker keep separate Python dependency directories because their pinned versions differ.
-Packaging replaces remote font references in the exported frontend with local, licensed fonts.
-The public frontend source remains unchanged.
+9. Extract the package:
 
-`BUILD.json` records source commits, runtime versions, and every regular file's size and SHA-256.
-Dependency metadata and license files remain inside the package.
-This prototype has no automatic updater, system installer, or application menu entry.
-Public binary distribution requires a complete license and source-offer review.
+   ```bash
+   dpkg-deb -x /tmp/bubblewrap_0.9.0-1ubuntu0.3_amd64.deb /tmp/delta-bwrap-package
+   ```
+
+10. Bundle the agent runtime and Ubuntu libraries:
+
+    ```bash
+    python3 release/scripts/bundle-agent.py --ubuntu-root /
+    ```
+
+11. Assemble the application in an unused directory:
+
+    ```bash
+    python3 release/scripts/package.py --output release/.dist/delta-observatory-preview-linux-x64
+    ```
+
+12. Create the installer without installing it:
+
+    ```bash
+    python3 release/scripts/installer.py \
+      --package release/.dist/delta-observatory-preview-linux-x64 \
+      --output 'release/.dist/delta-observatory_0.2.0~preview1_amd64.deb'
+    ```
+
+`prepare.py` exports Git commits and checks vendored contracts and migrations.
+The API and worker keep separate Python dependency directories.
+Packaging replaces remote fonts with local licensed fonts.
+`BUILD.json` records component commits, runtime versions, file sizes, and SHA-256 hashes.
+The package retains dependency metadata and license notices.
+Public binary distribution requires separate authorization and complete redistribution review.
 
 ## Checks
 
-Run the desktop unit checks:
+Run these commands from the workspace root:
 
 ```bash
 node --test release/tests/*.test.cjs
+backend/.venv/bin/python -B -m unittest discover -s release/tests -p 'test_*.py'
+python3 release/scripts/smoke.py --app <package>/resources/app --workspace <unused-workspace> --output <unused-report>
+python3 release/scripts/product-check.py --app <package>/resources/app --output <unused-directory>
+python3 release/scripts/migration-check.py --previous-app <previous-package>/resources/app --app <package>/resources/app --output <unused-directory>
+python3 release/scripts/check-clean.py --rootfs <ubuntu-root> --package <package> --output <unused-directory>
 ```
 
-Run the runtime check with unused workspace and report paths:
-
-```bash
-python3 release/scripts/smoke.py \
-  --app release/.dist/delta-observatory-desktop-linux-x64/resources/app \
-  --workspace /tmp/delta-desktop-check-workspace \
-  --output /tmp/delta-desktop-check-report
-```
-
-The fixture contains synthetic brightness samples for an engineering check.
-It does not measure scientific performance.
-The check exercises indexing, BLS execution, permissions, evidence hashes, shutdown, and restart.
-
-The isolated check also needs Bubblewrap and an Ubuntu filesystem with the desktop libraries and Xvfb.
-Run the isolated check with an unused output directory:
-
-```bash
-python3 release/scripts/check-clean.py \
-  --rootfs release/.build/ubuntu \
-  --package release/.dist/delta-observatory-desktop-linux-x64 \
-  --output release/.build/checks/ubuntu-review
-```
-
-The check hides host files and system language runtimes.
-It disables network access and checks the Electron window on an isolated X display.
-[P0.md](P0.md) describes the filesystem preparation and the limits of this test.
-The root workspace check retains its separate private repository requirement.
+The fixtures contain synthetic engineering samples. They do not measure scientific performance.
+The product check covers plan approval, branches, review records, numerical reproduction, backups, credential rotation, and restart.
+The migration check covers automatic backup and recovery from the previous desktop schema.
+The isolated check hides host files and system language runtimes.
+It disables external networking and checks the agent against a local fake provider.
+It checks native desktop forms, plots, navigation, settings, scrolling, and screenshots on an isolated X display.
+[QUALIFICATION.md](QUALIFICATION.md) records the evidence and limits.
 
 ## Local files
 
 | Directory | Contents |
 |---|---|
-| `desktop/` | Electron shell, import controls, local frontend server, and service supervisor. |
-| `resources/` | Minimal public TESS catalog. |
-| `scripts/` | Source export, runtime build, packaging, and integration checks. |
-| `tests/` | Desktop unit checks, synthetic fixture, and isolated execution. |
-| `evidence/` | Checked engineering report and desktop screenshot. |
-| `.build/` | Ignored build sources, runtime payload, and temporary test workspaces. |
-| `.cache/` | Ignored downloaded build dependencies. |
-| `.dist/` | Ignored application directory and archive. |
+| `desktop/` | Native shell, agent bridge, file operations, recovery, and service supervision. |
+| `resources/` | Public TESS catalog and runtime notices. |
+| `scripts/` | Source export, runtime build, installer creation, and integration checks. |
+| `tests/` | Unit checks, synthetic fixtures, and desktop checks. |
+| `evidence/` | Retained engineering reports and screenshots. |
+| `.build/` | Ignored build sources, runtime payload, and test workspaces. |
+| `.cache/` | Ignored build downloads. |
+| `.dist/` | Ignored application directories and installer. |
 | `.state/` | Ignored local preview workspace. |
 
-Application state and downloaded observations must remain outside Git.
+Application state and downloaded observations remain outside Git.

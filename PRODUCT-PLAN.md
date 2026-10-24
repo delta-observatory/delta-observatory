@@ -2,11 +2,12 @@
 
 ## Status and product outcome
 
-This document defines the proposed downloadable Delta application.
+This document defines the downloadable Delta application and its acceptance criteria.
 It defines product scope, reuse decisions, delivery dependencies, and acceptance criteria.
 [DESIGN.md](DESIGN.md) and [ROADMAP.md](ROADMAP.md) retain authority for agreed requirements and implementation status.
-P0 has a separate local [desktop prototype](release/README.md) and [dependency audit](release/P0.md).
-The later stages remain proposals.
+The [desktop preview](release/README.md) implements P1–P4 controls and P5 installation and recovery mechanisms.
+[Qualification](release/QUALIFICATION.md) separates checked engineering behavior from remaining provider, operating-system, design, and usability acceptance.
+[P0.md](release/P0.md) preserves the initial dependency audit.
 The plan does not authorize scientific experiments, public binary releases, or external deployment.
 
 Delta should let a person direct an astronomical investigation from one application.
@@ -27,8 +28,9 @@ The deployed slice supports observation selection, BLS searches, cancellation, r
 BLS means Box Least Squares, a search for repeated brightness decreases.
 The adapter uses MCP, the Model Context Protocol, to expose API operations to external agents.
 
-The prototype supplies bundled services and a minimal public TESS catalog.
-Remaining product work includes a qualified installer, complete public resources, automatic acquisition, managed agent sessions, editable investigation plans, and complete GUI coverage.
+The desktop supplies bundled services, a public TESS catalog, bounded acquisition, versioned plans, a managed agent, and forms for every API operation.
+Portable exports support numerical reproduction in another workspace.
+The installer and recovery mechanisms require the remaining qualification checks before beta acceptance.
 Scientific validation remains separate from these engineering tasks.
 The two-host TESS experiment establishes bounded period-and-phase recovery.
 It does not establish depth accuracy, completeness, or false-alarm rates.
@@ -41,7 +43,7 @@ The mirror pilot does not authorize method adoption.
 | Scientific calculation | Retain Astropy and Lightkurve behind the existing workers. Use established FITS readers and archive clients. | Define applicable inputs, pinned versions, preparation rules, diagnostics, and validation evidence. |
 | Archive access | Use MAST services and supported clients, such as Astroquery, for metadata queries and product retrieval. | Delta bounds selections and downloads. It preserves source identity and checks acquired products. |
 | Application foundation | Retain PostgreSQL, FastAPI, React, and the existing job contracts. | Extend the complete investigation without creating a second execution system. |
-| Desktop distribution | Evaluate Electron and Electron Forge as a thin shell around the existing frontend. | Manage local services, installation, updates, storage, recovery, and operating-system integration. |
+| Desktop distribution | Use Electron as a shell around the existing frontend and a Debian installer for Ubuntu 24.04 amd64. | Manage local services, installation, updates, storage, recovery, and operating-system integration. |
 | Agent execution | Use Codex app-server for the first managed agent adapter. Retain API-key access as an alternative. | Delta translates agent events into investigation records. It enforces Delta permissions. |
 | Additional providers | Add an Anthropic API adapter after the first complete workflow. | Preserve the same operations, controls, records, and failure behavior across providers. |
 | Credentials | Use operating-system credential storage through a maintained library. | Keep credentials outside exports, model context, logs, and application records. |
@@ -53,8 +55,8 @@ Astroquery documents its [MAST client](https://astroquery.readthedocs.io/en/late
 These libraries supply calculations and access methods, but Delta must establish their supported scientific use.
 
 Electron documents [distribution](https://www.electronjs.org/docs/latest/tutorial/distribution-overview) and [security requirements](https://www.electronjs.org/docs/latest/tutorial/security).
-Its selection remains subject to an installation and resource-use test.
-The proposal keeps the existing frontend and avoids a separate desktop interface implementation.
+The desktop keeps the existing frontend.
+Isolated execution and rendering checks pass. Fresh operating-system installation and wider resource qualification remain open.
 
 ### Product patterns to reuse
 
@@ -73,7 +75,7 @@ Multiple agents are a later capability, after one agent completes a reliable inv
 
 ### Supported model access
 
-The first adapter should use the documented [Codex app-server integration](https://developers.openai.com/siwc/token-sharing-open-source/codex-app-server).
+The first adapter uses the documented [Codex app-server integration](https://developers.openai.com/siwc/token-sharing-open-source/codex-app-server).
 [Sign in with ChatGPT](https://developers.openai.com/siwc/quickstart) supports eligible plan use in participating open-source applications.
 Identity access and model-use consent are separate.
 Delta must check current eligibility and support API-key access when appropriate.
@@ -81,7 +83,7 @@ The desktop proposal does not assume permission for a hosted commercial service.
 
 Anthropic documents API access through its [Agent SDK](https://code.claude.com/docs/en/agent-sdk/overview).
 Embedded third-party use of Claude subscription login requires prior Anthropic approval.
-The initial product should offer Claude API-key access without promising Claude subscription login.
+Claude API-key access remains deferred. The initial desktop supports one managed Codex connection.
 An external agent connection through MCP remains distinct from a managed agent session inside Delta.
 
 ## What Delta must build
@@ -93,7 +95,7 @@ An external agent connection through MCP remains distinct from a managed agent s
 | Acquisition manager | The manager previews selections and storage estimates. It downloads approved products, checks files, and recovers after interruption. | `workers/`, `backend/`, `frontend/` |
 | Agent host | The host manages provider sessions, events, interruptions, and saved decisions. | `agents/` |
 | Evidence assembly | Connect each claim to measurements, diagnostics, inputs, method versions, limitations, and human decisions. | `workers/`, `backend/`, `frontend/` |
-| Desktop lifecycle | The desktop component manages pinned services, processes, credentials, record migration, and backup restoration. | P0 prototype in `release/`. Backup restoration remains pending. |
+| Desktop lifecycle | The desktop component manages pinned services, processes, credentials, record migration, and backup restoration. | `release/` |
 | Public runtime resources | Supply the supported method list, archive recipes, example manifests, and installation checks without private repository access. | Relevant public component repositories |
 
 “Investigation” is the GUI term for the existing campaign concept.
@@ -125,7 +127,7 @@ Model access is optional until the user starts an agent.
 The first packaging test targets one explicitly supported Linux environment.
 macOS and Windows need separate installation, credential, update, and recovery checks before support claims.
 The existing k3s deployment remains the development environment.
-Desktop distribution requires an explicit architecture decision before implementation.
+The desktop uses a separate local workspace and never connects to the k3s deployment.
 
 ### 2. Complete a guided investigation
 
@@ -257,12 +259,13 @@ They supplement R0–R8 without changing their recorded completion status.
 
 P0 passes offline execution and desktop rendering checks in an isolated Ubuntu filesystem.
 The [P0 report](release/P0.md) records measurements and private dependency treatment.
-Fresh desktop installation, normal distribution security policies, and complete resource measurements remain open.
+The desktop implements the complete manual journey and an optional managed agent.
+Automated checks cover numerical reproduction in separate workspaces, native controls, migration backup, and data-only restoration.
+Fresh desktop installation, live provider access, interface review, and external usability acceptance remain open.
+The [qualification record](release/QUALIFICATION.md) gives the applicable evidence and limitations.
 
-P2 and P3 can proceed independently after their contracts and permissions are stable.
 Scientific validation proceeds under its own dependencies.
 Broader scientific claims require its evidence even when product acceptance passes.
-Delivery estimates follow P0 measurements of packaging effort and resource requirements.
 
 The initial usability study should include six to ten representative users.
 Its purpose is to identify missing controls, unclear evidence, and installation failures.
@@ -292,7 +295,7 @@ Deferred capabilities include unrestricted agent code execution, multiple-agent 
 Additional scientific methods require compatible inputs, license review, and separate validation before adoption.
 ExoMiner, RAVEN, transit fitting, and additional transit-search algorithms remain evaluation options.
 
-The first implementation decisions are the supported Linux baseline, desktop packaging choice, public runtime resource ownership, storage policy, and permitted agent actions.
+The preview targets Ubuntu 24.04 amd64 with Electron, a 20 GiB workspace limit, and API-only managed agent tools.
 The public runtime must work without the private dataset catalog, method library, or experiment repositories.
 Public recipes and manifests must preserve required provenance without publishing private research or downloaded observations.
 Each reused dependency needs a recorded version and redistribution requirements.

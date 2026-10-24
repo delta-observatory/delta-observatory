@@ -2,7 +2,8 @@
 
 This roadmap defines delivery stages, their status, open decisions, and next actions.
 [DESIGN.md](DESIGN.md) defines the desired system.
-[PRODUCT-PLAN.md](PRODUCT-PLAN.md) defines proposed desktop product scope and delivery criteria. P0 has a separate local prototype.
+[PRODUCT-PLAN.md](PRODUCT-PLAN.md) defines desktop product scope and delivery criteria.
+[Desktop qualification](release/QUALIFICATION.md) records checked behavior and remaining acceptance requirements.
 Git history records changes. Experiment records hold scientific results.
 
 [WORKSPACE.md](WORKSPACE.md) describes workspace structure and document responsibilities.
@@ -15,7 +16,9 @@ Git history records changes. Experiment records hold scientific results.
 [RESEARCH-STATE.md](RESEARCH-STATE.md) records reconciled lab conclusions, corrected counts, and regional-campaign prerequisites.
 
 - R0, the scientific contract, is active.
-- The [P0 desktop prototype](release/P0.md) runs isolated services from public sources. Offline engineering checks pass. Fresh desktop installation qualification remains open.
+- The [desktop preview](release/README.md) implements approved investigation plans, bounded MAST acquisition, managed agent controls, numerical reproduction, and backup recovery.
+- A local Ubuntu installer bundles five public runtime components. Isolated engineering checks pass. Provider login, fresh installation, interface review, and external usability qualification remain open.
+- Desktop migrations 0006–0008 define investigations, acquisition, and managed sessions. The k3s deployment retains its separate migration state.
 - The TESS vertical slice runs on the local k3s cluster. It has contract version 1, the database schema, the worker, the stateless API, and the frontend.
 - The slice indexes 65 development light curves: 46 application light curves, 18 FINAL001 light curves, and one RS-001 aperture observation. With the T01 defaults, its `tess-bls` method gives the exact T01 values.
 - The application workflow runs from observation selection through analysis, candidate review, and evidence export. The frontend at `http://<node>:30871/` on the LAN gives the sky, search, plots, run controls with cancellation and retry, run comparison, candidates, assessments, decisions, notes, agent tasks, and exports. [frontend/DESIGN-DECISIONS.md](https://github.com/delta-observatory/frontend/blob/main/DESIGN-DECISIONS.md) records the agreed design.

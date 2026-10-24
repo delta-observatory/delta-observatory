@@ -1,0 +1,200 @@
+{
+  "scope": "Synthetic engineering checks. No provider account use or scientific performance claim.",
+  "environment": {
+    "system_runtimes": {
+      "python3": false,
+      "node": false,
+      "psql": false,
+      "postgres": false,
+      "docker": false,
+      "kubectl": false
+    },
+    "host_home_visible": false,
+    "private_repositories_visible": false
+  },
+  "runtime": {
+    "scope": "Engineering integration with synthetic input. No scientific validation.",
+    "checks": {
+      "empty_new_database": true,
+      "authentication_and_read_only_gui": true,
+      "public_catalog_without_private_reports": true,
+      "public_method_contracts": true,
+      "exclusive_workspace_ownership": true,
+      "synthetic_fits_index": true,
+      "worker_bls_execution": true,
+      "evidence_export_hashes_and_repeatability": true,
+      "missing_cohort_register_blocks_agents": true,
+      "clean_shutdown": true,
+      "restart_preserves_observations_results_and_export": true
+    },
+    "startup_seconds": 3.049,
+    "worker_resources": {
+      "peak_rss_mib": 254.73046875,
+      "elapsed_seconds": 8.137042231988744
+    },
+    "status": "passed"
+  },
+  "desktop": {
+    "status": "passed",
+    "checks": {
+      "manual_plan_approval_execution_and_plots": true,
+      "sandbox": true,
+      "fonts": true,
+      "generated_operation_form": true,
+      "saved_investigation_navigation": true,
+      "native_settings_bridge": true,
+      "settings_scroll": true,
+      "no_console_errors": true
+    },
+    "consoleErrors": []
+  },
+  "agent_isolation": {
+    "status": "passed",
+    "provider_requests": 2,
+    "only_api_tools": true,
+    "host_files_inaccessible": true,
+    "model": "gpt-5.4"
+  },
+  "journey": {
+    "scope": "Engineering checks with synthetic input. No model calls or scientific validation.",
+    "checks": {
+      "approved_plan_and_idempotent_execution": true,
+      "candidate_and_review_record": true,
+      "preserved_branch_and_comparison": true,
+      "numerical_repeat_in_second_empty_workspace": true,
+      "repeat_import_preserves_observation_identity": true,
+      "backup_restore_records_results_and_rotated_credentials": true,
+      "restore_preserves_original_running_workspace": true,
+      "restart_preserves_approved_branch": true
+    },
+    "reproduction": {
+      "contract": "reproduction-report/1",
+      "source_run_id": "47defa16-c651-449c-a1e7-4d77ec1960f5",
+      "repeat_run_id": "10291b92-f8d2-44e3-8ec7-37084941cf80",
+      "status": "matched",
+      "runtime_match": true,
+      "comparison": {
+        "absolute": 1e-12,
+        "meaning": "Numerical agreement only. These tolerances do not measure scientific uncertainty.",
+        "relative": 1e-10
+      },
+      "compared": 10,
+      "differences": [],
+      "notes": [
+        "Reference-label comparisons are excluded. The report compares worker measurements, units, metadata, and exact input hashes."
+      ]
+    },
+    "status": "passed"
+  },
+  "migration": {
+    "scope": "Engineering migration and data-only recovery. No scientific validation.",
+    "checks": {
+      "backup_precedes_new_migrations": true,
+      "existing_owner_remains_valid": true,
+      "previous_schema_restore_and_forward_migration": true,
+      "restored_credentials_rotated": true
+    },
+    "status": "passed"
+  },
+  "unit_checks": {
+    "contracts": {
+      "schemas": 24,
+      "examples": 56
+    },
+    "backend": 101,
+    "workers": 14,
+    "frontend": 104,
+    "agent_adapter": 12,
+    "agent_importer": 10,
+    "managed_host": 7,
+    "desktop_node": 2,
+    "desktop_python": 3,
+    "component_manifest": 10
+  },
+  "package": {
+    "files": 20578,
+    "bytes": 1262124578,
+    "build_manifest_sha256": "dcb1ad35396e3950abe4807e35d50edd375a37afd1d9f12fa48c3a6fb85e158d",
+    "all_file_hashes_match": true,
+    "sources": {
+      "components": {
+        "database": {
+          "name": "database",
+          "visibility": "public",
+          "description": "Schema, migrations, and the cross-component contracts.",
+          "repository": "https://github.com/delta-observatory/database.git",
+          "commit": "0da279c53afa63e21b7a8445f4d73737d7fb93b7"
+        },
+        "workers": {
+          "name": "workers",
+          "visibility": "public",
+          "description": "Ingestion and scientific methods: tess-spoc-index and tess-bls.",
+          "repository": "https://github.com/delta-observatory/workers.git",
+          "commit": "ad8b25e8080b7800440e45ab96b3ec8ba6e601fd"
+        },
+        "backend": {
+          "name": "backend",
+          "visibility": "public",
+          "description": "Stateless FastAPI application API.",
+          "repository": "https://github.com/delta-observatory/backend.git",
+          "commit": "eae6a910448267def250cef959616fbd6771cf65"
+        },
+        "frontend": {
+          "name": "frontend",
+          "visibility": "public",
+          "description": "React, Canvas 2D, and TypeScript interface.",
+          "repository": "https://github.com/delta-observatory/frontend.git",
+          "commit": "4acd1dacbfd618903123b7aa32bbdf6a616e68c7"
+        },
+        "agents": {
+          "name": "agents",
+          "visibility": "public",
+          "description": "Agent manual, MCP adapter, research importer, and campaign templates.",
+          "repository": "https://github.com/delta-observatory/agents.git",
+          "commit": "bf2bf033dfe12da073f4ebaa34a114e907ac2bda"
+        }
+      },
+      "vendored_contract_sources": {
+        "backend": "0da279c53afa63e21b7a8445f4d73737d7fb93b7",
+        "workers": "0da279c53afa63e21b7a8445f4d73737d7fb93b7"
+      },
+      "component_manifest_sha256": "f04f66690c2de5f42d75b68acbf982e9b8271a728e470ae54f90f8b9e59ac41c",
+      "private_repositories": []
+    }
+  },
+  "installer": {
+    "filename": "delta-observatory_0.2.0~preview1_amd64.deb",
+    "bytes": 482147656,
+    "sha256": "0ff08a07f34056be53cc52ccb9a01188563e8c4add9c64f199fc24ceed98d3a8",
+    "dpkg_deb_info": "passed",
+    "dpkg_deb_extract": "passed",
+    "extracted_package_hashes": "passed",
+    "desktop_entry": true,
+    "apparmor_profile": true,
+    "host_installation": false
+  },
+  "screenshots": {
+    "investigation": "b1c34193a5a7b127f329c4c674000b041fc092475b65db7ed7b930fd1b92be27",
+    "settings": "ac10a3417045301e83ab84df6c6138eb74e23ab94a573b9c0d2d64c274b14b45"
+  },
+  "desktop_source_sha256": {
+    "desktop/agent.cjs": "be136b94100f7ae459b3b2bcf3a21e82d67c83caddeed1e9bb98d6c09ff786a5",
+    "desktop/import.cjs": "0afba03d6b365be0f66d2f550e85ed0f63daf5238220f1dcfe7dc07d5082392d",
+    "desktop/main.cjs": "b243b711484bbea4353b3ef28634807609abb45cd3c62c5322a406b253f06dbd",
+    "desktop/maintenance.cjs": "6fcb6b2d3e24863fb834fdd5a97c3d2f41bc37e156cabc6f158ea424cb304e9c",
+    "desktop/package.json": "4240176c790d16ddceba94529a81f33ec8bb17323aa20deeddac2bc97ddfe2e6",
+    "desktop/preload.cjs": "85b75be95153378efb26cac52f68ef467cbb9c4b3c095d197175b7ba08a4654e",
+    "desktop/recovery.py": "afbbb078339a0d495a49c957abba67a016b8337958435415f7e0f0bac67b2c64",
+    "desktop/reproduction.py": "d40c08287f935b43ad4f7772f6d3010173983e363bab82cd074d690d4d730579",
+    "desktop/server.cjs": "367a7d56ce763b436705bb9e49ef0d160431e848507cd3afa53ab65df41bdf07",
+    "desktop/settings.py": "393e145a7b1c7ec17e1e0b4663d34f22d3ad8fa103722b7c8e8edc556be4dab5",
+    "desktop/storage.py": "df8f0f9ca60d51e0351a3620aacce371bb9f6a83e3048aa174314b6809660de0",
+    "desktop/supervisor.py": "f9f199c45d622a110d185f289988e8af0ca6e5e7b767baafefc8f5f825919013"
+  },
+  "limits": [
+    "The Ubuntu filesystem shares the host kernel. It is not a fresh operating-system installation.",
+    "The provider check uses a local fake service. Live account login and credential-store acceptance remain open.",
+    "Numerical reproduction uses separate workspaces on one host.",
+    "Interface review, external usability, large campaigns, and public redistribution review remain open."
+  ]
+}

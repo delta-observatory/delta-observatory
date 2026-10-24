@@ -8,7 +8,7 @@ R0, the scientific contract stage, remains active.
 The TESS vertical slice runs on the local k3s cluster: database, worker, API, and frontend.
 The frontend on NodePort 30871 gives the workflow from observation selection through analysis, run comparison, candidate review, and evidence export.
 Catalog inclusion does not establish local observation availability or an implemented detection method.
-The [desktop prototype](release/README.md) runs separate local services with its own workspace.
+The [desktop preview](release/README.md) runs separate local services with its own workspace.
 
 ## Start here
 
@@ -23,7 +23,7 @@ The [desktop prototype](release/README.md) runs separate local services with its
 |---|---|
 | [DESIGN.md](DESIGN.md) | Intended application behavior, architecture, and requirements. It does not authorize implementation or deployment. |
 | [ROADMAP.md](ROADMAP.md) | Delivery status, open decisions, and next actions. |
-| [PRODUCT-PLAN.md](PRODUCT-PLAN.md) | Desktop product scope, reuse decisions, first investigation, and acceptance criteria. P0 has a separate local prototype. |
+| [PRODUCT-PLAN.md](PRODUCT-PLAN.md) | Desktop product scope, reuse decisions, investigation controls, and acceptance criteria. [Qualification](release/QUALIFICATION.md) records engineering evidence and remaining gates. |
 | [experiments/PROCEDURE.md](https://github.com/delta-observatory/experiments/blob/main/PROCEDURE.md) | Current required scientific procedure, evidence requirements, and stop conditions. |
 | [experiments/PLAN.md](https://github.com/delta-observatory/experiments/blob/main/PLAN.md) | Scientific task scope, dependencies, conditional work, and protected ownership. |
 | [Protocol template](https://github.com/delta-observatory/experiments/blob/main/planning/experiment-template.md) | Fields for each new experiment's specific design and criteria. |

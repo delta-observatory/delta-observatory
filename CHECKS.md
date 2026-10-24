@@ -52,7 +52,7 @@ Run each check from its component repository.
 | `workers/` | `.venv/bin/python -m pytest -q` | Exact T01 reproduction by `tess-bls`, the index, search, and memory-limit flow, selection manifests, cancellation of a running job, and unchanged finished jobs, on a temporary PostgreSQL server. |
 | `backend/` | `uv run pytest` | Every endpoint on a temporary PostgreSQL server with the vendored migrations, including agent scope, blinding, the free-text rule, cancellation, retries, comparisons, exports, and import keys. The API rules against the shared vectors in `tests/vectors/`, and the SQL form of the target query against the same vectors. |
 | `backend/` | `python3 scripts/verify_export.py <export.zip> --schema vendor/contracts/exports/manifest/v1.schema.json` | The size and SHA-256 of every file of one evidence export, unlisted files, and unsafe paths. |
-| `agents/` | `python3 -m unittest discover -s adapter/tests -t .` and `python3 -m unittest discover -s importer/tests -t .` | Tool generation, request placement, downloads, and token scrubbing of the adapter. Manifest checks, file hashes, and repeated imports of the importer. Both use a stub API. |
+| `agents/` | `python3 -m unittest discover -s adapter/tests -t .` and `python3 -m unittest discover -s importer/tests -t .` | Tool generation, request placement, downloads, and token scrubbing of the adapter. Manifest checks, file hashes, and repeated imports of the importer. Both use a stub API. `python3 -m unittest discover -s managed/tests -t .` checks the managed host and its permitted operations. |
 | `kubernetes/` | `scripts/rehearse.sh <database-image-tag>` | Migrations of one database image on a copy of the newest backup. |
 | `kubernetes/` | `DELTA_TOKEN_FILE=<person token file> python3 scripts/acceptance.py --report <file>` | The deployed run workflow: estimate, submission, cancellation, an inconclusive outcome, retry, comparison, and two identical exports with their check. It writes runs on development data. |
 | Root | `python3 -m unittest scripts/test_components.py` | Clone, check, and pin of the component manifest with temporary local repositories: pinned and latest clones, private components, existing directories, changed commits, uncommitted changes, and invalid manifests. |
@@ -62,20 +62,25 @@ Run each check from its component repository.
 The component READMEs give the environment setup.
 These checks do not validate scientific performance. The frontend check does not test the browser layout. GUI acceptance uses a headless browser and screenshots.
 
-## Desktop prototype checks
+## Desktop preview checks
 
 [release/README.md](release/README.md#checks) gives the desktop commands and prerequisites.
-[release/P0.md](release/P0.md) describes the checked environment and qualification limits.
+[release/QUALIFICATION.md](release/QUALIFICATION.md) describes the checked environment and remaining acceptance requirements.
+[release/P0.md](release/P0.md) preserves the initial packaging evidence.
 
 | Command from the workspace root | Coverage |
 |---|---|
 | `node --test release/tests/*.test.cjs` | Static path restrictions, credential forwarding, atomic import, original-file preservation, replacement refusal, and repeated imports. |
 | `python3 release/scripts/smoke.py --app <packaged-app> --workspace <unused-path> --output <unused-report-path>` | Empty startup, permissions, public catalog, workspace locking, synthetic indexing, BLS execution, export hashes, cohort refusal, shutdown, and restart. |
-| `python3 release/scripts/check-clean.py --rootfs <ubuntu-root> --package <package> --output <unused-path>` | The runtime check without host files, network access, or system language runtimes. Electron fonts, sandbox, renderer errors, plot pixels, and screenshot capture. |
+| `python3 release/scripts/check-clean.py --rootfs <ubuntu-root> --package <package> --output <unused-path>` | Offline runtime execution, bundled agent isolation, native plan controls, plots, operation forms, settings, scrolling, and screenshots. |
+| `python3 release/scripts/product-check.py --app <packaged-app> --output <unused-path>` | Approved plans, branches, review records, numerical reproduction in separate workspaces, backup restoration, credential rotation, and restart. |
+| `python3 release/scripts/migration-check.py --previous-app <previous-app> --app <packaged-app> --output <unused-path>` | Automatic backup before migrations and restoration of an earlier schema through forward migration. |
+| `backend/.venv/bin/python -B -m unittest discover -s release/tests -p 'test_*.py'` | Unsafe package paths, duplicate files, measurement identity, numerical comparison, and strict Boolean handling. |
+| `python3 release/scripts/verify-package.py <package>` | Packaged file list, sizes, SHA-256 hashes, and internal symbolic links. |
 
-The desktop checks need no private repository or downloaded astronomical observation.
+The packaged desktop checks need no private repository or downloaded astronomical observation.
 The fixture is synthetic engineering input.
-The checks do not qualify a fresh operating-system installation, large campaigns, scientific performance, or public binary distribution.
+The checks do not qualify live provider login, a fresh operating-system installation, representative usability, large campaigns, scientific performance, or public binary distribution.
 
 ## Additional existing checks
 

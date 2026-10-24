@@ -7,28 +7,28 @@
       "visibility": "public",
       "description": "Schema, migrations, and the cross-component contracts.",
       "repository": "https://github.com/delta-observatory/database.git",
-      "commit": "d68df98d7fc8bc79d0bc8aed6d11fef16c6cab17"
+      "commit": "0da279c53afa63e21b7a8445f4d73737d7fb93b7"
     },
     {
       "name": "workers",
       "visibility": "public",
       "description": "Ingestion and scientific methods: tess-spoc-index and tess-bls.",
       "repository": "https://github.com/delta-observatory/workers.git",
-      "commit": "ba56d3095543290e38e9d99a1f9d40aca31046d4"
+      "commit": "ad8b25e8080b7800440e45ab96b3ec8ba6e601fd"
     },
     {
       "name": "backend",
       "visibility": "public",
       "description": "Stateless FastAPI application API.",
       "repository": "https://github.com/delta-observatory/backend.git",
-      "commit": "c289df5b2ead89480c4a581f22a62ccbb65efc41"
+      "commit": "eae6a910448267def250cef959616fbd6771cf65"
     },
     {
       "name": "frontend",
       "visibility": "public",
       "description": "React, Canvas 2D, and TypeScript interface.",
       "repository": "https://github.com/delta-observatory/frontend.git",
-      "commit": "d0984616d3b49ae6b0b24b0cd6c77fafeefc4728"
+      "commit": "4acd1dacbfd618903123b7aa32bbdf6a616e68c7"
     },
     {
       "name": "kubernetes",
@@ -42,7 +42,7 @@
       "visibility": "public",
       "description": "Agent manual, MCP adapter, research importer, and campaign templates.",
       "repository": "https://github.com/delta-observatory/agents.git",
-      "commit": "128d64421a06b7d5cad6780049ba05e92aba9189"
+      "commit": "bf2bf033dfe12da073f4ebaa34a114e907ac2bda"
     },
     {
       "name": "community",

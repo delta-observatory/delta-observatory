@@ -36,7 +36,7 @@ def atomic_text(path, value):
 def workspace_lock(root):
     # Refuse a foreign or symlinked workspace. This protects the existing deployment.
     if root.is_symlink() or root.absolute() != root.resolve():
-        raise RuntimeError('The prototype workspace must not contain symbolic links.')
+        raise RuntimeError('The desktop workspace must not contain symbolic links.')
     root.mkdir(mode=0o700, parents=True, exist_ok=True)
     marker = root / 'workspace.json'
     if marker.exists():
@@ -100,7 +100,14 @@ def provision(payload, root, url):
             known = {p.stem for p in migration_dir.glob('*.sql')}
             applied = {r[0] for r in conn.execute('SELECT version FROM schema_migration')}
             if not applied <= known:
-                raise RuntimeError('This database needs a newer prototype. Automatic downgrade is unavailable.')
+                raise RuntimeError('This database needs a newer application. Automatic downgrade is unavailable.')
+            if applied < known:
+                from recovery import backup
+                folder=root/'backups';folder.mkdir(mode=0o700,exist_ok=True)
+                if folder.is_symlink():raise RuntimeError('The backup directory cannot be a symbolic link.')
+                event('stage',message='Saving a recoverable backup before database migration.')
+                import uuid
+                backup(payload,root,folder/('before-migration-'+str(uuid.uuid4())+'.zip'))
     env = environment(payload, root, 'api')
     env.update(DATABASE_URL=url, MIGRATIONS_DIR=str(migration_dir))
     run_logged(['/bin/sh', str(payload / 'components/database/migrate.sh')], env, root / 'logs/migrations.log')
@@ -115,7 +122,7 @@ def provision(payload, root, url):
             raise RuntimeError('The desktop credential is missing or does not match this database.')
         if not conn.execute("SELECT 1 FROM client WHERE name = 'desktop-reader'").fetchone():
             create_client(conn, name='desktop-reader', kind='service', permissions=['read'],
-                          created_by='desktop-bootstrap', note='Read-only access for the prototype GUI.')
+                          created_by='desktop-bootstrap', note='Read-only access for the desktop GUI.')
 
 
 def stop_child(child):
@@ -128,9 +135,10 @@ def stop_child(child):
             child.wait(timeout=5)
 
 
-def serve(payload, root, parent_pid=None):
+def serve(payload, root, parent_pid=None, public_exploration=False):
+    sys.path[:0] = [str(payload / 'api-packages'), str(payload / 'components/backend/src')]
     if os.geteuid() == 0:
-        raise RuntimeError('Run the desktop prototype as an ordinary user.')
+        raise RuntimeError('Run the desktop application as an ordinary user.')
     started = time.monotonic()
     lock = workspace_lock(root)
     children, logs = [], []
@@ -146,13 +154,19 @@ def serve(payload, root, parent_pid=None):
     signal.signal(signal.SIGTERM, stop_signal)
     signal.signal(signal.SIGINT, stop_signal)
     try:
+        if (root/'restore-in-progress').exists():raise RuntimeError('This restore did not finish. Restore the backup into another empty directory.')
         for relative in ('database', 'socket', 'logs', 'tmp', 'cache', 'home/config', 'home/data', 'artifacts', 'raw/tess-spoc-light-curves'):
             directory = root / relative
             if directory.is_symlink():
                 raise RuntimeError('The workspace contains a symbolic link in a managed directory.')
             directory.mkdir(mode=0o700, parents=True, exist_ok=True)
         if shutil.disk_usage(root).free < 512 * 1024**2:
-            raise RuntimeError('The prototype needs at least 512 MiB of free workspace space.')
+            raise RuntimeError('The desktop needs at least 512 MiB of free workspace space.')
+        memory = {line.split(':')[0]:int(line.split()[1])*1024 for line in Path('/proc/meminfo').read_text().splitlines() if line.startswith(('MemAvailable:', 'MemTotal:'))}
+        if memory.get('MemAvailable',memory.get('MemTotal',0)) < 512 * 1024**2:
+            raise RuntimeError('The desktop needs at least 512 MiB of available memory before startup.')
+        from storage import settings as storage_settings
+        if not (root/'storage.json').exists():atomic_text(root/'storage.json',json.dumps(storage_settings(payload,root))+'\n')
         socket_dir = root / 'socket'
         if len(str(socket_dir).encode()) > 85:
             raise RuntimeError('Choose a shorter workspace path for the PostgreSQL socket.')
@@ -164,7 +178,7 @@ def serve(payload, root, parent_pid=None):
             run_logged([str(pg / 'initdb'), '-D', str(data), '-U', 'delta', '--encoding=UTF8', '--locale=C',
                         '--auth-local=trust', '--auth-host=reject'], env, root / 'logs/postgres-init.log')
         if (data / 'PG_VERSION').read_text().strip() != '18':
-            raise RuntimeError('This prototype requires a separate PostgreSQL 18 workspace.')
+            raise RuntimeError('This desktop requires a separate PostgreSQL 18 workspace.')
         options = shlex.join(['-h', '', '-k', str(socket_dir), '-c', 'shared_buffers=64MB', '-c', 'max_connections=20'])
         # pg_ctl starts only this marked workspace. It never uses a host PostgreSQL service.
         status = subprocess.run([str(pg / 'pg_ctl'), '-D', str(data), 'status'], env=env,
@@ -183,12 +197,14 @@ def serve(payload, root, parent_pid=None):
             'DELTA_CATALOG_ROOT': str(payload / 'catalog'),
             'DELTA_DATASETS_ROOT': str(payload / 'catalog/datasets'),
             # Private experiment records and cohort reservations are not packaged.
-            # The existing cohort guard therefore refuses observation access by agents.
+            # Public desktop mode requires explicit investigation scope. The default guard still fails closed.
             'DELTA_EXPERIMENTS_ROOT': str(root / 'unavailable-experiments'),
             'DELTA_COHORTS_PATH': str(root / 'unavailable-experiments/cohorts.json'),
+            'DELTA_STANDALONE_EXPLORATION': 'true' if public_exploration else 'false',
             'DELTA_GUI_READ_CLIENT': 'desktop-reader',
             'DELTA_DATASETS': 'tess-spoc-light-curves',
             'DELTA_POLL_SECONDS': '1',
+            'DELTA_STORAGE_CONFIG': str(root/'storage.json'),
             'DELTA_WORKER_ID': 'desktop-worker',
             'DELTA_WORKER_VERSION': json.loads((payload / 'sources.json').read_text())['components']['workers']['commit'],
         }
@@ -215,7 +231,7 @@ def serve(payload, root, parent_pid=None):
         deadline = time.monotonic() + 45
         while not stopping:
             if any(child.poll() is not None for child in children):
-                raise RuntimeError('A prototype service stopped. Inspect the workspace logs.')
+                raise RuntimeError('A desktop service stopped. Inspect the workspace logs.')
             try:
                 with urllib.request.urlopen(api_url + '/api/health', timeout=1) as response:
                     if response.status == 200:
@@ -223,7 +239,7 @@ def serve(payload, root, parent_pid=None):
             except (OSError, urllib.error.URLError):
                 pass
             if time.monotonic() >= deadline:
-                raise RuntimeError('The prototype API did not become ready.')
+                raise RuntimeError('The desktop API did not become ready.')
             time.sleep(0.2)
         if stopping:
             return
@@ -235,7 +251,7 @@ def serve(payload, root, parent_pid=None):
             if parent_pid is not None and os.getppid() != parent_pid:
                 break
             if any(child.poll() is not None for child in children):
-                raise RuntimeError('A prototype service stopped. Inspect the workspace logs.')
+                raise RuntimeError('A desktop service stopped. Inspect the workspace logs.')
             time.sleep(0.25)
     finally:
         for child in reversed(children):
@@ -255,9 +271,10 @@ if __name__ == '__main__':
     parser.add_argument('--payload', type=Path, required=True)
     parser.add_argument('--workspace', type=Path, required=True)
     parser.add_argument('--parent-pid', type=int)
+    parser.add_argument('--public-exploration', action='store_true')
     args = parser.parse_args()
     try:
-        serve(args.payload.resolve(), args.workspace.absolute(), args.parent_pid)
+        serve(args.payload.resolve(), args.workspace.absolute(), args.parent_pid, args.public_exploration)
     except Exception as error:
         event('error', message=str(error))
         sys.exit(1)

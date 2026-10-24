@@ -8,7 +8,9 @@ The first workflow searches TESS light curves for transit signals with box least
 
 ## What the application does
 
-- Opens EXPLORE with ranked BLS signals, interactive charts, candidate review, and search controls.
+- Opens the desktop investigation workspace with versioned plans, exact approvals, manual execution, and optional managed agent controls.
+- Acquires bounded MAST selections after manifest approval and checks files before analysis.
+- Provides EXPLORE with ranked BLS signals, interactive charts, candidate review, and search controls.
 - Indexes TESS SPOC 120-second light curves and shows them on a sky view with a searchable catalogue.
 - Runs the versioned `tess-bls` method as queued jobs, with parameter checks, cost estimates, cancellation, and retry.
 - Stores every measurement with its unit, uncertainty, time convention, and software versions.
@@ -16,6 +18,9 @@ The first workflow searches TESS light curves for transit signals with box least
 - Keeps research records that do not change after the write: candidates, assessments on separate evidence and identity axes, advisory decisions, notes, and agent tasks.
 - Exports a run or a candidate as a ZIP file with a SHA-256 manifest. The same request on the same records gives the same bytes.
 - Gives AI agents the API through an MCP adapter. Agents work inside campaigns with budgets, blinding, and permissions that the API enforces.
+
+The [desktop guide](release/README.md) covers the local application, Ubuntu installer, storage, backups, and numerical reproduction.
+The [qualification record](release/QUALIFICATION.md) states checked behavior and remaining beta acceptance requirements.
 
 ## Architecture
 
@@ -88,7 +93,7 @@ These steps need Python 3.12, Node 22, and `uv`. They do not need a cluster or o
    ```
 
 2. Run the component tests. The backend and worker tests start a temporary PostgreSQL server with `pgserver`.
-   In a public checkout, the worker suite runs one test and skips eight. They need TESS light curves in `raw/tess-spoc-light-curves/` or the private T01 record.
+   In a public checkout, checks that require retained observations or private experiment records skip those inputs. They need TESS light curves in `raw/tess-spoc-light-curves/` or the private T01 record.
 
    ```bash
    (cd database && uv run -q --no-project --with jsonschema==4.25.1 python scripts/check_contracts.py)
@@ -120,7 +125,8 @@ The worker reads TESS light curves from `raw/tess-spoc-light-curves/` and labels
 The API reads the cohort register `experiments/cohorts.json`.
 
 The dataset catalog and the cohort register are in private repositories.
-This release therefore does not support a full-stack reproduction from the public repositories alone.
+That cluster configuration requires private research resources.
+The separate [desktop preview](release/README.md) runs from public sources with explicit exploratory investigation scope.
 
 ## Agents
 
@@ -149,7 +155,7 @@ Give each agent the token file of its own agent client. The [operating manual](h
 
 - The `tess-bls` method recovers the periods and transit phases of two known planets in TESS sector 2.
 - Depth accuracy, completeness, and false-alarm rates are not validated.
-- All current light curves are development data. No independent evaluation data exists.
+- Application demonstrations use development data. Separate scientific evaluations retain their own protocols and conclusions.
 - The application does not confirm planets. A candidate is a record for review, not a discovery.
 
 ## License and credits

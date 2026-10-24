@@ -29,7 +29,7 @@ function createServer({ frontend, apiUrl }) {
         response.writeHead(result.statusCode, result.headers);
         result.pipe(response);
       });
-      proxied.on('error', () => { if (!response.headersSent) response.writeHead(502); response.end('The prototype API is unavailable.'); });
+      proxied.on('error', () => { if (!response.headersSent) response.writeHead(502); response.end('The desktop API is unavailable.'); });
       request.on('aborted', () => proxied.destroy());
       request.pipe(proxied);
       return;
@@ -37,10 +37,10 @@ function createServer({ frontend, apiUrl }) {
     if (!['GET', 'HEAD'].includes(request.method)) { response.writeHead(405); response.end(); return; }
     if (request.url === '/desktop-start') {
       response.setHeader('Content-Type', TYPES['.html']);
-      response.end('<!doctype html><title>Delta Observatory Prototype</title><p>Starting the separate workspace.</p>');
+      response.end('<!doctype html><title>Delta Observatory</title><p>Starting the separate workspace.</p>');
       return;
     }
-    const filename = staticPath(frontend, request.url === '/' ? '/index.html' : request.url);
+    const filename = staticPath(frontend, request.url.split('?')[0] === '/' ? '/index.html' : request.url);
     if (!filename) { response.writeHead(400); response.end('Invalid path.'); return; }
     fs.stat(filename, (error, stat) => {
       if (error || !stat.isFile()) { response.writeHead(404); response.end('File not found.'); return; }

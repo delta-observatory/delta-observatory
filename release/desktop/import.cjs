@@ -10,7 +10,7 @@ async function digest(filename) {
   return hash.digest('hex');
 }
 
-async function importFiles(workspace, files) {
+async function importFiles(workspace, files, status=null) {
   if (!files.length || files.length > 128) throw new Error('Select between 1 and 128 light-curve files.');
   const marker = JSON.parse(await fs.readFile(path.join(workspace, 'workspace.json'), 'utf8'));
   if (marker.kind !== 'delta-desktop-prototype/1') throw new Error('The destination is not a prototype workspace.');
@@ -34,10 +34,12 @@ async function importFiles(workspace, files) {
       if (!present.isFile() || present.isSymbolicLink() || await digest(target) !== sha) throw new Error(`A different file already uses this name: ${name}`);
       exists = true;
     } catch (error) { if (error.code !== 'ENOENT') throw error; }
-    entries.push({ filename, target, sha, exists });
+    entries.push({ filename, target, sha, exists, bytes:stat.size });
   }
+  const additional=entries.filter(entry=>!entry.exists).reduce((sum,entry)=>sum+entry.bytes,0);
   const capacity = await fs.statfs(destination);
-  if (Number(capacity.bavail) * Number(capacity.bsize) < total + 512 * 1024 ** 2) throw new Error('The workspace needs more free space.');
+  if(status && status.used_bytes+additional>status.storage.maximum_bytes)throw new Error('The import exceeds the workspace storage limit.');
+  if (Number(capacity.bavail) * Number(capacity.bsize) < additional + (status?.storage.reserve_bytes??512 * 1024 ** 2)) throw new Error('The workspace needs more free space.');
   let copied = 0;
   for (const entry of entries) {
     if (entry.exists) continue;

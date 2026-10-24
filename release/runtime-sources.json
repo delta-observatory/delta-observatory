@@ -8,5 +8,20 @@
     "url": "https://partner-images.canonical.com/oci/noble/current/ubuntu-noble-oci-amd64-root.tar.gz",
     "filename": "ubuntu-noble-root.tar.gz",
     "sha256": "4f29b38f31ff44e1905e8d95abca101b645ba1ba52853379d3fec1abc60e803d"
+  },
+  "bubblewrap": {
+    "url": "https://archive.ubuntu.com/ubuntu/pool/main/b/bubblewrap/bubblewrap_0.9.0-1ubuntu0.3_amd64.deb",
+    "filename": "bubblewrap_0.9.0-1ubuntu0.3_amd64.deb",
+    "sha256": "2461f1beee9cb04c8942739fe1a2b37e7b7c2a3d518f0779dc75f9245baa3094"
+  },
+  "codex-license": {
+    "url": "https://raw.githubusercontent.com/openai/codex/59a180ddec4adaf9760972cdb1eb89f06a81be8b/LICENSE",
+    "filename": "Codex-LICENSE",
+    "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+  },
+  "codex-notice": {
+    "url": "https://raw.githubusercontent.com/openai/codex/8a559e7938bd841d78dc2c442deaa76424faf1d9/NOTICE",
+    "filename": "Codex-NOTICE",
+    "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
   }
 }

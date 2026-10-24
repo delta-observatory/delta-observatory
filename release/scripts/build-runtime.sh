@@ -29,6 +29,9 @@ for component in backend workers; do
     cp "$source_dir/$component/LICENSE" "$payload_dir/notices/$component-LICENSE"
     cp "$source_dir/$component/requirements.txt" "$payload_dir/notices/$component-requirements.txt"
 done
+mkdir -p "$payload_dir/components/agents"
+cp -a "$source_dir/agents/adapter" "$source_dir/agents/managed" "$payload_dir/components/agents/"
+cp "$source_dir/agents/LICENSE" "$payload_dir/notices/agents-LICENSE"
 mkdir -p "$payload_dir/components/database"
 cp -a "$source_dir/database/migrations" "$source_dir/database/migrate.sh" "$payload_dir/components/database/"
 cp "$source_dir/database/LICENSE" "$payload_dir/notices/database-LICENSE"

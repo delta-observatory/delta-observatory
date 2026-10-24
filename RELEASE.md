@@ -10,13 +10,13 @@ The workspace root is the entry repository. [components.json](components.json) l
 
 | Repository | Visibility | Builds |
 |---|---|---|
-| `delta-observatory` (workspace root) | Public | Local P0 desktop prototype in `release/`. Documents, `components.json`, the example investigation, and workspace checks. |
+| `delta-observatory` (workspace root) | Public | Local desktop preview and Ubuntu installer in `release/`. Documents, `components.json`, the example investigation, and workspace checks. |
 | `database` | Public | Migration image `delta-database`. |
 | `workers` | Public | Worker image `delta-workers`. |
 | `backend` | Public | API image `delta-backend`. |
 | `frontend` | Public | Frontend image `delta-frontend`. |
 | `kubernetes` | Public | None. Manifests and scripts that build and deploy the four images. |
-| `agents` | Public | None. The MCP adapter and the importer run from source. |
+| `agents` | Public | MCP adapter, research importer, and managed agent host. The desktop bundles the host. |
 | `.github` (local directory `community`) | Public | None. The organization profile and the default security policy. |
 | `datasets`, `detection`, `experiments` | Private | None. |
 
@@ -24,9 +24,9 @@ Each public repository keeps its existing history. No history is rewritten.
 `python3 scripts/components.py clone` restores the sibling layout from GitHub. The documents and `kubernetes/scripts/build.sh` use that layout.
 A GitHub Project can track issues across the organization. It does not hold code.
 
-The [P0 desktop prototype](release/README.md) produces a local Linux application directory and archive.
-Its [dependency report](release/P0.md) defines the engineering checks and remaining distribution requirements.
-The local prototype is separate from published releases and the k3s deployment.
+The [desktop preview](release/README.md) produces a local Linux application directory and Ubuntu installer.
+Its [qualification record](release/QUALIFICATION.md) defines checked engineering behavior and remaining acceptance requirements.
+The local preview is separate from published releases and the k3s deployment.
 Public binary distribution requires separate authorization and complete redistribution review.
 
 ## Public material review
