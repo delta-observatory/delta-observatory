@@ -190,7 +190,8 @@ Backend manifests provide local connectivity and configured access to storage an
 
 **R5 — Interactive frontend**
 
-The local source provides CPU rendering, mobile EXPLORE views, DATASETS, and optional token-free browsing. Deployment on NodePort 30871 uses the earlier frontend image.
+The local deployment on NodePort 30871 provides CPU rendering, mobile EXPLORE views, DATASETS, and token-free browsing.
+Searches and saved reviews require sign-in.
 
 Build a polished, information-dense, performant interface around working scientific capabilities.
 Richard directs the visual style and interaction design before frontend code is written.
