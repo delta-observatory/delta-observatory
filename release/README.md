@@ -19,9 +19,11 @@ The first start requests a workspace directory.
 The application remembers that directory in `$XDG_CONFIG_HOME/delta-observatory/desktop.json`, or `~/.config/delta-observatory/desktop.json`.
 An explicit `--workspace=<directory>` selects a separate workspace without changing this preference.
 The adjacent `.electron-profile` directory stores the browser profile.
-The desktop window receives its workspace owner's token.
+The welcome page offers **Continue as workspace owner** and read-only access.
+The desktop owner token remains in the current window session.
+**Settings → Workspace access** shows permissions and provides sign-out.
 
-The Ubuntu 24.04 amd64 installer is `release/.dist/delta-observatory_0.2.0~preview1_amd64.deb`.
+The Ubuntu 24.04 amd64 installer is `release/.dist/delta-observatory_0.2.0~preview2_amd64.deb`.
 It installs the application under `/opt/delta-observatory` and supplies a desktop menu entry.
 It supplies application-specific AppArmor permissions for the Chromium and Bubblewrap user namespaces.
 The installer is a local preview artifact. Fresh operating-system installation qualification remains open.
@@ -42,7 +44,7 @@ The installer is a local preview artifact. Fresh operating-system installation q
 The guided target is TIC 100100827, WASP-18, in sector 2.
 It is a known-object demonstration on development data.
 The package contains no downloaded astronomical observations.
-**Workspace → Import TESS light curves** also accepts local `_lc.fits` files.
+**Settings → Storage → Import TESS light curves** also accepts local `_lc.fits` files.
 
 Each saved revision preserves its parent and settings.
 An execution refers to an approved revision and a unique request key.
@@ -63,6 +65,11 @@ The API enforces permissions on every request.
 The connection controls use pinned Codex app-server 0.164.0 and the checked `gpt-5.4` model.
 Model access requires an eligible account or an OpenAI API key.
 The connection requests explicit consent before sending permitted investigation evidence and instructions to the provider.
+Open **Settings → Provider account** to connect before creating an investigation.
+**Continue with ChatGPT** opens the provider authorization page in the default browser.
+**Use a device code** provides an alternative authorization method.
+The API key form accepts an OpenAI API key.
+Pending login provides browser reopening and cancellation controls.
 Live account login and provider reconnection still require acceptance checks.
 
 Credentials use memory or the operating-system credential store.
@@ -79,12 +86,15 @@ Saved session records preserve provider references and measured use.
 Reconnect rotates the scoped client token.
 The API enforces approved job, compute, turn, and measured token limits.
 Token notifications can arrive after use. These controls do not guarantee a provider spending cap.
-Closing the investigation view disconnects the managed agent.
+Navigation preserves the provider connection and current session.
+**Disconnect agent** pauses the investigation session while preserving provider login.
+**Sign out of provider** pauses the agent and removes provider login.
+Workspace sign-out stops the agent host and removes the workspace token from the window.
 Manual controls remain available without a provider connection.
 
 ## Storage, reproduction, and recovery
 
-**Workspace** provides storage limits, import, reproduction, backups, restore, diagnostics, and release metadata checks.
+**Settings** provides workspace access, provider login, appearance, storage limits, reproduction, backups, restore, diagnostics, and release metadata checks.
 The default workspace limit is 20 GiB. The minimum free-space reserve is 512 MiB.
 Downloads, imports, and worker outputs check these limits before writing.
 Startup also requires at least 512 MiB of available memory.
@@ -126,6 +136,8 @@ Run this command from the workspace root:
 
 Open `http://<machine-LAN-address>:41871/?investigations` in a LAN browser.
 Anonymous browser access uses the existing read-only GUI client.
+**Sign in** accepts a workspace access token.
+The token stays in the current tab unless the user selects **Remember this browser**.
 The server does not attach the owner credential to browser requests.
 **Workspace → Copy this workspace token** supplies the token for authorized browser operations.
 Managed model connections and local file operations require the native desktop window.
@@ -213,7 +225,7 @@ Build downloads require network access. Manual analysis runs offline after acqui
     ```bash
     python3 release/scripts/installer.py \
       --package release/.dist/delta-observatory-preview-linux-x64 \
-      --output 'release/.dist/delta-observatory_0.2.0~preview1_amd64.deb'
+      --output 'release/.dist/delta-observatory_0.2.0~preview2_amd64.deb' --version '0.2.0~preview2'
     ```
 
 `prepare.py` exports Git commits and checks vendored contracts and migrations.
@@ -241,7 +253,7 @@ The product check covers plan approval, branches, review records, numerical repr
 The migration check covers automatic backup and recovery from the previous desktop schema.
 The isolated check hides host files and system language runtimes.
 It disables external networking and checks the agent against a local fake provider.
-It checks native desktop forms, plots, navigation, settings, scrolling, and screenshots on an isolated X display.
+It checks native desktop forms, plots, navigation, settings, scrolling, and screenshots on an isolated X screen.
 [QUALIFICATION.md](QUALIFICATION.md) records the evidence and limits.
 
 ## Local files

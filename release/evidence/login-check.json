@@ -1,0 +1,82 @@
+{
+  "scope": "Engineering login and settings checks. Real provider account authorization remains pending.",
+  "package": {
+    "build_sha256": "2cbbcb31528747a14c77c2c7982292c07ada0c4c0b15d2dea269c152311ffd27",
+    "files": 20579,
+    "bytes": 1262151110,
+    "components": {
+      "database": "0da279c53afa63e21b7a8445f4d73737d7fb93b7",
+      "workers": "ad8b25e8080b7800440e45ab96b3ec8ba6e601fd",
+      "backend": "eae6a910448267def250cef959616fbd6771cf65",
+      "frontend": "dcacaaa3e0a185afc3f7fef0514f1220f8ff6449",
+      "agents": "ca85c4c1e0ab041d56dd4c9062969a842319d37f"
+    }
+  },
+  "installer": {
+    "status": "passed",
+    "version": "0.2.0~preview2",
+    "installed_runtime_files": 20579,
+    "bytes": 482157296,
+    "sha256": "025e45ee752e4bc455cfd56db6ba1ca7b200518555d62d56d5e957b27ae9ff88",
+    "desktop_entry_icon_and_apparmor_profile": true,
+    "installed": false
+  },
+  "component_tests": {
+    "frontend": 108,
+    "managed_host": 12,
+    "adapter": 12,
+    "importer": 10,
+    "desktop_node": 2,
+    "desktop_python": 3
+  },
+  "native_and_browser": {
+    "status": "passed",
+    "checks": {
+      "anonymous_native_privileges_denied": true,
+      "native_login": true,
+      "provider_controls_before_plan": true,
+      "workspace_signout": true,
+      "preference_survives_login": true,
+      "manual_plan_approval_execution_and_plots": true,
+      "sandbox": true,
+      "fonts": true,
+      "generated_operation_form": true,
+      "saved_investigation_navigation": true,
+      "native_settings_bridge": true,
+      "settings_scroll": true,
+      "invalid_browser_token": true,
+      "browser_session_only_token": true,
+      "browser_signout": true,
+      "remember_browser_token": true,
+      "browser_settings": true,
+      "no_console_errors": true
+    },
+    "consoleErrors": []
+  },
+  "bundled_provider_lifecycle": {
+    "status": "passed",
+    "bundled_provider_initializes_without_investigation": true,
+    "no_account_or_model_request": true,
+    "provider_logout_closes_runtime": true
+  },
+  "agent_isolation": {
+    "status": "passed",
+    "provider_requests": 2,
+    "only_api_tools": true,
+    "host_files_inaccessible": true,
+    "model": "gpt-5.4"
+  },
+  "environment": {
+    "system_runtimes": {
+      "python3": false,
+      "node": false,
+      "psql": false,
+      "postgres": false,
+      "docker": false,
+      "kubectl": false
+    },
+    "host_home_visible": false,
+    "private_repositories_visible": false
+  },
+  "remaining_provider_check": "Complete real browser authorization, device-code authorization, API-key access, and operating-system credential storage with an eligible account."
+}

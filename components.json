@@ -28,7 +28,7 @@
       "visibility": "public",
       "description": "React, Canvas 2D, and TypeScript interface.",
       "repository": "https://github.com/delta-observatory/frontend.git",
-      "commit": "4acd1dacbfd618903123b7aa32bbdf6a616e68c7"
+      "commit": "dcacaaa3e0a185afc3f7fef0514f1220f8ff6449"
     },
     {
       "name": "kubernetes",
@@ -42,7 +42,7 @@
       "visibility": "public",
       "description": "Agent manual, MCP adapter, research importer, and campaign templates.",
       "repository": "https://github.com/delta-observatory/agents.git",
-      "commit": "bf2bf033dfe12da073f4ebaa34a114e907ac2bda"
+      "commit": "ca85c4c1e0ab041d56dd4c9062969a842319d37f"
     },
     {
       "name": "community",

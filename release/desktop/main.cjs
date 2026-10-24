@@ -34,8 +34,8 @@ if (!app.requestSingleInstanceLock()) app.exit(0);
 
 let supervisor, server, window, readyRecord, stopping = false, allowQuit = false, exitCode = 0;
 const consoleErrors = [];
-let agentHost, loginUrl;
-const AGENT_ACTIONS=new Set(['initialize','status','login','models','connect','send','interrupt','disconnect','logout']);
+let agentHost, loginUrl, signedIn=false;
+const AGENT_ACTIONS=new Set(['initialize','status','login','models','connect','send','interrupt','disconnect','logout','cancelLogin']);
 
 function startRuntime() {
   return new Promise((resolve, reject) => {
@@ -87,8 +87,8 @@ async function importSelection() {
 function installMenu() {
   Menu.setApplicationMenu(Menu.buildFromTemplate([
     { label: 'File', submenu: [
-      { label: 'Import TESS light curves…', click: importSelection },
-      { label: 'Refresh the observation index', click: async () => { try { await apiPost('/api/datasets/tess-spoc-light-curves/index'); } catch (error) { dialog.showErrorBox('Refresh failed', error.message); } } },
+      { label: 'Import TESS light curves…', enabled:signedIn, click: importSelection },
+      { label: 'Refresh the observation index', enabled:signedIn, click: async () => { try { await apiPost('/api/datasets/tess-spoc-light-curves/index'); } catch (error) { dialog.showErrorBox('Refresh failed', error.message); } } },
       { type: 'separator' }, { role: 'quit' },
     ] },
     { label: 'Edit', submenu: [{ role: 'undo' }, { role: 'redo' }, { type: 'separator' }, { role: 'cut' }, { role: 'copy' }, { role: 'paste' }, { role: 'selectAll' }] },
@@ -97,7 +97,7 @@ function installMenu() {
       { label:'Workspace settings and recovery',click:()=>window.webContents.executeJavaScript("window.dispatchEvent(new Event('delta:settings-open'))") },
       { label: 'Workspace and services', click: () => dialog.showMessageBox(window, { message: 'Delta Observatory',
         detail: `Workspace: ${workspace}\nFrontend: ${window.webContents.getURL()}\nAPI: ${readyRecord.api_url}\n\nThis application uses its own database and files. This workspace supports exploratory investigations, approved downloads, and an optional managed agent.` }) },
-      { label: 'Copy this workspace token', click: async () => { clipboard.writeText((await fs.readFile(path.join(workspace, 'owner.token'), 'utf8')).trim()); } },
+      { label: 'Copy this workspace token', enabled:signedIn, click: async () => { clipboard.writeText((await fs.readFile(path.join(workspace, 'owner.token'), 'utf8')).trim()); } },
     ] },
   ]));
 }
@@ -197,8 +197,16 @@ app.whenReady().then(async () => {
     if (details.level === 'error') consoleErrors.push(details.message);
   });
   agentHost=new AgentHost({payload,workspace,apiUrl:readyRecord.api_url,onEvent:value=>{if(window&&!window.isDestroyed())window.webContents.send('delta:agent-event',value);}});
+  const validCaller=event=>event.sender===window.webContents&&event.senderFrame===window.webContents.mainFrame&&new URL(event.senderFrame.url).origin===origin;
+  ipcMain.handle('delta:access',async(event,action)=>{
+    if(!validCaller(event))throw new Error('Invalid desktop caller.');
+    if(action==='signIn'){signedIn=true;installMenu();return {token:(await fs.readFile(path.join(workspace,'owner.token'),'utf8')).trim()};}
+    if(action==='signOut'){signedIn=false;installMenu();loginUrl=null;await agentHost.close();return;}
+    throw new Error('Unknown workspace access operation.');
+  });
   ipcMain.handle('delta:agent',async(event,action,params={})=>{
     if(event.sender!==window.webContents||event.senderFrame!==window.webContents.mainFrame||new URL(event.senderFrame.url).origin!==origin)throw new Error('Invalid desktop caller.');
+    if(!signedIn){if(action==='status')return {initialized:false,account:null,session:null,campaign_id:null,credential_store:null,login:null};throw new Error('Sign in to the workspace first.');}
     if(action==='openLogin'){
       if(!loginUrl)throw new Error('Start login before opening the authorization page.');
       await shell.openExternal(loginUrl);return {opened:true};
@@ -206,8 +214,9 @@ app.whenReady().then(async () => {
     if(!AGENT_ACTIONS.has(action))throw new Error('Unknown agent operation.');
     await agentHost.start();
     const result=await agentHost.call(action,params);
-    if(action==='login'&&result.verificationUrl){
-      const url=new URL(result.verificationUrl);
+    if(['logout','cancelLogin'].includes(action))loginUrl=null;
+    if(action==='login'&&(result.authUrl||result.verificationUrl)){
+      const url=new URL(result.authUrl||result.verificationUrl);
       if(url.protocol!=='https:'||!['auth.openai.com','chatgpt.com'].includes(url.hostname))throw new Error('The provider returned an unsupported login address.');
       loginUrl=url.href;
     }
@@ -215,16 +224,21 @@ app.whenReady().then(async () => {
   });
   ipcMain.handle('delta:settings',async(event,action,params={})=>{
     if(event.sender!==window.webContents||event.senderFrame!==window.webContents.mainFrame||new URL(event.senderFrame.url).origin!==origin)throw new Error('Invalid desktop caller.');
+    if(!signedIn&&!['status','listReproductions','checkUpdate'].includes(action))throw new Error('Sign in to the workspace first.');
     return desktopOperation(action,params);
   });
   installMenu();
   await window.loadURL(origin + '/desktop-start');
-  const token = (await fs.readFile(path.join(workspace, 'owner.token'), 'utf8')).trim();
-  await window.webContents.executeJavaScript(`localStorage.setItem('delta.token', ${JSON.stringify(token)});`);
+  await window.webContents.executeJavaScript("localStorage.removeItem('delta.token');sessionStorage.removeItem('delta.token');sessionStorage.removeItem('delta.browsing');");
+  if(smokeOutput){
+    signedIn=true;installMenu();
+    const token=(await fs.readFile(path.join(workspace,'owner.token'),'utf8')).trim();
+    await window.webContents.executeJavaScript(`sessionStorage.setItem('delta.token', ${JSON.stringify(token)});`);
+  }
   await window.loadURL(origin+(smokeOutput?'':'/?investigations'));
   console.log(`Desktop GUI: ${origin}`);
   if (productSmokeOutput) {
-    await require('./checks/product-ui.cjs')({ window, output: productSmokeOutput, consoleErrors });
+    await require('./checks/product-ui.cjs')({ window, output: productSmokeOutput, consoleErrors, ownerToken:(await fs.readFile(path.join(workspace,'owner.token'),'utf8')).trim() });
     app.quit();
   }
   if (smokeOutput) {

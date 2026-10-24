@@ -7,7 +7,12 @@ const { createInterface } = require('node:readline');
 class AgentHost {
   constructor({payload, workspace, apiUrl, onEvent}) { Object.assign(this,{payload,workspace,apiUrl,onEvent}); this.pending=new Map(); this.sequence=0; }
   async start() {
-    if (this.process) return;
+    if(this.starting)return this.starting;
+    if(this.process)return;
+    this.starting=this.launch();
+    try{await this.starting;}finally{this.starting=null;}
+  }
+  async launch() {
     const env={PATH:'/usr/bin:/bin',LANG:'C.UTF-8',PYTHONDONTWRITEBYTECODE:'1',PYTHONNOUSERSITE:'1',
       PYTHONHOME:path.join(this.payload,'python'),PYTHONPATH:path.join(this.payload,'components/agents')};
     if (process.env.DBUS_SESSION_BUS_ADDRESS) env.DBUS_SESSION_BUS_ADDRESS=process.env.DBUS_SESSION_BUS_ADDRESS;
@@ -35,6 +40,16 @@ class AgentHost {
       this.pending.set(id,{resolve,reject,timer});this.process.stdin.write(JSON.stringify({id,action,params})+'\n');
     });
   }
-  async close(){if(this.process){try{await this.call('disconnect');}catch{}this.process?.stdin.end();}}
+  async close(){
+    if(this.starting){try{await this.starting;}catch{}}
+    const child=this.process;if(!child)return;
+    try{await this.call('shutdown');}catch{}
+    if(child.exitCode!==null)return;
+    await new Promise(resolve=>{
+      const timer=setTimeout(()=>child.kill(),5000);
+      child.once('exit',()=>{clearTimeout(timer);resolve();});
+      child.stdin.end();
+    });
+  }
 }
 module.exports={AgentHost};

@@ -72,7 +72,7 @@ These checks do not validate scientific performance. The frontend check does not
 |---|---|
 | `node --test release/tests/*.test.cjs` | Static path restrictions, credential forwarding, atomic import, original-file preservation, replacement refusal, and repeated imports. |
 | `python3 release/scripts/smoke.py --app <packaged-app> --workspace <unused-path> --output <unused-report-path>` | Empty startup, permissions, public catalog, workspace locking, synthetic indexing, BLS execution, export hashes, cohort refusal, shutdown, and restart. |
-| `python3 release/scripts/check-clean.py --rootfs <ubuntu-root> --package <package> --output <unused-path>` | Offline runtime execution, bundled agent isolation, native plan controls, plots, operation forms, settings, scrolling, and screenshots. |
+| `python3 release/scripts/check-clean.py --rootfs <ubuntu-root> --package <package> --output <unused-path>` | Offline runtime execution, bundled agent isolation, native plan controls, plots, operation forms, settings, scrolling, workspace login, browser tokens, sign-out, and screenshots. |
 | `python3 release/scripts/product-check.py --app <packaged-app> --output <unused-path>` | Approved plans, branches, review records, numerical reproduction in separate workspaces, backup restoration, credential rotation, and restart. |
 | `python3 release/scripts/migration-check.py --previous-app <previous-app> --app <packaged-app> --output <unused-path>` | Automatic backup before migrations and restoration of an earlier schema through forward migration. |
 | `backend/.venv/bin/python -B -m unittest discover -s release/tests -p 'test_*.py'` | Unsafe package paths, duplicate files, measurement identity, numerical comparison, and strict Boolean handling. |

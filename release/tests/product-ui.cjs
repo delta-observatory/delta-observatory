@@ -2,10 +2,11 @@
 // Synthetic workspace only. These checks never log in or call a model provider.
 const fs = require('node:fs/promises');
 const path = require('node:path');
-module.exports = async function ({window, output, consoleErrors}) {
+module.exports = async function ({window, output, consoleErrors, ownerToken}) {
   await fs.mkdir(output, {recursive:true});
   const checks = {};
-  const js = source => window.webContents.executeJavaScript(source);
+  let active=window;
+  const js = source => active.webContents.executeJavaScript(source);
   const wait = async (source, label, milliseconds=30000) => {
     const until=Date.now()+milliseconds;
     while(Date.now()<until) {
@@ -20,9 +21,34 @@ module.exports = async function ({window, output, consoleErrors}) {
   };
   const screenshot = async name => {
     await new Promise(resolve=>setTimeout(resolve,300));
-    await fs.writeFile(path.join(output,name+'.png'),(await window.webContents.capturePage()).toPNG());
+    await fs.writeFile(path.join(output,name+'.png'),(await active.webContents.capturePage()).toPNG());
   };
   try {
+    await wait("document.body.innerText.includes('Open your workspace')",'welcome login');
+    await screenshot('login');
+    await click('Continue with read-only access');
+    await click('Settings');
+    await wait("document.body.innerText.includes('Read-only access')",'anonymous account settings');
+    checks.anonymous_native_privileges_denied=await js("window.deltaDesktop.settings('saveStorage',{maximum_bytes:21474836480,reserve_bytes:536870912}).then(()=>false,e=>e.message.includes('Sign in'))");
+    await click('Sign in to workspace');
+    await click('Continue as workspace owner');
+    await wait("document.body.innerText.includes('desktop-owner')",'owner login');
+    checks.native_login=true;
+    await click('Settings');
+    await click('Provider account');
+    await wait("document.body.innerText.includes('Continue with ChatGPT')",'provider login before a plan');
+    checks.provider_controls_before_plan=true;
+    await screenshot('provider-login');
+    await click('Appearance');
+    await js("(()=>{const s=document.querySelector('.settings-content select');s.value='reduced';s.dispatchEvent(new Event('change',{bubbles:true}));})()");
+    await wait("document.documentElement.dataset.motion==='reduced'",'saved motion preference');
+    await click('Workspace access');
+    await click('Sign out of workspace');
+    await wait("document.body.innerText.includes('Open your workspace')",'workspace logout');
+    checks.workspace_signout=true;
+    await click('Continue as workspace owner');
+    await wait("document.body.innerText.includes('desktop-owner')",'owner login after logout');
+    checks.preference_survives_login=await js("document.documentElement.dataset.motion==='reduced'");
     await click('New TESS investigation');
     await wait("document.querySelector('.observation-choice input[type=checkbox]')",'indexed observation');
     await js("document.querySelector('.observation-choice input[type=checkbox]').click()");
@@ -46,7 +72,8 @@ module.exports = async function ({window, output, consoleErrors}) {
     await click('Return');
     await wait("document.body.innerText.includes('State: ready.')",'saved investigation after navigation');
     checks.saved_investigation_navigation=true;
-    await click('Workspace');
+    await click('Settings');
+    await click('Storage');
     await wait("document.body.innerText.includes('GiB used')",'desktop workspace status');
     await click('Save storage limits');
     await wait("document.querySelector('.operation-result')?.innerText.includes('maximum_bytes')",'saved storage limits');
@@ -54,8 +81,42 @@ module.exports = async function ({window, output, consoleErrors}) {
     await screenshot('settings');
     window.setSize(760,900);
     await screenshot('settings-narrow');
-    checks.settings_scroll=await js("(()=>{const e=document.querySelector('.operations-layout');e.scrollTop=e.scrollHeight;return e.scrollHeight<=e.clientHeight||e.scrollTop>0;})()");
+    checks.settings_scroll=await js("(()=>{const e=document.querySelector('.settings-content');e.scrollTop=e.scrollHeight;return e.scrollHeight<=e.clientHeight||e.scrollTop>0;})()");
     await screenshot('settings-narrow-bottom');
+    const {BrowserWindow}=require('electron');
+    const browser=new BrowserWindow({width:1000,height:850,show:true,webPreferences:{sandbox:true,contextIsolation:true,nodeIntegration:false,partition:'login-browser-check'}});
+    active=browser;
+    browser.webContents.on('console-message',details=>{if(details.level==='error'&&!details.message.includes('401'))consoleErrors.push(details.message);});
+    try {
+      await browser.loadURL(window.webContents.getURL());
+      await click('Sign in');
+      await wait("document.querySelector('#token')",'browser token form');
+      await screenshot('browser-login');
+      const setToken=async token=>js(`(()=>{const input=document.querySelector('#token');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(input,${JSON.stringify(token)});input.dispatchEvent(new Event('input',{bubbles:true}));})()`);
+      const submit=async()=>{await wait("!document.querySelector('.signin button[type=submit]').disabled",'token form ready');await js("document.querySelector('.signin button[type=submit]').click()");};
+      await setToken('invalid-fixture-token');
+      await submit();
+      await wait("document.querySelector('.signin [role=alert]')?.innerText.includes('does not accept')",'invalid token feedback');
+      checks.invalid_browser_token=true;
+      await setToken(ownerToken);
+      await submit();
+      await wait("document.body.innerText.includes('desktop-owner')&&!document.querySelector('.signin')",'browser owner login');
+      checks.browser_session_only_token=await js("Boolean(sessionStorage.getItem('delta.token'))&&!localStorage.getItem('delta.token')");
+      await click('Settings');
+      await click('Sign out of workspace');
+      await wait("document.body.innerText.includes('Sign in')",'browser signout');
+      checks.browser_signout=await js("!sessionStorage.getItem('delta.token')&&!localStorage.getItem('delta.token')");
+      await click('Sign in');
+      await setToken(ownerToken);
+      await js("document.querySelector('.signin input[type=checkbox]').click()");
+      await submit();
+      await wait("document.body.innerText.includes('desktop-owner')&&!document.querySelector('.signin')",'remembered browser login');
+      checks.remember_browser_token=await js("Boolean(localStorage.getItem('delta.token'))&&!sessionStorage.getItem('delta.token')");
+      await click('Settings');
+      await click('Appearance');
+      await screenshot('browser-settings');
+      checks.browser_settings=true;
+    } finally {browser.destroy();active=window;}
     checks.no_console_errors=consoleErrors.length===0;
     if(Object.values(checks).some(value=>!value))throw new Error('A desktop check failed.');
     await fs.writeFile(path.join(output,'product-ui.json'),JSON.stringify({status:'passed',checks,consoleErrors},null,2)+'\n');

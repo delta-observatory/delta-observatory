@@ -12,10 +12,11 @@ The preview does not claim completed beta qualification.
 | Contracts | 24 schemas and 56 examples pass. Canonical contracts define plans, acquisition, sessions, reproduction, storage, and backups. |
 | API | 101 tests pass against temporary PostgreSQL servers. Checks include scope, exact approval, concurrency, repeated execution keys, and cumulative session limits. |
 | Workers | 14 tests pass. Coverage includes scientific regression, acquisition integrity and retry, indexing, cancellation, and storage limits. |
-| Frontend | TypeScript and the production build pass. The component suite contains 104 passing tests. |
-| Agent components | 12 adapter, 10 importer, and seven managed-host tests pass with test services. |
+| Frontend | TypeScript and the production build pass. The component suite contains 108 passing tests. |
+| Agent components | 12 adapter, 10 importer, and 12 managed-host tests pass with test services. |
 | Isolated agent | Pinned Codex completes a tool round trip against a local fake provider. Only the supplied API tool reaches the checked model. |
 | Filesystem isolation | The bundled Bubblewrap process cannot see the synthetic private token, host home, or database socket. |
+| Login | A local protocol fixture checks provider login, cancellation, account updates, and sign-out. Native checks cover workspace access before an investigation exists. |
 | Native interface | Automated desktop checks create, approve, and execute a plan. They inspect plots, operation forms, navigation, settings, and narrow-window scrolling. |
 | Rendering | The native renderer keeps its sandbox enabled. Local fonts and plot pixels pass. The renderer reports no console errors. |
 | Complete journey | A synthetic investigation creates review records and a changed-parameter branch. Exact execution requests remain idempotent. |
@@ -26,7 +27,10 @@ The preview does not claim completed beta qualification.
 
 The [engineering report](evidence/product-check.json) retains command results, package identities, and check summaries.
 The [investigation screenshot](evidence/investigation.png) shows synthetic engineering evidence in the native interface.
-The [settings screenshot](evidence/settings.png) shows storage and reproduction controls.
+The [settings screenshot](evidence/settings.png) shows the storage section.
+The [login screenshot](evidence/login.png) shows desktop workspace access.
+The [provider screenshot](evidence/provider-login.png) shows provider login before an investigation exists.
+The [login report](evidence/login-check.json) records the login and settings checks.
 The initial [P0 report](P0.md) remains separate historical evidence.
 
 ## Environment
@@ -52,7 +56,7 @@ These checks do not establish live download reliability across archive failures 
 | Requirement | Remaining evidence |
 |---|---|
 | Fresh Ubuntu installation | Install and remove the Debian package under the normal Ubuntu desktop, AppArmor policy, secret service, and session lifecycle. |
-| Provider account access | Complete ChatGPT device login and API-key login with explicit account consent. Check expiration, interruption, and reconnection. |
+| Provider account access | Complete ChatGPT browser login, device login, and API-key login with explicit account consent. Check expiration, interruption, and reconnection. |
 | Credential store | Check operating-system credential persistence and removal on the supported desktop. Memory-only isolation already has engineering coverage. |
 | Interface acceptance | Complete Richard's design review and check the complete journey without test automation. |
 | External usability | Six to ten representative users complete installation, investigation, recovery, and reproduction tasks. Record assistance and failure reasons. |
