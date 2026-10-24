@@ -3,7 +3,7 @@
 The external research reconciliation separates recurrence, source location, companion classification, and planet validation.
 The application contains seven successor research notes and three subsequent scope corrections.
 The importer uses existing API contracts and stable duplicate-prevention keys.
-The observation index remains unchanged.
+The observation index contains 65 development light curves, including one aperture observation for candidate RS-001.
 
 ## Supported conclusions
 
@@ -24,6 +24,22 @@ The targeted source investigation remains exploratory external evidence.
 Its frozen test definitions do not establish exact execution of every originally frozen implementation file.
 The application notes preserve that distinction.
 No planet-validation claim follows from these corrections.
+
+## Registered candidate and deferred follow-up
+
+The application records TIC 358463507 as lab candidate `RS-001`, ID `1d13c4b0-c894-46dc-9cab-78aea34c3385`.
+Its evidence status is `ambiguous`, based on a recorded model judgment. Its identity status remains `unchecked`.
+The linked sector-63 observation retains aperture target TIC 358463513. Both identities refer to the same detected signal.
+
+Richard defers dedicated follow-up until more candidates are available.
+The candidate note preserves the unresolved mass, alternative-companion, source, and identity requirements.
+The application decision schedules no action. The existing audit remains unchanged.
+The [continuation prompt](https://github.com/delta-observatory/agents/blob/main/prompts/exoplanet-search-continuation.md) directs further dataset research within existing rules.
+
+The [import manifest](https://github.com/delta-observatory/agents/blob/main/imports/research-tic358463507-candidate.json) preserves external references and duplicate-prevention keys.
+Import checks create one candidate, one note, and one decision. Repeating the import creates no duplicate records.
+A separate assessment sets the evidence status.
+API receipts are in `/home/richardtidwell/repos/delta-research/outputs/candidate-continuation-01a166e5`.
 
 ## Reconciled counts
 

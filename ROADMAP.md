@@ -15,12 +15,13 @@ Git history records changes. Experiment records hold scientific results.
 
 - R0, the scientific contract, is active.
 - The TESS vertical slice runs on the local k3s cluster. It has contract version 1, the database schema, the worker, the stateless API, and the frontend.
-- The slice indexes 64 development light curves: the 46 of the development set, and 18 research light curves from a reviewed selection manifest. With the T01 defaults, its `tess-bls` method gives the exact T01 values.
+- The slice indexes 65 development light curves: 46 application light curves, 18 FINAL001 light curves, and one RS-001 aperture observation. With the T01 defaults, its `tess-bls` method gives the exact T01 values.
 - The application workflow runs from observation selection through analysis, candidate review, and evidence export. The frontend at `http://<node>:30871/` on the LAN gives the sky, search, plots, run controls with cancellation and retry, run comparison, candidates, assessments, decisions, notes, agent tasks, and exports. [frontend/DESIGN-DECISIONS.md](https://github.com/delta-observatory/frontend/blob/main/DESIGN-DECISIONS.md) records the agreed design.
 - The [agents/](https://github.com/delta-observatory/agents/blob/main/README.md) repository holds the operating manual, the campaign template, the MCP adapter that it generates from the API description, the research importer, and a functional adapter check.
 - The API needs a bearer token for each client. Agents work inside campaigns with blinding, budgets, a cohort guard, and rule `free-text/1`.
 - Contract version 1 includes research records, record import keys, the export manifest `export/1`, and the selection manifest `tess-spoc-selection/1`. Migrations 0001 to 0005 run in k3s.
 - The seven retained candidates of delta-research publication FINAL001 are imported as lab candidates: external proposals with their dossiers, not platform evidence.
+- Candidate RS-001 records the signal attributed to TIC 358463507. Its evidence remains ambiguous. Dedicated follow-up is deferred.
 - Eleven bounded experiments are closed. The [experiment index](https://github.com/delta-observatory/experiments/blob/main/README.md) lists their results and limits.
 - The DECam series recovers known moving objects on development data. Threshold three is provisional. The default mask policy is unchanged.
 - The Gaussian source model remains the baseline. The tested Photutils empirical-profile configuration failed its criteria.
