@@ -2,6 +2,7 @@
 
 This roadmap defines delivery stages, their status, open decisions, and next actions.
 [DESIGN.md](DESIGN.md) defines the desired system.
+[PRODUCT-PLAN.md](PRODUCT-PLAN.md) proposes desktop product scope and delivery criteria for review. It does not change agreed requirements or stage status.
 Git history records changes. Experiment records hold scientific results.
 
 [WORKSPACE.md](WORKSPACE.md) describes workspace structure and document responsibilities.
