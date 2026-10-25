@@ -69,14 +69,34 @@ TIC 441763252 receives priority for source-localization evidence. Its companion 
 No selected target has an indexed observation mapping, so the review creates no application candidate.
 Two reviewer disagreements retain the less conclusive disposition. RS-001 remains deferred.
 
-## Campaign readiness
+## Broad discovery campaign
 
-The [broad discovery proposal](https://github.com/delta-observatory/experiments/blob/main/planning/broad-discovery/README.md) selects 180 stars and 240 observations from sectors 80 and 81.
-Three directions cover new stars, combined sectors, and shorter signals in 20-second products.
-The first pilot contains 36 stars and 48 observations.
-Metadata review and selection reproduction pass without observation access.
-The proposal has no new search result or candidate registration.
-Execution requires exact campaign approval, an assigned client, and integrated scientific preflight.
+The [broad discovery results](https://github.com/delta-observatory/experiments/blob/main/planning/broad-discovery-results/README.md) cover three approved TESS search directions.
+The metadata selection contains 180 stars and 240 observations from sectors 80 and 81.
+The first pilot selects 36 stars and 48 observations.
+All 48 observations are acquired, with 208,224,000 verified bytes.
+Conditional expansion requires the fixed sensitivity, control, review, and resource criteria.
+
+Directions A and B each complete 12 selected stars with exact numerical reproduction and separate scientific review.
+Direction A searches periods of 0.5–10 days in sector 80.
+Direction B searches periods of 10–24 days across sectors 80 and 81.
+Direction C searches periods of 0.15–0.5 days with 20-second products.
+It completes three targets in fixed order, with exact reproduction and separate review.
+
+All three outcomes are inconclusive under the fixed decision rule.
+Control failures stop all three directions, and B also fails its deeper-injection recovery criterion.
+Direction C also lacks resources to complete its nine remaining targets and repeats.
+Those nine targets retain unknown outcomes.
+The campaign completes 27 stars, 39 observations, and 108 of 144 selected injection cases.
+
+Review retains none of the 15 threshold stars as credible candidates.
+TIC 232563914 has a shallow recurring depression with unresolved physical cause and failed controls.
+Independent preparation and another sector at its saved period are useful next tests.
+Catalog comparisons find no matches within their saved selections, which does not establish novelty.
+No new candidate registration occurs.
+RS-001 remains deferred, and TIC 441763252 retains its separate source-localization priority.
+
+## Regional campaign readiness
 
 The sector-63 inventory successor contains 11,058 unique observations from a preserved complete response.
 The sector-70 successor contains 10,659 unique observations and remains explicitly incomplete.

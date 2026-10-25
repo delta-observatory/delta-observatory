@@ -76,7 +76,7 @@ Do not remove those snapshots as ordinary duplication.
 
 [RESEARCH-STATE.md](RESEARCH-STATE.md) records current external conclusions, reconciled counts, application imports, and campaign prerequisites.
 
-The [experiment index](https://github.com/delta-observatory/experiments/blob/main/README.md) records 11 completed bounded investigations. All are closed.
+The [experiment index](https://github.com/delta-observatory/experiments/blob/main/README.md) records 14 completed bounded investigations. All are closed.
 The eight DECam investigations have a shared record checker.
 The Photutils comparison rejected its fixed empirical configuration.
 The TESS investigation recovered both selected known planets' periods and transit phases.

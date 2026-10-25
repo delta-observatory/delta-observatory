@@ -28,7 +28,7 @@ Git history records changes. Experiment records hold scientific results.
 - Contract version 1 includes research records, record import keys, the export manifest `export/1`, and the selection manifest `tess-spoc-selection/1`. Migrations 0001 to 0005 run in k3s.
 - The seven retained candidates of delta-research publication FINAL001 are imported as lab candidates: external proposals with their dossiers, not platform evidence.
 - Candidate RS-001 records the signal attributed to TIC 358463507. Its evidence remains ambiguous. Dedicated follow-up is deferred.
-- Eleven bounded experiments are closed. The [experiment index](https://github.com/delta-observatory/experiments/blob/main/README.md) lists their results and limits.
+- Fourteen bounded experiments are closed. The [experiment index](https://github.com/delta-observatory/experiments/blob/main/README.md) lists their results and limits.
 - The DECam series recovers known moving objects on development data. Threshold three is provisional. The default mask policy is unchanged.
 - The Gaussian source model remains the baseline. The tested Photutils empirical-profile configuration failed its criteria.
 - The TESS experiment recovers the periods and phases of two known planets. Depth accuracy, completeness, and false-alarm rates are not validated.
