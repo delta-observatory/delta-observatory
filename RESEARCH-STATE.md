@@ -71,6 +71,13 @@ Two reviewer disagreements retain the less conclusive disposition. RS-001 remain
 
 ## Campaign readiness
 
+The [broad discovery proposal](https://github.com/delta-observatory/experiments/blob/main/planning/broad-discovery/README.md) selects 180 stars and 240 observations from sectors 80 and 81.
+Three directions cover new stars, combined sectors, and shorter signals in 20-second products.
+The first pilot contains 36 stars and 48 observations.
+Metadata review and selection reproduction pass without observation access.
+The proposal has no new search result or candidate registration.
+Execution requires exact campaign approval, an assigned client, and integrated scientific preflight.
+
 The sector-63 inventory successor contains 11,058 unique observations from a preserved complete response.
 The sector-70 successor contains 10,659 unique observations and remains explicitly incomplete.
 Historical inventories remain unchanged.
