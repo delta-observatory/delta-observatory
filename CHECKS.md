@@ -24,6 +24,7 @@ python3 scripts/check_workspace.py --output /tmp/delta-workspace-check.json
 The checker covers:
 
 - Local Markdown paths and section references.
+- Relative links in frozen document copies, using their verified source mapping within the workspace.
 - Strict JSON parsing and Python syntax.
 - Required workspace entry points and current procedure location.
 - Dataset catalog counts, identities, metadata, related entries, and acquisition evidence links.
@@ -37,6 +38,10 @@ The checker covers:
 - `raw/` directory names against dataset IDs. The checker does not read files inside `raw/`.
 
 This is a workspace integrity checker.
+Frozen copies retain their original text.
+The checker verifies the copy and source-mapping hashes before using the recorded source directory for relative links.
+The current source can change after the freeze.
+Links to headings within the copy use the frozen text.
 The separate [common validator](https://github.com/delta-observatory/experiments/blob/main/RECORD-CONTRACT.md) checks new experiment records with their original inputs.
 The workspace checker also checks cohort reservations and support-test implementation hashes.
 It does not execute scientific searches, validate candidates, or check remote service availability.
@@ -56,6 +61,7 @@ Run each check from its component repository.
 | `kubernetes/` | `scripts/rehearse.sh <database-image-tag>` | Migrations of one database image on a copy of the newest backup. |
 | `kubernetes/` | `DELTA_TOKEN_FILE=<person token file> python3 scripts/acceptance.py --report <file>` | The deployed run workflow: estimate, submission, cancellation, an inconclusive outcome, retry, comparison, and two identical exports with their check. It writes runs on development data. |
 | Root | `python3 -m unittest scripts/test_components.py` | Clone, check, and pin of the component manifest with temporary local repositories: pinned and latest clones, private components, existing directories, changed commits, uncommitted changes, and invalid manifests. |
+| Root | `python3 -B -m unittest scripts.test_workspace_snapshots` | Frozen-copy link context, changed copy or mapping refusal, missing sources, external sources, and evolving current documents. |
 | Root | `python3 scripts/components.py check` | Each public component directory is at its pinned commit in [components.json](components.json) and has no uncommitted changes. |
 | `frontend/` | `npm test` | CPU rendering, catalog associations, sky geometry, search, folds, parameters, exports, comparisons, record helpers, and permissions. `src/parity.test.ts` checks the search, the fold, and the parameter checks against the copy of the backend vectors in `vendor/api-vectors/`. |
 

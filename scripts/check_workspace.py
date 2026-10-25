@@ -57,6 +57,50 @@ def heading_ids(text):
     return ids
 
 
+def markdown_source(path, root=ROOT):
+    """Resolve a frozen document copy to its recorded workspace source."""
+    path = path.resolve()
+    root = root.resolve()
+    if not path.is_relative_to(root/'experiments'):
+        return path
+    for directory in path.parents:
+        if directory == root:
+            break
+        copied = directory/'copied-sources.json'
+        freeze = directory/'freeze.json'
+        if not copied.is_file() or not freeze.is_file():
+            continue
+        records = json.loads(copied.read_text())
+        if not isinstance(records, dict):
+            raise ValueError('Frozen document source mapping must be an object')
+        name = path.relative_to(directory).as_posix()
+        record = records.get(name)
+        if record is None:
+            return path
+        document = json.loads(freeze.read_text())
+        if not isinstance(record, dict) or not isinstance(document, dict):
+            raise ValueError('Frozen document source record must be an object')
+        frozen = document.get('files', {})
+        if not isinstance(frozen, dict) or not isinstance(record.get('source'), str):
+            raise ValueError('Frozen document source record has invalid fields')
+        expected = record.get('sha256')
+        if (not expected or sha(path) != expected or frozen.get(name) != expected
+                or frozen.get('copied-sources.json') != sha(copied)):
+            raise ValueError('Frozen document source mapping has inconsistent hashes')
+        source = Path(record.get('source', ''))
+        if not source.is_absolute() or not source.resolve().is_relative_to(root):
+            # External copies retain their local link context. This check never
+            # follows a source mapping outside the workspace.
+            return path
+        source = source.resolve()
+        if not source.is_file():
+            raise ValueError('Frozen document source path is unavailable: '+str(source))
+        # The current source can change after the freeze. Its recorded location
+        # supplies link context, while the frozen copy supplies text and headings.
+        return source
+    return path
+
+
 def check():
     files = visible_files()
     counts = Counter(files=len(files))
@@ -93,6 +137,13 @@ def check():
         if path.suffix == '.md':
             counts['markdown_files'] += 1
             text = content_without_fences(path.read_text())
+            try:
+                source = markdown_source(path)
+            except (ValueError, OSError, TypeError) as error:
+                errors.append(relative+': '+str(error))
+                source = path
+            if source != path:
+                counts['frozen_document_source_contexts'] += 1
             for value in re.findall(r'\]\(([^\n]+?)\)', text):
                 value = value.split(' "')[0].strip('<>')
                 linked = ORGANIZATION_LINK.match(value)
@@ -104,7 +155,7 @@ def check():
                     continue
                 else:
                     name, _, fragment = value.partition('#')
-                    target = path.parent/unquote(name) if name else path
+                    target = source.parent/unquote(name) if name else path
                     counts['local_markdown_links'] += 1
                 require(target.exists(), relative+': missing link '+value)
                 if fragment and target.is_file() and target.suffix == '.md':
